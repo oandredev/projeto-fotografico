@@ -1,0 +1,142 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-off-white);
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  color: var(--color-purple-b);
+}
+
+#login-form {
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.login-box h1 {
+  font-size: 2.5rem;
+  letter-spacing: 5px;
+  margin-bottom: 5px;
+  color: var(--color-purple-c);
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  margin-bottom: 40px;
+  color: var(--color-gray-b);
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  color: var(--color-purple-c);
+}
+
+.input-group input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--color-gray-a);
+  padding: 10px 0;
+  outline: none;
+  font-size: 1rem;
+  color: var(--color-purble-a);
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-bottom: 1px solid var(--color-purple-b);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  margin-bottom: 30px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  color: var(--color-purple-c);
+  cursor: pointer;
+  accent-color: var(--color-purple-c);
+}
+
+.forgot-password {
+  color: var(--color-purple-c);
+  text-decoration: underline;
+}
+
+/* Botão de Acesso */
+.btn-access {
+  width: 100%;
+  background-color: var(--color-purple-c);
+  color: var(--color-white);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 15px;
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+/* Estado Ativo/Hover */
+.btn-access:not(:disabled):hover {
+  background-color: var(--color-purple-b);
+  box-shadow: 0 4px 12px rgba(65, 61, 85, 0.2);
+}
+
+/* Estado Desativado (Angular [disabled]) */
+.btn-access:disabled {
+  background-color: var(--color-gray-a);
+  color: var(--color-gray-b);
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
+.btn-access .arrow {
+  margin-left: 12px;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-access:not(:disabled):hover .arrow {
+  transform: translateX(5px);
+}
+
+.divider {
+  margin: 40px auto;
+  border: 0;
+  border-top: 1px solid var(--color-gray-a);
+  width: 60%;
+}
+
+.back-link {
+  font-size: 0.7rem;
+  text-decoration: underline;
+  color: var(--color-purple-c);
+  cursor: pointer;
+}
+
+.footer-links {
+  color: var(--color-gray-b);
+  font-size: 0.9rem;
+}

@@ -1,1 +1,41 @@
-<p>Formulário de login</p>
+<div class="login-container">
+  <div class="login-box">
+    <h1>LOGIN</h1>
+    <p class="subtitle">Área exclusiva para Administradores</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="login-form">
+      <div class="form-error" *ngIf="loginError">E-mail ou senha incorretos.</div>
+      <div class="input-group">
+        <label for="email">EMAIL</label>
+        <input type="email" id="email" formControlName="email" placeholder="larissa@gmail.com" />
+      </div>
+
+      <div class="input-group">
+        <label for="password">SENHA</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="************"
+        />
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-container">
+          <input type="checkbox" formControlName="rememberMe" />
+          MANTENHA-ME CONECTADO
+        </label>
+        <a href="#" class="forgot-password">ESQUECEU SUA SENHA?</a>
+      </div>
+
+      <button type="submit" class="btn-access">ACESSAR <span class="arrow">→</span></button>
+    </form>
+
+    <hr class="divider" />
+
+    <div class="footer-links">
+      <p>Chegou aqui por engano?</p>
+      <a href="#" class="back-link">VOLTAR À PÁGINA INICIAL</a>
+    </div>
+  </div>
+</div>

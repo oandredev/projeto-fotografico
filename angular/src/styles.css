@@ -1,3 +1,63 @@
+:root {
+  --color-purble-a: #201e2b;
+  --color-purple-b: #413d55;
+  --color-purple-c: #78729c;
+  --color-off-white: #fefefe;
+  --color-white: #ffffff;
+  --color-pink: #ff758c;
+  --color-light-pink: #ffaab7;
+  --color-light-pink-2: #ffc3ca;
+  --color-yellow: #ffd300;
+  --color-red: #8e2131;
+  --color-green-a: #055427;
+  --color-green-b: #6db084;
+  --color-gray-a: #b4b4b4;
+  --color-gray-b: #535353;
+}
+
 body {
   font-family: 'Arial', sans-serif;
+  background-color: var(--color-off-white);
+}
+
+/*------------------------------------------------------------------*/
+
+/* Buttons | a | input*/
+
+/* Seleção global para botões e links */
+button,
+a,
+input {
+  display: inline-block;
+  transition:
+    transform 0.1s ease,
+    filter 0.2s ease,
+    background-color 0.3s ease;
+  cursor: pointer;
+  text-decoration: none; /* Remove o sublinhado padrão se desejar */
+}
+
+/* Efeito de "Afundar" ao clicar/segurar */
+button:active:not(:disabled),
+a:active,
+input:active {
+  transform: scale(0.98) translateY(1px);
+  filter: brightness(0.9);
+}
+
+/* Ajuste específico para botões desabilitados do Angular */
+button:disabled {
+  cursor: not-allowed;
+  transform: none !important; /* Impede que o botão desativado afunde */
+  filter: grayscale(1) opacity(0.6);
+}
+
+/*------------------------------------------------------------------*/
+
+/* Forms */
+
+.form-error {
+  color: red;
+  font-size: 0.75rem;
+  padding-bottom: 1rem;
 }

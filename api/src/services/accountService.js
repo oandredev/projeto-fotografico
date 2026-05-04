@@ -1,4 +1,4 @@
-import * as repo from "../repository/loginRepository.js";
+import * as repo from "../repository/accountRepository.js";
 
 export async function criarConta(login) {
   let existe = await repo.buscarPorEmail(login.email);

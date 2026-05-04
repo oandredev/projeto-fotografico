@@ -1,6 +1,6 @@
 import express from "express";
-import loginController from "./controller/loginController.js";
+import accountController from "./controller/accountController.js";
 
 export default function adicionarRotas(api) {
-  api.use(loginController);
+  api.use(accountController);
 }

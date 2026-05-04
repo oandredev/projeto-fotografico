@@ -1,20 +1,21 @@
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-import { TitleStrategy } from '@angular/router';
-
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideRouter, TitleStrategy } from '@angular/router';
 import { routes } from './app.routes';
 
 // Custom Title Strategy
 import { CustomTitleStrategy } from './core/strategies/custom-title-strategy';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
     provideHttpClient(),
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])),
     {
       provide: TitleStrategy,
-      useClass: CustomTitleStrategy
-    }
-  ]
+      useClass: CustomTitleStrategy,
+    },
+  ],
 };

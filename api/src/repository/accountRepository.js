@@ -2,7 +2,7 @@ import connection from "./connection.js";
 
 export async function criarConta(login) {
   const comando = `
-    INSERT INTO LOGIN (email, senha)
+    INSERT INTO login (email, senha)
     VALUES (?, MD5(?));
   `;
 
@@ -24,6 +24,7 @@ export async function login(email, senha) {
   `;
 
   const [linhas] = await connection.query(comando, [email, senha]);
+
   return linhas[0];
 }
 

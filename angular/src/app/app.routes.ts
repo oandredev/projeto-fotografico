@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
 // Public
 import { Home } from './pages/home/home';
@@ -32,6 +33,7 @@ export const routes: Routes = [
     path: 'admin',
     component: Admin,
     title: 'Área do Administrador',
+    canActivate: [authGuard],
     children: [
       { path: '', component: Inbox },
       { path: 'inbox', component: Inbox, title: 'Caixa de Entrada' },
@@ -45,5 +47,5 @@ export const routes: Routes = [
       { path: 'contact-settings', component: ContactSettings, title: 'Contatos' },
     ],
   },
-  { path: '**', component: NotFound }
+  { path: '**', component: NotFound },
 ];

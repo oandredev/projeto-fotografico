@@ -3,10 +3,10 @@ import jwt from "jsonwebtoken";
 const KEY = process.env.JWT_KEY;
 const CAMPO_TOKEN = process.env.CAMPO_TOKEN;
 
-export function generateToken(userInfo) {
+export function generateToken(userInfo, remember = false) {
   if (!userInfo.role) userInfo.role = "user";
 
-  return jwt.sign(userInfo, KEY, { expiresIn: "1d" }); // 1 dia
+  return jwt.sign(userInfo, KEY, { expiresIn: remember ? "7d" : "20s" }); // Trocar para um tempo menor, como 20 segundos para mostrar a expiração do token
 }
 
 export function getTokenInfo(req) {

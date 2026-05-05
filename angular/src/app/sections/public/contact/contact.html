@@ -1,1 +1,80 @@
-<p>Seção de Contato</p>
+<section class="contact" id="contact">
+  <div class="contact_container">
+    <div class="contact_heading">
+      <h2 class="contact_title">Contato</h2>
+      <p class="contact_subtitle">Mande uma mensagem!</p>
+    </div>
+
+    <div class="contact_body">
+      <!-- Form card -->
+      <div class="contact_card contact_card--form">
+        <h3 class="contact_card-title">Envie uma mensagem!</h3>
+
+        <div class="contact_field">
+          <label class="contact_label" for="nome">Nome</label>
+          <input class="contact_input" id="nome" type="text" placeholder="Nome" />
+        </div>
+
+        <div class="contact_field">
+          <label class="contact_label" for="cpf">CPF</label>
+          <input class="contact_input" id="cpf" type="text" placeholder="CPF" />
+        </div>
+
+        <div class="contact_field">
+          <label class="contact_label" for="email">Email</label>
+          <input class="contact_input" id="email" type="email" placeholder="Email" />
+        </div>
+
+        <div class="contact_field">
+          <label class="contact_label" for="telefone">Telefone</label>
+          <input class="contact_input" id="telefone" type="tel" placeholder="Telefone" />
+        </div>
+
+        <div class="contact_field">
+          <label class="contact_label" for="mensagem">Mensagem</label>
+          <textarea
+            class="contact_input contact_input--textarea"
+            id="mensagem"
+            placeholder="Mensagem..."
+            rows="4"
+          ></textarea>
+        </div>
+
+        <button class="contact_btn" type="button">Enviar</button>
+      </div>
+
+      <!-- Social card -->
+      <div class="contact_card contact_card--social">
+        <p class="contact_social-text">Você também pode nos contatar via:</p>
+
+        <div class="contact_social-icons">
+          <a
+            class="contact_social-item"
+            href="https://instagram.com/larissacalegarofotografia/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <div class="contact_social-icon-circle">
+              <img src="icons/icon_instagram.png" alt="Instagram" />
+            </div>
+            <span class="contact_social-label">Instagram</span>
+          </a>
+
+          <a
+            class="contact_social-item"
+            href="https://wa.me/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+          >
+            <div class="contact_social-icon-circle">
+              <img src="icons/icon_whatsapp.png" alt="WhatsApp" />
+            </div>
+            <span class="contact_social-label">WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -25,6 +25,7 @@ import { ContactSettings } from './sections/admin/customization/contact-settings
 
 export const routes: Routes = [
   { path: '', component: Home },
+  { path: 'home', component: Home },
   { path: 'login', component: Login, title: 'Login' },
   { path: 'forgot-password', component: ForgotPassword, title: 'Esqueci minha senha' },
   { path: 'verify-code', component: VerifyCode, title: 'Código de Verificação' },

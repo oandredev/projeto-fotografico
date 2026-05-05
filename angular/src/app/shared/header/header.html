@@ -1,1 +1,14 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header_container">
+    <a class="header_logo" (click)="scrollOrNavigate('hero')">
+      <img src="logo.png" alt="Larissa Calegaro Photo & Video" />
+    </a>
+
+    <nav class="header_nav">
+      <a class="header_nav-link" (click)="scrollOrNavigate('hero')">Início</a>
+      <a class="header_nav-link" (click)="scrollOrNavigate('about')">Sobre</a>
+      <a class="header_nav-link" (click)="scrollOrNavigate('portfolio')">Portfólio</a>
+      <a class="header_nav-link" (click)="scrollOrNavigate('contact')">Contato</a>
+    </nav>
+  </div>
+</header>

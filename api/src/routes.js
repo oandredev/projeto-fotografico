@@ -1,6 +1,8 @@
 import express from "express";
-import accountController from "./controller/accountController.js";
+import contaController from "./controller/contaController.js";
+import mensagemController from "./controller/mensagemController.js";
 
 export default function adicionarRotas(api) {
-  api.use(accountController);
+  api.use(contaController);
+  api.use(mensagemController);
 }

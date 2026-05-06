@@ -6,7 +6,7 @@ const CAMPO_TOKEN = process.env.CAMPO_TOKEN;
 export function generateToken(userInfo, remember = false) {
   if (!userInfo.role) userInfo.role = "user";
 
-  return jwt.sign(userInfo, KEY, { expiresIn: remember ? "7d" : "20s" }); // Trocar para um tempo menor, como 20 segundos para mostrar a expiração do token
+  return jwt.sign(userInfo, KEY, { expiresIn: remember ? "7d" : "2d" }); // Trocar para um tempo menor, como 20 segundos para mostrar a expiração do token
 }
 
 export function getTokenInfo(req) {

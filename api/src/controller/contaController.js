@@ -1,5 +1,5 @@
 import { generateToken } from "../utils/jwt.js";
-import * as service from "../services/accountService.js";
+import * as service from "../services/contaService.js";
 import { Router } from "express";
 
 const endpoints = Router();

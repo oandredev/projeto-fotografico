@@ -30,7 +30,7 @@
 .contact_subtitle {
   color: var(--color-dark-purple);
   font-size: 1.2rem;
-  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
 }
 
@@ -52,7 +52,8 @@
 .contact_card-title {
   color: var(--color-white);
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: lighter;
+  font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.04em;
   margin: 0 0 24px;
 }
@@ -68,7 +69,7 @@
 .contact_label {
   color: var(--color-white);
   font-size: 0.9rem;
-  font-weight: 700;
+  font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.05em;
 }
 
@@ -136,7 +137,7 @@
 .contact_social-text {
   color: var(--color-white);
   font-size: 1.35rem;
-  font-weight: 700;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
   line-height: 1.5;
   margin: 0;
@@ -171,7 +172,7 @@
 .contact_social-label {
   color: var(--color-white);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* ── Responsive ── */

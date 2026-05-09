@@ -18,8 +18,7 @@
   --color-gray-a: #b4b4b4;
   --color-gray-b: #535353;
 
-  --font-display: 'Cinzel', serif;
-  --font-body: 'Cormorant Garamond', serif;
+  --font-body: Arial, Helvetica, sans-serif;
 }
 
 body {

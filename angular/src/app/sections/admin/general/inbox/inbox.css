@@ -1,0 +1,178 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--color-off-white);
+  padding: 32px;
+  color: var(--color-light-purple);
+}
+
+.messages-page {
+  width: 100%;
+}
+
+.top-header {
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 34px;
+    letter-spacing: 4px;
+    color: var(--color-light-purple);
+    margin-bottom: 24px;
+  }
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--color-light-purple);
+  padding-bottom: 12px;
+
+  button {
+    border: none;
+    background: transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    color: var(--color-light-purple);
+    cursor: pointer;
+    padding-bottom: 8px;
+    transition: 0.2s;
+
+    &.active {
+      color: var(--color-light-purple);
+      border-bottom: 2px solid var(--color-light-purple);
+    }
+  }
+
+  input {
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid var(--color-light-purple);
+    outline: none;
+    padding: 6px 2px;
+    width: 220px;
+    color: var(--color-light-purple);
+
+    &::placeholder {
+      color: var(--color-light-purple);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.message-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 18px 10px;
+  border-bottom: 1px solid var(--color-light-purple);
+}
+
+.avatar {
+  min-width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--color-light-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  font-size: 25px;
+}
+
+.content {
+  flex: 1;
+}
+
+.top-line {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+
+  h2 {
+    font-size: 22px;
+    color: var(--color-dark-purple);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .phone,
+  .email {
+    font-size: 12px;
+    color: var(--color-light-purple);
+  }
+}
+
+.subject {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: var(--color-light-purple);
+}
+
+.body {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--color-light-purple);
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .date {
+    background: var(--color-light-purple);
+    color: var(--color-white);
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+
+  button {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    background: var(--color-light-purple);
+    color: var(--color-white);
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .message-card {
+    flex-direction: column;
+  }
+
+  .actions {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+
+    input {
+      width: 100%;
+    }
+  }
+}

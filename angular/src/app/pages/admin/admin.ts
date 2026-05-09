@@ -7,6 +7,6 @@ import { AdminNavbar } from '../../components/admin/admin-navbar/admin-navbar';
   imports: [RouterOutlet, AdminNavbar],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
+  standalone: true,
 })
-  
 export class Admin {}

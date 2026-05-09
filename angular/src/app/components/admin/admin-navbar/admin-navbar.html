@@ -1,1 +1,70 @@
-<p>Barra de Navegação Lateral</p>
+<aside class="sidebar">
+  <div class="logo">
+    <a href="/"><img src="logo.png" alt="Larissa Calegaro Photo & Video" /></a>
+
+    <div class="divider"></div>
+    <h1>
+      ÁREA <br />
+      ADMINISTRATIVA
+    </h1>
+    <div class="divider"></div>
+  </div>
+
+  <nav class="menu">
+    <a class="menu-item active" routerLink="/admin/inbox" routerLinkActive="active">
+      <span class="material-icons">mail</span>
+      <span>Mensagens</span>
+    </a>
+
+    <a class="menu-item" routerLink="/admin/customers" routerLinkActive="active">
+      <span class="material-icons">groups</span>
+      <span>Clientes</span>
+    </a>
+
+    <a class="menu-item" routerLink="/admin/services" routerLinkActive="active">
+      <span class="material-icons">photo_camera</span>
+      <span>Serviços</span>
+    </a>
+
+    <a class="menu-item" routerLink="/admin/statistics" routerLinkActive="active">
+      <span class="material-icons">query_stats</span>
+      <span>Estatísticas</span>
+    </a>
+
+    <a class="menu-item" routerLink="/admin/announcement" routerLinkActive="active">
+      <span class="material-icons">warning</span>
+      <span>Avisos</span>
+    </a>
+  </nav>
+
+  <div class="divider"></div>
+
+  <nav class="menu secondary">
+    <a class="menu-item" routerLink="/admin/hero-settings" routerLinkActive="active">
+      <span class="material-icons">home</span>
+      <span>Início</span>
+    </a>
+
+    <a class="menu-item" routerLink="/admin/about-settings" routerLinkActive="active">
+      <span class="material-icons">person</span>
+      <span>Sobre</span>
+    </a>
+
+    <a class="menu-item" routerLink="/admin/portfolio-settings" routerLinkActive="active">
+      <span class="material-icons">image</span>
+      <span>Portfólio</span>
+    </a>
+
+    <a class="menu-item" routerLink="/admin/contact-settings" routerLinkActive="active">
+      <span class="material-icons">call</span>
+      <span>Contatos</span>
+    </a>
+
+    <div class="divider"></div>
+
+    <button class="logout" (click)="sair()">
+      <span>SAIR</span>
+      <span class="material-icons">logout</span>
+    </button>
+  </nav>
+</aside>

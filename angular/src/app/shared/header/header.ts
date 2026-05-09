@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -26,5 +26,9 @@ export class Header {
         }
       }, 100); // pequeno delay pra garantir render
     });
+  }
+
+  isAdminRoute() {
+    return this.router.url.startsWith('/admin');
   }
 }

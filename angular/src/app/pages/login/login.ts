@@ -33,6 +33,11 @@ export class Login {
         this.loginError = false;
       }
     });
+
+    // Se o usuário já estiver logado, redireciona para o admin
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['/admin']);
+    }
   }
 
   onSubmit(): void {

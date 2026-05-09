@@ -1,0 +1,16 @@
+.admin-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.admin-content {
+  margin-left: 215px;
+
+  width: calc(100% - 215px);
+
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  box-sizing: border-box;
+}

@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header" *ngIf="!isAdminRoute()">
   <div class="header_container">
     <a class="header_logo" (click)="scrollOrNavigate('hero')">
       <img src="logo.png" alt="Larissa Calegaro Photo & Video" />

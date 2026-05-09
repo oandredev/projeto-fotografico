@@ -1,1 +1,63 @@
-<h1>Mensagens</h1>
+<div class="messages-page">
+  <header class="top-header">
+    <h1>MENSAGENS</h1>
+
+    <div class="filters">
+      <button [class.active]="currentFilter === 'all'" (click)="setFilter('all')">Tudo</button>
+
+      <button [class.active]="currentFilter === 'starred'" (click)="setFilter('starred')">
+        Marcadas
+      </button>
+
+      <button [class.active]="currentFilter === 'archived'" (click)="setFilter('archived')">
+        Arquivadas
+      </button>
+
+      <input type="text" placeholder="Pesquisar..." [(ngModel)]="search" />
+    </div>
+  </header>
+
+  <section class="messages-list">
+    <article class="message-card" *ngFor="let message of filteredMessages(); let i = index">
+      <div class="avatar">
+        <span>{{ i + 1 }}</span>
+      </div>
+
+      <div class="content">
+        <div class="top-line">
+          <h2>{{ message.name }}</h2>
+
+          <span class="phone">
+            {{ message.phone }}
+          </span>
+
+          <span class="email">
+            {{ message.email }}
+          </span>
+        </div>
+
+        <p class="subject">
+          {{ message.subject }}
+        </p>
+
+        <p class="body">
+          {{ message.body }}
+        </p>
+      </div>
+
+      <div class="actions">
+        <span class="date">
+          {{ message.date }}
+        </span>
+
+        <button (click)="toggleStar(message)">
+          {{ message.starred ? '★' : '☆' }}
+        </button>
+
+        <button (click)="toggleArchive(message)">
+          {{ message.archived ? '🗂' : '📁' }}
+        </button>
+      </div>
+    </article>
+  </section>
+</div>

@@ -1,6 +1,11 @@
 <footer class="footer" *ngIf="!isAdminRoute()">
   <div class="footer_container">
     <img class="footer_logo" src="logo.png" alt="Larissa Calegaro Photo & Video" />
+    <nav class="footer_nav">
+      <a routerLink="/home" fragment="hero">Página Inicial</a> |
+      <a routerLink="/home" fragment="portfolio">Portfólio</a> |
+      <a routerLink="/login" fragment="login">Área Administrativa</a>
+    </nav>
     <p class="footer_copyright">&copy; 2026 Larissa Calegaro. Todos os direitos reservados.</p>
   </div>
 </footer>

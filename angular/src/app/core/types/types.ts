@@ -9,3 +9,12 @@ export interface Message {
   isStarred: boolean;
   isArchived: boolean;
 }
+export interface Login {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+export interface TokenResponse {
+  token: string;
+}

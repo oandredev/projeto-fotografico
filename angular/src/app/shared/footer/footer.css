@@ -5,6 +5,7 @@
 .footer {
   background-color: var(--color-dark-purple);
   padding: 28px 48px;
+  color: var(--color-gray-a);
 }
 
 .footer_container {
@@ -17,14 +18,31 @@
 }
 
 .footer_logo {
-  height: 52px;
+  height: 5rem;
   width: auto;
 }
 
 .footer_copyright {
-  color: rgba(255, 255, 255, 0.6);
   font-size: 0.65rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   margin: 0;
+}
+
+.footer_nav {
+  color: var(--color-gray-a);
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  font-size: 0.75rem;
+  text-decoration: none !important;
+}
+
+.footer_nav a {
+  color: var(--color-gray-a);
+}
+
+.footer_nav a:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }

@@ -1,14 +1,14 @@
 <header class="header" *ngIf="!isAdminRoute()">
   <div class="header_container">
-    <a class="header_logo" (click)="scrollOrNavigate('hero')">
+    <a class="header_logo" routerLink="/home" fragment="hero">
       <img src="logo.png" alt="Larissa Calegaro Photo & Video" />
     </a>
 
     <nav class="header_nav">
-      <a class="header_nav-link" (click)="scrollOrNavigate('hero')">Início</a>
-      <a class="header_nav-link" (click)="scrollOrNavigate('about')">Sobre</a>
-      <a class="header_nav-link" (click)="scrollOrNavigate('portfolio')">Portfólio</a>
-      <a class="header_nav-link" (click)="scrollOrNavigate('contact')">Contato</a>
+      <a class="header_nav-link" routerLink="/home" fragment="hero">Início</a>
+      <a class="header_nav-link" routerLink="/home" fragment="about">Sobre</a>
+      <a class="header_nav-link" routerLink="/home" fragment="portfolio">Portfólio</a>
+      <a class="header_nav-link" routerLink="/home" fragment="contact">Contato</a>
     </nav>
   </div>
 </header>

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Login as LoginI } from '../../models/login.model'; // Usa o as pra evitar conflito de nomes com a classe Login
+import { Login as LoginI } from '../../core/types/types';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -27,14 +27,12 @@ export class Login {
   loginError: boolean = false;
 
   ngOnInit() {
-    // Qualquer mudança no formulário irá resetar o estado de erro
     this.loginForm.valueChanges.subscribe(() => {
       if (this.loginError) {
         this.loginError = false;
       }
     });
 
-    // Se o usuário já estiver logado, redireciona para o admin
     if (this.auth.isLoggedIn()) {
       this.router.navigate(['/admin']);
     }
@@ -45,16 +43,15 @@ export class Login {
       return;
     }
 
-    // Converte os dados do formulário para o formato esperado pela API
     const login: LoginI = {
       email: this.loginForm.get('email')?.value || '',
-      senha: this.loginForm.get('password')?.value || '',
+      password: this.loginForm.get('password')?.value || '',
       rememberMe: this.loginForm.get('rememberMe')?.value || false,
     };
 
     this.auth.login(login).subscribe({
       next: (resp: any) => {
-        console.log('Login bem-sucedido:', resp);
+        console.log('Login sucessfully:', resp);
         this.router.navigate(['/admin']);
       },
 

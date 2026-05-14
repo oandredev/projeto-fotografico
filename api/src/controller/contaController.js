@@ -19,7 +19,7 @@ endpoints.post("/login", async (req, resp) => {
   try {
     let login = req.body;
 
-    let usu = await service.login(login.email, login.senha);
+    let usu = await service.login(login.email, login.password);
     let token = generateToken(usu, login.remember);
 
     resp.send({ token });

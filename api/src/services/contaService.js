@@ -10,8 +10,8 @@ export async function criarConta(login) {
   return id;
 }
 
-export async function login(email, senha) {
-  let usu = await repo.login(email, senha);
+export async function login(email, password) {
+  let usu = await repo.login(email, password);
   if (!usu) {
     throw new Error("Credenciais inválidas.");
   }

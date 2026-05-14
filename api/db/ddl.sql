@@ -8,7 +8,7 @@ USE fotografico_db;
 CREATE TABLE IF NOT EXISTS login (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(400) NOT NULL,
-    senha VARCHAR(400) NOT NULL
+    password VARCHAR(400) NOT NULL
 );
 
 -- -----------------------------------------------------
@@ -17,11 +17,14 @@ CREATE TABLE IF NOT EXISTS login (
 
 CREATE TABLE IF NOT EXISTS mensagem (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(150) NOT NULL,
-    cpf VARCHAR(14) NOT NULL,
-    telefone VARCHAR(20),
+    name VARCHAR(150) NOT NULL, 
+    phone VARCHAR(20),          
     email VARCHAR(150) NOT NULL,
-    texto  VARCHAR(600) NOT NULL,
-    categoria ENUM('nenhuma', 'arquivado', 'marcado') DEFAULT 'nenhuma',
-    data DATETIME DEFAULT CURRENT_TIMESTAMP
+    subject VARCHAR(150),       
+    body VARCHAR(600) NOT NULL, 
+    
+    isStarred TINYINT(1) DEFAULT 0, 
+    isArchived TINYINT(1) DEFAULT 0,
+    
+    date DATETIME DEFAULT CURRENT_TIMESTAMP 
 );

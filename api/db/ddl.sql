@@ -11,11 +11,13 @@ CREATE TABLE IF NOT EXISTS login (
     password VARCHAR(400) NOT NULL
 );
 
+INSERT INTO login (email, password) VALUES ('admin@fotografico.com', MD5('123456'));
+
 -- -----------------------------------------------------
 -- Tabela: Mensagens
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS mensagem (
+CREATE TABLE IF NOT EXISTS message (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(150) NOT NULL, 
     phone VARCHAR(20),          

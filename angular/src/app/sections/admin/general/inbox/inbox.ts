@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import { Message } from '../../../../core/types/types';
 import { MessageService } from '../../../../services/message/message';
 
@@ -12,105 +13,127 @@ import { MessageService } from '../../../../services/message/message';
   styleUrl: './inbox.css',
 })
 export class Inbox {
-  constructor(private messageService: MessageService) {}
-
-  ngOnInit() {
-    this.carregarMensagens();
+  constructor(private messageService: MessageService) {
+    this.loadMessages();
   }
 
-  // No ngOnInit ou ao trocar de filtro
-  carregarMensagens() {
-    this.messageService.listar(this.currentPage, this.currentFilter).subscribe((dados) => {
-      this.messages = dados;
+  private searchTimeout: any;
+
+  // SIGNALS
+  search = signal('');
+  currentPage = signal(1);
+  totalPages = signal(1);
+  currentFilter = signal<'inbox' | 'all' | 'starred' | 'archived'>('all');
+  messages = signal<Message[]>([]);
+  loading = signal(false);
+  hasNextPage = signal(false);
+
+  // LOAD
+  loadMessages() {
+    this.loading.set(true);
+
+    this.messageService.find(this.currentPage(), this.currentFilter(), this.search()).subscribe({
+      next: (dados) => {
+        this.messages.set(dados.messages);
+        this.hasNextPage.set(dados.pagination.hasNextPage);
+        this.currentPage.set(dados.pagination.currentPage);
+        this.totalPages.set(dados.pagination.totalPages);
+
+        // Empty
+        if (dados.messages.length === 0 && this.currentPage() > 1) {
+          this.currentPage.update((v) => v - 1);
+          this.loadMessages();
+          return;
+        }
+
+        this.loading.set(false);
+      },
+
+      error: () => {
+        this.loading.set(false);
+      },
     });
   }
 
-  toggleStar(message: Message) {
-    message.isStarred = !message.isStarred;
+  // FILTER
 
-    // Salva a alteração no Banco de Dados
-    this.messageService.alterar(message.id, message).subscribe(() => {
-      this.validatePage();
-      // Se estiver na aba de favoritados, talvez queira recarregar a lista
-      if (this.currentFilter === 'starred') this.carregarMensagens();
-    });
-  }
-
-  toggleArchive(message: Message) {
-    message.isArchived = !message.isArchived;
-
-    // Salva a alteração no Banco de Dados
-    this.messageService.alterar(message.id, message).subscribe(() => {
-      this.carregarMensagens(); // Recarrega para a mensagem sumir da aba atual se necessário
-    });
-  }
-
-  //
-
-  search = '';
-  currentPage = 1;
-  itemsPerPage = 5;
-  currentFilter: 'all' | 'starred' | 'archived' = 'all';
-
-  messages: Message[] = [];
-
-  setFilter(filter: 'all' | 'starred' | 'archived') {
-    this.currentFilter = filter;
-    this.currentPage = 1;
-  }
-
-  filteredMessages(): Message[] {
-    let filtered = this.messages;
-
-    if (this.currentFilter === 'starred') {
-      filtered = filtered.filter((m) => m.isStarred);
-    } else if (this.currentFilter === 'archived') {
-      filtered = filtered.filter((m) => m.isArchived);
-    } else {
-      filtered = filtered.filter((m) => !m.isArchived);
+  setFilter(filter: 'inbox' | 'starred' | 'archived' | 'all') {
+    if (this.currentFilter() === filter) {
+      return;
     }
 
-    if (this.search.trim()) {
-      const value = this.search.toLowerCase();
-      filtered = filtered.filter(
-        (m) =>
-          m.name.toLowerCase().includes(value) ||
-          m.email.toLowerCase().includes(value) ||
-          m.subject?.toLowerCase().includes(value),
-      );
-    }
-    return filtered;
+    this.currentPage.set(1);
+    this.currentFilter.set(filter);
+    this.loadMessages();
   }
 
-  paginatedMessages(): Message[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredMessages().slice(start, start + this.itemsPerPage);
+  // SEARCH
+
+  onSearch(value: string) {
+    this.search.set(value);
+    this.currentPage.set(1);
+    this.currentFilter.set('all');
+
+    clearTimeout(this.searchTimeout);
+
+    this.searchTimeout = setTimeout(() => {
+      this.loadMessages();
+    }, 300);
   }
 
-  totalPages(): number {
-    const count = this.filteredMessages().length;
-    return Math.ceil(count / this.itemsPerPage) || 1;
-  }
+  // PAGINATION
 
   nextPage() {
-    if (this.currentPage < this.totalPages()) {
-      this.currentPage++;
+    if (!this.hasNextPage()) {
+      return;
     }
+
+    this.currentPage.update((v) => v + 1);
+
+    this.loadMessages();
   }
 
   previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+    if (this.currentPage() <= 1) {
+      return;
     }
+
+    this.currentPage.update((v) => v - 1);
+    this.loadMessages();
   }
 
-  validatePage() {
-    const total = this.totalPages();
-    if (this.currentPage > total) {
-      this.currentPage = total;
-    }
-    if (this.currentPage < 1) {
-      this.currentPage = 1;
-    }
+  // STAR
+
+  toggleStar(message: Message) {
+    const atualizado = {
+      ...message,
+      isStarred: !message.isStarred,
+    };
+
+    this.messageService.update(atualizado.id, atualizado).subscribe(() => {
+      this.loadMessages();
+    });
+  }
+
+  // ARCHIVE
+
+  toggleArchive(message: Message) {
+    const atualizado = {
+      ...message,
+      isArchived: !message.isArchived,
+    };
+
+    this.messageService.update(atualizado.id, atualizado).subscribe(() => {
+      this.loadMessages();
+    });
+  }
+
+  // CLEAR
+
+  clearFilters() {
+    this.search.set('');
+    this.currentFilter.set('all');
+    this.currentPage.set(1);
+    this.loadMessages();
   }
 }

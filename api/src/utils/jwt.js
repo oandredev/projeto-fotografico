@@ -1,19 +1,19 @@
 import jwt from "jsonwebtoken";
 
 const KEY = process.env.JWT_KEY;
-const CAMPO_TOKEN = process.env.CAMPO_TOKEN;
+const FIELD_TOKEN = process.env.FIELD_TOKEN;
 
 export function generateToken(userInfo, remember = false) {
   if (!userInfo.role) userInfo.role = "user";
 
-  return jwt.sign(userInfo, KEY, { expiresIn: remember ? "7d" : "2d" }); // Trocar para um tempo menor, como 20 segundos para mostrar a expiração do token
+  return jwt.sign(userInfo, KEY, { expiresIn: remember ? "7d" : "4h" });
 }
 
 export function getTokenInfo(req) {
   try {
-    let token = req.headers[CAMPO_TOKEN];
+    let token = req.headers[FIELD_TOKEN];
 
-    if (token === undefined) token = req.query[CAMPO_TOKEN];
+    if (token === undefined) token = req.query[FIELD_TOKEN];
 
     let signd = jwt.verify(token, KEY);
     return signd;
@@ -25,9 +25,9 @@ export function getTokenInfo(req) {
 export function getAuthentication(checkRole, throw401 = true) {
   return (req, resp, next) => {
     try {
-      let token = req.headers[CAMPO_TOKEN];
+      let token = req.headers[FIELD_TOKEN];
 
-      if (token === undefined) token = req.query[CAMPO_TOKEN];
+      if (token === undefined) token = req.query[FIELD_TOKEN];
 
       let signd = jwt.verify(token, KEY);
 

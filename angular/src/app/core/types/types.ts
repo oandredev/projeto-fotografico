@@ -1,3 +1,8 @@
+export interface PaginatedMessages {
+  messages: Message[];
+  pagination: Pagination;
+}
+
 export interface Message {
   id: number;
   name: string;
@@ -9,6 +14,18 @@ export interface Message {
   isStarred: boolean;
   isArchived: boolean;
 }
+
+export interface Pagination {
+  total: number;
+  itemsPerPage: number;
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+//-------------------------------------------------
+
 export interface Login {
   email: string;
   password: string;

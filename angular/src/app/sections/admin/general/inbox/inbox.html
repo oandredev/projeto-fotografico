@@ -1,40 +1,59 @@
 <div class="messages-container">
   <header class="top-header">
     <h1>MENSAGENS</h1>
+
     <div class="filters">
       <div class="filter-buttons">
-        <button [class.active]="currentFilter === 'all'" (click)="setFilter('all')">Todas</button>
-        <button [class.active]="currentFilter === 'starred'" (click)="setFilter('starred')">
+        <button [class.active]="currentFilter() === 'inbox'" (click)="setFilter('inbox')">
+          Caixa de Entrada
+        </button>
+        <button [class.active]="currentFilter() === 'starred'" (click)="setFilter('starred')">
           Marcadas
         </button>
-        <button [class.active]="currentFilter === 'archived'" (click)="setFilter('archived')">
+        <button [class.active]="currentFilter() === 'archived'" (click)="setFilter('archived')">
           Arquivadas
         </button>
+        <button [class.active]="currentFilter() === 'all'" (click)="setFilter('all')">Todas</button>
       </div>
+
       <input
         type="text"
         placeholder="Pesquisar..."
-        [(ngModel)]="search"
-        (input)="currentPage = 1"
+        [ngModel]="search()"
+        (ngModelChange)="onSearch($event)"
       />
     </div>
   </header>
 
   <section class="messages-list">
-    <article class="message-card" *ngFor="let message of paginatedMessages(); let i = index">
+    <article class="message-card" *ngFor="let message of messages()">
       <div class="avatar">
         <span>#{{ message.id }}</span>
       </div>
+
       <div class="content">
         <div class="top-line">
           <h2>{{ message.name }}</h2>
-          <span class="phone">{{ message.phone }}</span>
+
+          <span class="phone">
+            {{ message.phone }}
+          </span>
         </div>
-        <p class="subject">{{ message.subject }}</p>
-        <p class="body">{{ message.body }}</p>
+
+        <p class="subject">
+          {{ message.subject }}
+        </p>
+
+        <p class="body">
+          {{ message.body }}
+        </p>
       </div>
+
       <div class="actions">
-        <span class="date">{{ message.date }}</span>
+        <span class="date">
+          {{ message.date | date: "dd/MM/yyyy 'às' HH:mm" }}
+        </span>
+
         <div class="btn-group">
           <button (click)="toggleStar(message)">
             <span class="material-icons yellow" [class.is-starred]="message.isStarred">
@@ -54,25 +73,29 @@
         </div>
       </div>
     </article>
-    <div class="empty-state" *ngIf="filteredMessages().length === 0">
-      <span class="material-icons icon purple">search_off</span>
-      <p>Nenhuma mensagem encontrada para os critérios selecionados.</p>
+
+    <div class="empty-state" *ngIf="!loading() && messages().length === 0">
+      <span class="material-icons icon purple"> search_off </span>
+
+      <p>Nenhuma mensagem encontrada.</p>
+
       <button
         class="empty-state-btn"
-        *ngIf="search || currentFilter !== 'all'"
-        (click)="search = ''; setFilter('all')"
+        *ngIf="search() || currentFilter() !== 'all'"
+        (click)="clearFilters()"
       >
         Limpar filtros
       </button>
     </div>
   </section>
+
   <footer class="pagination-footer">
-    <div class="pagination" *ngIf="filteredMessages().length > 0">
-      <button class="nav-btn" (click)="previousPage()" [disabled]="currentPage === 1">←</button>
-      <span class="page-indicator"> {{ currentPage }} / {{ totalPages() }} </span>
-      <button class="nav-btn" (click)="nextPage()" [disabled]="currentPage === totalPages()">
-        →
-      </button>
+    <div class="pagination" *ngIf="currentPage() > 1 || hasNextPage()">
+      <button class="nav-btn" (click)="previousPage()" [disabled]="currentPage() === 1">←</button>
+
+      <span class="page-indicator"> Página {{ currentPage() }} de {{ totalPages() }} </span>
+
+      <button class="nav-btn" (click)="nextPage()" [disabled]="!hasNextPage()">→</button>
     </div>
   </footer>
 </div>

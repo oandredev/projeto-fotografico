@@ -1,35 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Message } from '../../core/types/types';
+import { PaginatedMessages, Message } from '../../core/types/types';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  private readonly API = 'http://localhost:3000/mensagem';
+  private readonly API = `http://localhost:${environment.API_PORT}/message`;
 
   constructor(private http: HttpClient) {}
 
-  listar(pagina: number = 1, filtro: string = 'all'): Observable<Message[]> {
-    const params = new HttpParams().set('pagina', pagina.toString()).set('filtro', filtro);
+  find(
+    page: number = 1,
+    category: string = 'all',
+    name: string = '',
+  ): Observable<PaginatedMessages> {
+    let params = new HttpParams().set('page', page.toString()).set('category', category);
 
-    return this.http.get<Message[]>(this.API, { params });
+    if (name.trim()) {
+      params = params.set('name', name);
+    }
+
+    return this.http.get<PaginatedMessages>(this.API, { params });
   }
 
-  salvar(mensagem: Partial<Message>): Observable<{ id: number }> {
-    return this.http.post<{ id: number }>(this.API, mensagem);
+  save(message: Partial<Message>): Observable<{ id: number }> {
+    return this.http.post<{ id: number }>(this.API, message);
   }
 
-  alterar(id: number, mensagem: Message): Observable<any> {
-    return this.http.put(`${this.API}/${id}`, mensagem);
+  update(id: number, message: Message): Observable<any> {
+    return this.http.put(`${this.API}/${id}`, message);
   }
 
-  buscarPorId(id: number): Observable<Message> {
+  findById(id: number): Observable<Message> {
     return this.http.get<Message>(`${this.API}/${id}`);
   }
 
-  excluir(id: number): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${this.API}/${id}`);
   }
 }

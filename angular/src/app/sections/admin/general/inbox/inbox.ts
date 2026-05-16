@@ -23,7 +23,7 @@ export class Inbox {
   search = signal('');
   currentPage = signal(1);
   totalPages = signal(1);
-  currentFilter = signal<'inbox' | 'all' | 'starred' | 'archived'>('all');
+  currentFilter = signal<'inbox' | 'all' | 'starred' | 'archived'>('inbox');
   messages = signal<Message[]>([]);
   loading = signal(false);
   hasNextPage = signal(false);
@@ -56,12 +56,12 @@ export class Inbox {
   }
 
   // FILTER
-
   setFilter(filter: 'inbox' | 'starred' | 'archived' | 'all') {
     if (this.currentFilter() === filter) {
       return;
     }
 
+    this.search.set('');
     this.currentPage.set(1);
     this.currentFilter.set(filter);
     this.loadMessages();
@@ -105,12 +105,16 @@ export class Inbox {
   // STAR
 
   toggleStar(message: Message) {
-    const atualizado = {
+    const m = {
       ...message,
       isStarred: !message.isStarred,
     };
 
-    this.messageService.update(atualizado.id, atualizado).subscribe(() => {
+    if (m.id == null) {
+      return;
+    }
+
+    this.messageService.update(m.id, m).subscribe(() => {
       this.loadMessages();
     });
   }
@@ -118,12 +122,16 @@ export class Inbox {
   // ARCHIVE
 
   toggleArchive(message: Message) {
-    const atualizado = {
+    const m = {
       ...message,
       isArchived: !message.isArchived,
     };
 
-    this.messageService.update(atualizado.id, atualizado).subscribe(() => {
+    if (m.id == null) {
+      return;
+    }
+
+    this.messageService.update(m.id, m).subscribe(() => {
       this.loadMessages();
     });
   }

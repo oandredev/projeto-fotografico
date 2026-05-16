@@ -4,13 +4,13 @@ export interface PaginatedMessages {
 }
 
 export interface Message {
-  id: number;
+  id?: number; // By DB
   name: string;
   phone: string;
   email: string;
   subject?: string;
   body: string;
-  date: string;
+  date?: string; // By DB
   isStarred: boolean;
   isArchived: boolean;
 }

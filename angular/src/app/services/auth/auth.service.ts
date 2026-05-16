@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Login, TokenResponse } from '../core/types/types';
+import { Login, TokenResponse } from '../../core/types/types';
 import { Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-import { environment } from '../environment';
+import { environment } from '../../environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -36,7 +36,7 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  // Verifica expiração do token
+  // Check token expiration.
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) return false;

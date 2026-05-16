@@ -1,6 +1,7 @@
 :root {
   --color-dark-purple: #413d55;
   --color-light-purple: #78729c;
+  --color-light-purple-2: #d8d0eb;
   --color-off-white: #fefefe;
   --color-white: #ffffff;
   --color-pink: #ff758c;
@@ -12,6 +13,8 @@
   --color-green-b: #6db084;
   --color-gray-a: #b4b4b4;
   --color-gray-b: #535353;
+
+  --color-error-red: #ef4444;
 
   --font-body: Arial, Helvetica, sans-serif;
 }
@@ -41,7 +44,6 @@ html {
 
 /* Buttons | a | input*/
 
-/* Seleção global para botões e links */
 button,
 a,
 input[type='checkbox'],

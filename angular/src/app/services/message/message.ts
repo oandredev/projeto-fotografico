@@ -26,7 +26,7 @@ export class MessageService {
     return this.http.get<PaginatedMessages>(this.API, { params });
   }
 
-  save(message: Partial<Message>): Observable<{ id: number }> {
+  save(message: Message): Observable<{ id: number }> {
     return this.http.post<{ id: number }>(this.API, message);
   }
 

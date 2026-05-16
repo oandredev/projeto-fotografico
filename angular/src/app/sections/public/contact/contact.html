@@ -1,77 +1,199 @@
 <section class="contact" id="contact">
   <div class="contact_container">
+    <!-- HEADER -->
+
     <div class="contact_heading">
       <h2 class="contact_title">Contato</h2>
-      <p class="contact_subtitle">Mande uma mensagem!</p>
     </div>
 
+    <!-- BODY -->
+
     <div class="contact_body">
-      <!-- Form card -->
-      <div class="contact_card contact_card--form">
-        <h3 class="contact_card-title">Envie uma mensagem!</h3>
+      <!-- FORM -->
 
-        <div class="contact_field">
-          <label class="contact_label" for="nome">Nome</label>
-          <input class="contact_input" id="nome" type="text" placeholder="Nome" />
+      <form
+        class="contact_card contact_card--form"
+        [formGroup]="contactForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="contact_card-header">
+          <h3 class="contact_card-title">Vamos conversar</h3>
+
+          <p class="contact_card-description">
+            Preencha os campos abaixo e retornaremos o mais breve possível.
+          </p>
         </div>
 
-        <div class="contact_field">
-          <label class="contact_label" for="cpf">CPF</label>
-          <input class="contact_input" id="cpf" type="text" placeholder="CPF" />
-        </div>
+        <!-- NAME -->
 
         <div class="contact_field">
-          <label class="contact_label" for="email">Email</label>
-          <input class="contact_input" id="email" type="email" placeholder="Email" />
+          <label class="contact_label" for="name"> Nome </label>
+
+          <small class="contact_error" *ngIf="name.invalid && name.touched">
+            Nome obrigatório
+          </small>
+          <input
+            class="contact_input"
+            [class.invalid]="name.invalid && name.touched"
+            id="name"
+            type="text"
+            autocomplete="name"
+            placeholder="Seu nome"
+            formControlName="name"
+          />
         </div>
 
-        <div class="contact_field">
-          <label class="contact_label" for="telefone">Telefone</label>
-          <input class="contact_input" id="telefone" type="tel" placeholder="Telefone" />
+        <!-- EMAIL + PHONE -->
+
+        <div class="contact_row">
+          <!-- EMAIL -->
+
+          <div class="contact_field">
+            <label class="contact_label" for="email"> Email </label>
+
+            <small class="contact_error" *ngIf="email.invalid && email.touched">
+              Email inválido
+            </small>
+            <input
+              class="contact_input"
+              [class.invalid]="email.invalid && email.touched"
+              id="email"
+              type="email"
+              autocomplete="email"
+              placeholder="seuemail@email.com"
+              formControlName="email"
+            />
+          </div>
+
+          <!-- PHONE -->
+
+          <div class="contact_field">
+            <label class="contact_label" for="phone"> Telefone </label>
+
+            <small class="contact_error" *ngIf="phone.invalid && phone.touched">
+              Telefone obrigatório
+            </small>
+            <input
+              class="contact_input"
+              [class.invalid]="phone.invalid && phone.touched"
+              id="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="(11) 99999-9999"
+              formControlName="phone"
+              (input)="formatPhone($event)"
+            />
+          </div>
         </div>
 
+        <!-- SUBJECT -->
+
         <div class="contact_field">
-          <label class="contact_label" for="mensagem">Mensagem</label>
+          <label class="contact_label" for="subject"> Assunto </label>
+          <small class="contact_error" *ngIf="subject.invalid && subject.touched">
+            Assunto obrigatório
+          </small>
+          <input
+            class="contact_input"
+            [class.invalid]="subject.invalid && subject.touched"
+            id="subject"
+            type="text"
+            placeholder="Assunto da mensagem"
+            formControlName="subject"
+            maxlength="150"
+          />
+        </div>
+
+        <!-- MESSAGE -->
+
+        <div class="contact_field">
+          <label class="contact_label" for="message"> Mensagem </label>
+
+          <div id="" id="contact_field_subheader">
+            <small class="contact_error" *ngIf="message.invalid && message.touched">
+              Mensagem obrigatória
+            </small>
+            <div class="contact_counter">{{ message.value?.length || 0 }}/500</div>
+          </div>
+
           <textarea
             class="contact_input contact_input--textarea"
-            id="mensagem"
-            placeholder="Mensagem..."
-            rows="4"
+            [class.invalid]="message.invalid && message.touched"
+            id="message"
+            rows="5"
+            placeholder="Digite sua mensagem..."
+            formControlName="message"
+            maxlength="500"
           ></textarea>
         </div>
-        
-        <button class="contact_btn" type="button">Enviar</button>
-      </div>
 
-      <!-- Social card -->
+        <!-- BUTTON -->
+
+        <button
+          class="contact_btn"
+          type="submit"
+          [disabled]="loading"
+          [class.success]="buttonState === 'success'"
+          [class.error]="buttonState === 'error'"
+        >
+          <span class="material-icons">
+            {{ buttonIcon }}
+          </span>
+
+          {{ buttonText }}
+        </button>
+      </form>
+
+      <!-- SOCIAL -->
+
       <div class="contact_card contact_card--social">
-        <p class="contact_social-text">Você também pode nos contatar via:</p>
+        <div class="contact_social-header">
+          <h3 class="contact_social-title">Outros canais</h3>
+
+          <p class="contact_social-text">Você também pode entrar em contato pelas redes abaixo.</p>
+        </div>
 
         <div class="contact_social-icons">
+          <!-- INSTAGRAM -->
+
           <a
             class="contact_social-item"
             href="https://instagram.com/larissacalegarofotografia/"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Instagram"
           >
             <div class="contact_social-icon-circle">
               <img src="icons/icon_instagram.png" alt="Instagram" />
             </div>
-            <span class="contact_social-label">Instagram</span>
+
+            <div>
+              <span class="contact_social-label"> Instagram </span>
+
+              <br />
+
+              <small> @larissacalegarofotografia </small>
+            </div>
           </a>
+
+          <!-- WHATS -->
 
           <a
             class="contact_social-item"
-            href="https://wa.me/"
+            href="https://wa.me/5511964783397"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="WhatsApp"
           >
             <div class="contact_social-icon-circle">
               <img src="icons/icon_whatsapp.png" alt="WhatsApp" />
             </div>
-            <span class="contact_social-label">WhatsApp</span>
+
+            <div>
+              <span class="contact_social-label"> WhatsApp </span>
+
+              <br />
+
+              <small> Atendimento rápido </small>
+            </div>
           </a>
         </div>
       </div>

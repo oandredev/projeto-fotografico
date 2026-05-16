@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS message (
     phone VARCHAR(20),          
     email VARCHAR(150) NOT NULL,
     subject VARCHAR(150),       
-    body VARCHAR(600) NOT NULL, 
+    body VARCHAR(500) NOT NULL, 
     
     isStarred TINYINT(1) DEFAULT 0, 
     isArchived TINYINT(1) DEFAULT 0,
     
     date DATETIME DEFAULT CURRENT_TIMESTAMP 
-);
+); 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Login as LoginI } from '../../core/types/types';
 
 @Component({
@@ -54,7 +54,6 @@ export class Login {
         console.log('Login sucessfully:', resp);
         this.router.navigate(['/admin']);
       },
-
       error: () => (this.loginError = true),
     });
   }

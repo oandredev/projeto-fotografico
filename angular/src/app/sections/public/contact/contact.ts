@@ -63,6 +63,11 @@ export class Contact implements OnDestroy {
 
     value = value.substring(0, 11);
 
+    if (value.length === 0) {
+      this.contactForm.patchValue({ phone: '' }, { emitEvent: false });
+      return;
+    }
+
     if (value.length <= 2) {
       value = value.replace(/^(\d{0,2})/, '($1');
     } else if (value.length <= 7) {
@@ -71,14 +76,9 @@ export class Contact implements OnDestroy {
       value = value.replace(/^(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
     }
 
-    this.contactForm.patchValue(
-      {
-        phone: value,
-      },
-      {
-        emitEvent: false,
-      },
-    );
+    if (value === '(') value = '';
+
+    this.contactForm.patchValue({ phone: value }, { emitEvent: false });
   }
 
   /* BUTTON STATE */

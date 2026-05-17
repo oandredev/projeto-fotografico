@@ -225,7 +225,7 @@
   font-weight: bold;
 }
 
-/* --- ESTILIZAÇÃO DA SCROLLBAR (Opcional) --- */
+/* --- ESTILIZAÇÃO DA SCROLLBAR --- */
 .messages-list::-webkit-scrollbar {
   width: 6px;
 }

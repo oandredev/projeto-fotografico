@@ -1,1 +1,101 @@
-<p>customers works!</p>
+<div class="messages-container">
+  <header class="top-header">
+    <h1>CLIENTES</h1>
+
+    <div class="filters">
+      <div class="filter-buttons">
+        <button [class.active]="currentFilter() === 'all'" (click)="setFilter('all')">Todos</button>
+
+        <button [class.active]="currentFilter() === 'starred'" (click)="setFilter('starred')">
+          Marcados
+        </button>
+
+        <button [class.active]="currentFilter() === 'archived'" (click)="setFilter('archived')">
+          Arquivados
+        </button>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Pesquisar cliente..."
+        [ngModel]="search()"
+        (ngModelChange)="onSearch($event)"
+      />
+    </div>
+  </header>
+
+  <section class="messages-list">
+    <article class="message-card" *ngFor="let customer of customers()">
+      <div class="avatar">
+        <span>#{{ customer.id }}</span>
+      </div>
+
+      <div class="content">
+        <div class="top-line">
+          <h2>{{ customer.name }}</h2>
+
+          <span class="cpf"> CPF: {{ customer.cpf }} </span>
+        </div>
+
+        <div class="contact-info">
+          <span class="phone">
+            {{ customer.phone }}
+          </span>
+
+          <span class="email">
+            {{ customer.email }}
+          </span>
+        </div>
+
+        <p class="register" *ngIf="customer.register">
+          Registro:
+          {{ customer.register | date: "dd/MM/yyyy 'às' HH:mm" }}
+        </p>
+      </div>
+
+      <div class="actions">
+        <div class="btn-group">
+          <button (click)="toggleStar(customer)">
+            <span class="material-icons yellow" [class.is-starred]="customer.isStarred">
+              {{ customer.isStarred ? 'star' : 'star_border' }}
+            </span>
+          </button>
+
+          <button (click)="toggleArchive(customer)">
+            <span
+              class="material-icons"
+              [class.gray]="!customer.isArchived"
+              [class.orange]="customer.isArchived"
+            >
+              {{ customer.isArchived ? 'unarchive' : 'archive' }}
+            </span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <div class="empty-state" *ngIf="!loading() && customers().length === 0">
+      <span class="material-icons icon purple"> search_off </span>
+
+      <p>Nenhum cliente encontrado.</p>
+
+      <button
+        class="empty-state-btn"
+        *ngIf="search() || currentFilter() !== 'all'"
+        (click)="clearFilters()"
+      >
+        Limpar filtros
+      </button>
+    </div>
+  </section>
+
+  <footer class="pagination-footer">
+    <div class="pagination" *ngIf="currentPage() > 1 || hasNextPage()">
+      <button class="nav-btn" (click)="previousPage()" [disabled]="currentPage() === 1">←</button>
+
+      <span class="page-indicator"> Página {{ currentPage() }} de {{ totalPages() }} </span>
+
+      <button class="nav-btn" (click)="nextPage()" [disabled]="!hasNextPage()">→</button>
+    </div>
+  </footer>
+</div>

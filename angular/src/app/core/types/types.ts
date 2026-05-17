@@ -1,3 +1,26 @@
+export interface Login {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+export interface TokenResponse {
+  token: string;
+}
+
+//-------------------------------------------------
+
+export interface Pagination {
+  total: number;
+  itemsPerPage: number;
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+//-------------------------------------------------
+
 export interface PaginatedMessages {
   messages: Message[];
   pagination: Pagination;
@@ -15,23 +38,23 @@ export interface Message {
   isArchived: boolean;
 }
 
-export interface Pagination {
-  total: number;
-  itemsPerPage: number;
-  currentPage: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
+//-------------------------------------------------
+
+export interface PaginatedCustomers {
+  customers: Customer[];
+  pagination: Pagination;
+}
+
+export interface Customer {
+  id?: number; // By DB
+  name: string;
+  cpf: string;
+  phone: string;
+  email: string;
+  birthDate: string;
+  isStarred: boolean;
+  isArchived: boolean;
+  register?: string; // By DB
 }
 
 //-------------------------------------------------
-
-export interface Login {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
-export interface TokenResponse {
-  token: string;
-}

@@ -16,11 +16,11 @@ export async function updateMessage(id, message) {
 }
 
 export async function deleteMessage(id) {
-  let linhasAfetadas = await repo.deleteMessage(id);
-  return linhasAfetadas;
+  let lines = await repo.deleteMessage(id);
+  return lines;
 }
 
 export async function getMessageById(id) {
-  let linha = await repo.getMessageById(id);
-  return linha;
+  let line = await repo.getMessageById(id);
+  return line;
 }

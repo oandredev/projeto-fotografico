@@ -31,8 +31,33 @@ CREATE TABLE IF NOT EXISTS message (
     date DATETIME DEFAULT CURRENT_TIMESTAMP 
 ); 
 
+-- -----------------------------------------------------
+-- Tabela: Mídia
+-- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS midia (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     categoria ENUM('newborn', 'gestante', 'familia', 'aniversario', 'parto', 'acompanhamento') NOT NULL,
     tipo ENUM('foto', 'video') DEFAULT 'foto' NOT NULL
+);
+
+-- -----------------------------------------------------
+-- Tabela: Clientes
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS customer (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    name VARCHAR(150) NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+    
+    phone VARCHAR(20),
+    email VARCHAR(150) NOT NULL,
+    
+    birthDate DATE NOT NULL,
+    
+    isStarred TINYINT(1) DEFAULT 0,
+    isArchived TINYINT(1) DEFAULT 0,
+    
+    register DATETIME DEFAULT CURRENT_TIMESTAMP
 );

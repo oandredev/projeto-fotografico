@@ -88,7 +88,6 @@ export class Customers {
     }
 
     this.currentPage.update((v) => v + 1);
-
     this.loadMessages();
   }
 
@@ -142,5 +141,14 @@ export class Customers {
     this.currentFilter.set('all');
     this.currentPage.set(1);
     this.loadMessages();
+  }
+
+  //-----------------------------------------------------------
+
+  selectedCustomer: Customer | null = null;
+
+  selectCustomer(customer: Customer): void {
+    this.selectedCustomer = customer;
+    console.log('Ver detalhes do Cliente: ' + customer.name);
   }
 }

@@ -6,7 +6,7 @@
   padding-top: 1.5rem;
 }
 
-.messages-container {
+.customers-container {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -17,8 +17,7 @@
   color: var(--color-light-purple);
 }
 
-/* HEADER */
-
+/* --- 1. CABEÇALHO E FILTROS --- */
 .top-header {
   flex-shrink: 0;
   margin-bottom: 24px;
@@ -44,7 +43,6 @@
 .filter-buttons {
   display: flex;
   gap: 24px;
-  flex-wrap: wrap;
 }
 
 .filters button {
@@ -86,91 +84,68 @@
   font-size: 14px;
 }
 
-/* LISTAGEM */
-
-.messages-list {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-  margin: 10px 0;
-  padding-right: 12px;
-}
-
-.message-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(111, 66, 193, 0.1);
-}
-
-.avatar {
-  min-width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: var(--color-light-purple);
-  display: flex;
+.customer-header,
+.customer-card {
+  display: grid;
+  grid-template-columns:
+    70px
+    minmax(0, 1.2fr)
+    minmax(0, 1fr)
+    minmax(0, 1fr)
+    minmax(0, 1.5fr)
+    120px;
+  width: 100%;
+  gap: 16px;
   align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.content {
-  flex: 1;
+  padding: 0.5rem 0;
+  text-align: center;
   min-width: 0;
 }
 
-.top-line {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
+.customer-cell {
 }
 
-.top-line h2 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
-}
-
-.cpf {
-  font-size: 12px;
-  color: var(--color-gray-a);
-  background: rgba(111, 66, 193, 0.08);
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.contact-info {
+.customers-list {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  margin-top: 18px;
+  padding-right: 10px;
 }
-
-.phone,
-.email {
+.customer-header {
+  border-bottom: 2px solid rgba(111, 66, 193, 0.3);
+  font-weight: bold;
   font-size: 14px;
-  color: var(--color-gray-b);
+  letter-spacing: 1px;
+  color: var(--color-light-purple);
+  padding-bottom: 12px;
 }
 
-.register {
-  margin: 0;
-  font-size: 13px;
-  color: var(--color-gray-a);
+.customer-card {
+  border-bottom: 1px solid rgba(111, 66, 193, 0.1);
+  transition: all ease-in-out 0.1s;
 }
 
-/* ACTIONS */
+.customer-cell {
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Customização para a célula de ID parecer um mini badge */
+.customer-cell:first-child {
+  font-weight: bold;
+  color: var(--color-light-purple);
+}
 
 .actions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   justify-content: center;
-  min-width: 80px;
 }
 
 .btn-group {
@@ -184,8 +159,23 @@
   border: none;
   background: transparent;
   font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.btn-group button.button-customer-details {
+  width: auto;
+  min-width: max-content;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-light-purple);
+  color: var(--color-white);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* --- 4. PAGINAÇÃO --- */
 .pagination-footer {
   flex-shrink: 0;
   padding-top: 20px;
@@ -209,6 +199,10 @@
   height: 36px;
   border-radius: 50%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
 }
 
 .nav-btn:disabled {
@@ -218,18 +212,29 @@
 
 .page-indicator {
   font-size: 14px;
-  font-weight: bold;
   color: var(--color-light-purple);
+  font-weight: bold;
 }
 
-/* EMPTY */
+/* --- SCROLLBAR --- */
+.customers-list::-webkit-scrollbar {
+  width: 6px;
+}
+.customers-list::-webkit-scrollbar-thumb {
+  background: rgba(111, 66, 193, 0.4);
+  border-radius: 10px;
+}
+.customers-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-light-purple);
+}
 
+/* --- FALLBACK (EMPTY STATE) --- */
 .empty-state {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
   text-align: center;
 }
 
@@ -247,37 +252,12 @@
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+  opacity: 0.7;
 }
 
-/* SCROLLBAR */
-
-.messages-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.messages-list::-webkit-scrollbar-thumb {
-  background: rgba(111, 66, 193, 0.4);
-  border-radius: 10px;
-}
-
-/* RESPONSIVO */
-
-@media (max-width: 768px) {
-  .filters {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .filters input {
-    width: 100%;
-  }
-
-  .message-card {
-    flex-direction: column;
-  }
-
-  .actions {
-    width: 100%;
-    align-items: flex-start;
-  }
+.customer-card:hover {
+  background: rgba(111, 66, 193, 0.04);
+  cursor: pointer;
+  border-color: rgba(111, 66, 193, 0.35);
+  transform: scale(1.01);
 }

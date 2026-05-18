@@ -27,7 +27,7 @@ export async function getCustomers(filter = {}) {
   const { page = 1, name = "", category = "all" } = filter;
 
   const currentPage = Number(page);
-  const itemsPerPage = 5;
+  const itemsPerPage = 50;
   const offset = (currentPage - 1) * itemsPerPage;
 
   if (isNaN(currentPage) || currentPage <= 0) {

@@ -1,4 +1,4 @@
-<div class="messages-container">
+<div class="customers-container">
   <header class="top-header">
     <h1>CLIENTES</h1>
 
@@ -17,51 +17,64 @@
 
       <input
         type="text"
-        placeholder="Pesquisar cliente..."
+        placeholder="Pesquisar..."
         [ngModel]="search()"
         (ngModelChange)="onSearch($event)"
       />
     </div>
   </header>
 
-  <section class="messages-list">
-    <article class="message-card" *ngFor="let customer of customers()">
-      <div class="avatar">
-        <span>#{{ customer.id }}</span>
+  <section class="customers-list">
+    <!-- HEADER -->
+    <article class="customer-header">
+      <div>ID</div>
+      <div>NOME</div>
+      <div>CPF</div>
+      <div>TELEFONE</div>
+      <div>E-MAIL</div>
+      <div>AÇÕES</div>
+    </article>
+
+    <!-- ITEMS -->
+    <article
+      class="customer-card"
+      *ngFor="let customer of customers()"
+      (click)="selectCustomer(customer)"
+      [class.selected]="selectedCustomer?.id === customer.id"
+    >
+      <div class="customer-cell">
+        {{ customer.id }}
+      </div>
+      <div class="customer-cell">
+        {{ customer.name }}
       </div>
 
-      <div class="content">
-        <div class="top-line">
-          <h2>{{ customer.name }}</h2>
+      <div class="customer-cell">
+        {{ customer.cpf }}
+      </div>
 
-          <span class="cpf"> CPF: {{ customer.cpf }} </span>
-        </div>
+      <div class="customer-cell">
+        {{ customer.phone }}
+      </div>
 
-        <div class="contact-info">
-          <span class="phone">
-            {{ customer.phone }}
-          </span>
-
-          <span class="email">
-            {{ customer.email }}
-          </span>
-        </div>
-
-        <p class="register" *ngIf="customer.register">
-          Registro:
-          {{ customer.register | date: "dd/MM/yyyy 'às' HH:mm" }}
-        </p>
+      <div class="customer-cell">
+        {{ customer.email }}
       </div>
 
       <div class="actions">
         <div class="btn-group">
-          <button (click)="toggleStar(customer)">
+          <button
+            (click)="toggleStar(customer)"
+            [title]="customer.isStarred ? 'Desmarcar cliente' : 'Marcar cliente'"
+          >
             <span class="material-icons yellow" [class.is-starred]="customer.isStarred">
               {{ customer.isStarred ? 'star' : 'star_border' }}
             </span>
           </button>
-
-          <button (click)="toggleArchive(customer)">
+          <button
+            (click)="toggleArchive(customer)"
+            [title]="customer.isArchived ? 'Desarquivar cliente' : 'Arquivar cliente'"
+          >
             <span
               class="material-icons"
               [class.gray]="!customer.isArchived"

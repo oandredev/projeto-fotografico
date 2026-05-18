@@ -158,7 +158,7 @@
 .actions {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 12px;
   min-width: 110px;
 }

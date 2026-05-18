@@ -58,13 +58,19 @@
         </span>
 
         <div class="btn-group">
-          <button (click)="toggleStar(message)">
+          <button
+            (click)="toggleStar(message)"
+            [title]="message.isStarred ? 'Desmarcar mensagem' : 'Marcar mensagem'"
+          >
             <span class="material-icons yellow" [class.is-starred]="message.isStarred">
               {{ message.isStarred ? 'star' : 'star_border' }}
             </span>
           </button>
 
-          <button (click)="toggleArchive(message)">
+          <button
+            (click)="toggleArchive(message)"
+            [title]="message.isArchived ? 'Desarquivar mensagem' : 'Arquivar mensagem'"
+          >
             <span
               class="material-icons"
               [class.gray]="!message.isArchived"

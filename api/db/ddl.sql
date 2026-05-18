@@ -30,3 +30,9 @@ CREATE TABLE IF NOT EXISTS message (
     
     date DATETIME DEFAULT CURRENT_TIMESTAMP 
 ); 
+
+CREATE TABLE IF NOT EXISTS midia (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    categoria ENUM('newborn', 'gestante', 'familia', 'aniversario', 'parto', 'acompanhamento') NOT NULL,
+    tipo ENUM('foto', 'video') DEFAULT 'foto' NOT NULL
+);

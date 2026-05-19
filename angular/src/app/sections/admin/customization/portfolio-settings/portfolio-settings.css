@@ -1,0 +1,532 @@
+:host {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 1.5rem;
+}
+
+/* ── Layout raiz ── */
+.portfolio-settings-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 32px;
+  box-sizing: border-box;
+  background: var(--color-off-white);
+  color: var(--color-light-purple);
+}
+
+/* ── 1. Cabeçalho e filtros ── */
+.top-header {
+  flex-shrink: 0;
+  margin-bottom: 24px;
+}
+
+.top-header h1 {
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  margin: 0 0 20px 0;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid rgba(111, 66, 193, 0.3);
+  padding-bottom: 12px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  border: none;
+  background: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+  color: var(--color-light-purple);
+  cursor: pointer;
+  padding: 8px 0;
+  position: relative;
+  transition: opacity 0.2s;
+}
+
+.filters button.active {
+  font-weight: bold;
+}
+
+.filters button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--color-light-purple);
+}
+
+/* ── Botão de upload no header ── */
+.upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-light-purple) !important;
+  color: var(--color-white) !important;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.upload-btn .material-icons {
+  font-size: 18px;
+  color: var(--color-white);
+}
+
+/* ── 2. Área da galeria ── */
+.gallery-area {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 8px;
+}
+
+/* ── Grid de fotos ── */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+/* Capa: ocupa 2 colunas × 2 linhas */
+.photo-item.cover {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.photo-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-light-purple-2);
+  border: 2px solid transparent;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.photo-item.cover {
+  border-color: var(--color-light-purple);
+  box-shadow: 0 4px 20px rgba(120, 114, 156, 0.3);
+}
+
+.photo-item:hover {
+  box-shadow: 0 6px 24px rgba(120, 114, 156, 0.35);
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* ── Overlay de ações (aparece no hover) ── */
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(65, 61, 85, 0.6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 12px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.photo-item:hover .photo-overlay {
+  opacity: 1;
+}
+
+.photo-item:hover .photo-img {
+  transform: scale(1.04);
+  filter: brightness(0.7);
+}
+
+.cover-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-light-purple);
+  color: var(--color-white);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.cover-badge .material-icons {
+  font-size: 14px;
+  color: var(--color-yellow);
+}
+
+.set-cover-btn,
+.delete-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.set-cover-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-yellow);
+}
+
+.set-cover-btn:hover {
+  background: rgba(255, 211, 0, 0.3);
+}
+
+.delete-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-pink);
+  margin-left: auto;
+}
+
+.delete-btn:hover {
+  background: rgba(142, 33, 49, 0.4);
+}
+
+.set-cover-btn .material-icons,
+.delete-btn .material-icons {
+  font-size: 18px;
+  color: inherit;
+}
+
+/* ── Empty state / loading ── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  text-align: center;
+  color: var(--color-gray-a);
+}
+
+.empty-state .icon {
+  font-size: 5rem;
+  margin-bottom: 16px;
+  color: var(--color-light-purple);
+}
+
+.empty-state-btn {
+  margin-top: 16px;
+  background: var(--color-light-purple);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* ── Scrollbar ── */
+.gallery-area::-webkit-scrollbar {
+  width: 6px;
+}
+.gallery-area::-webkit-scrollbar-thumb {
+  background: rgba(111, 66, 193, 0.4);
+  border-radius: 10px;
+}
+.gallery-area::-webkit-scrollbar-thumb:hover {
+  background: var(--color-light-purple);
+}
+
+/* ──────────────────────────────────────── */
+/* ── Modal de Upload ── */
+/* ──────────────────────────────────────── */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(65, 61, 85, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--color-off-white);
+  border-radius: 16px;
+  width: 520px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(65, 61, 85, 0.35);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(120, 114, 156, 0.2);
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--color-light-purple);
+  margin: 0;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--color-gray-a);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(120, 114, 156, 0.12);
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Drop zone ── */
+.drop-zone {
+  border: 2px dashed rgba(120, 114, 156, 0.45);
+  border-radius: 12px;
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-gray-b);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: var(--color-light-purple);
+  background: rgba(120, 114, 156, 0.06);
+}
+
+.drop-icon {
+  font-size: 3rem;
+  color: var(--color-light-purple);
+}
+
+.drop-zone p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.drop-hint {
+  font-size: 11px;
+  color: var(--color-gray-a);
+  letter-spacing: 0.5px;
+}
+
+/* ── Pré-visualização ── */
+.preview-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.upload-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--color-light-purple-2);
+}
+
+.remove-preview {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(65, 61, 85, 0.7);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.remove-preview .material-icons {
+  font-size: 16px;
+  color: white;
+}
+
+/* ── Select de categoria no modal ── */
+.modal-category-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-category-row label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-light-purple);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.modal-category-row select {
+  flex: 1;
+  border: none;
+  background: rgba(111, 66, 193, 0.1);
+  border-radius: 5px;
+  border-bottom: 1px solid var(--color-light-purple);
+  outline: none;
+  padding: 8px 12px;
+  color: var(--color-light-purple);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ── Footer do modal ── */
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(120, 114, 156, 0.15);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid rgba(120, 114, 156, 0.4);
+  color: var(--color-light-purple);
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.btn-cancel:hover {
+  background: rgba(120, 114, 156, 0.08);
+}
+
+.btn-confirm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-light-purple);
+  color: var(--color-white);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.btn-confirm:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-confirm .material-icons {
+  font-size: 17px;
+  color: var(--color-white);
+}
+
+/* ── Ícone girando (loading upload) ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinning {
+  animation: spin 0.9s linear infinite;
+}
+
+/* ── Responsividade ── */
+@media (max-width: 900px) {
+  .photo-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .upload-btn {
+    justify-content: center;
+  }
+
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px;
+  }
+
+  .photo-item.cover {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 130px;
+  }
+}

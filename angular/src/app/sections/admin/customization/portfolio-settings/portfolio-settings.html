@@ -1,1 +1,140 @@
-<p>portfolio-settings works!</p>
+<div class="portfolio-settings-container">
+
+  <!-- ── Cabeçalho ── -->
+  <header class="top-header">
+    <h1>PORTFÓLIO</h1>
+
+    <div class="filters">
+      <div class="filter-buttons">
+        <button
+          *ngFor="let cat of categories"
+          [class.active]="selectedCategory() === cat.value"
+          (click)="selectCategory(cat.value)"
+        >
+          {{ cat.label }}
+        </button>
+      </div>
+
+      <button class="upload-btn" (click)="openUploadModal()">
+        <span class="material-icons">add_photo_alternate</span>
+        Adicionar Foto
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Área principal ── -->
+  <section class="gallery-area">
+
+    <!-- Loading -->
+    <div class="empty-state" *ngIf="loading()">
+      <span class="material-icons icon">hourglass_top</span>
+      <p>Carregando...</p>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="!loading() && mediaList().length === 0">
+      <span class="material-icons icon">photo_library</span>
+      <p>Nenhuma foto nesta categoria.</p>
+      <button class="empty-state-btn" (click)="openUploadModal()">
+        Adicionar primeira foto
+      </button>
+    </div>
+
+    <!-- Grid de fotos -->
+    <div class="photo-grid" *ngIf="!loading() && mediaList().length > 0">
+
+      <!-- Capa (primeiro item — maior) -->
+      <div class="photo-item cover" *ngIf="mediaList()[0] as cover">
+        <img [src]="cover.url" [alt]="'Capa — ' + selectedCategory()" class="photo-img" />
+
+        <div class="photo-overlay">
+          <span class="cover-badge">
+            <span class="material-icons">star</span>
+            Capa
+          </span>
+          <button class="delete-btn" (click)="deleteMedia(cover)" title="Remover foto">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Demais fotos -->
+      <div
+        class="photo-item"
+        *ngFor="let media of mediaList().slice(1); let i = index"
+      >
+        <img [src]="media.url" [alt]="'Foto ' + (i + 2)" class="photo-img" />
+
+        <div class="photo-overlay">
+          <button class="set-cover-btn" (click)="setCover(media)" title="Definir como capa">
+            <span class="material-icons">star_border</span>
+          </button>
+          <button class="delete-btn" (click)="deleteMedia(media)" title="Remover foto">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Modal de Upload ── -->
+  <div class="modal-backdrop" *ngIf="showUploadModal()" (click)="closeUploadModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <h2>Adicionar Foto</h2>
+        <button class="modal-close" (click)="closeUploadModal()">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div
+          class="drop-zone"
+          [class.drag-over]="isDragging()"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave()"
+          (drop)="onDrop($event)"
+          (click)="fileInput.click()"
+        >
+          <span class="material-icons drop-icon">cloud_upload</span>
+          <p>Arraste uma foto ou <strong>clique para selecionar</strong></p>
+          <span class="drop-hint">JPG, PNG ou WEBP · Máx. 10 MB</span>
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            hidden
+            (change)="onFileSelected($event)"
+          />
+        </div>
+
+        <div class="preview-row" *ngIf="previewUrl()">
+          <img [src]="previewUrl()" alt="Pré-visualização" class="upload-preview" />
+          <button class="remove-preview" (click)="clearPreview()">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+
+        <div class="modal-category-row">
+          <label>Categoria</label>
+          <select [(ngModel)]="uploadCategory">
+            <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeUploadModal()">Cancelar</button>
+        <button class="btn-confirm" [disabled]="!previewUrl() || uploading()" (click)="confirmUpload()">
+          <span class="material-icons" *ngIf="!uploading()">upload</span>
+          <span class="material-icons spinning" *ngIf="uploading()">autorenew</span>
+          {{ uploading() ? 'Enviando...' : 'Enviar' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

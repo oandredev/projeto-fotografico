@@ -38,7 +38,7 @@ const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
   templateUrl: './portfolio-settings.html',
   styleUrl: './portfolio-settings.css',
 })
-export class PortfolioSettingsComponent implements OnInit {
+export class PortfolioSettings implements OnInit {
 
   private http = inject(HttpClient);
 

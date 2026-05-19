@@ -38,30 +38,29 @@ const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
   templateUrl: './portfolio-settings.html',
   styleUrl: './portfolio-settings.css',
 })
-export class PortfolioSettingsComponent implements OnInit {
-
+export class PortfolioSettings implements OnInit {
   private http = inject(HttpClient);
 
   // ── Categorias (espelha o ENUM do banco) ──────────────────────────────────
   readonly categories: { value: CategoriaEnum; label: string }[] = [
-    { value: 'newborn',        label: 'Newborn'        },
-    { value: 'gestante',       label: 'Gestante'       },
-    { value: 'familia',        label: 'Família'        },
-    { value: 'aniversario',    label: 'Aniversário'    },
-    { value: 'parto',          label: 'Parto'          },
+    { value: 'newborn', label: 'Newborn' },
+    { value: 'gestante', label: 'Gestante' },
+    { value: 'familia', label: 'Família' },
+    { value: 'aniversario', label: 'Aniversário' },
+    { value: 'parto', label: 'Parto' },
     { value: 'acompanhamento', label: 'Acompanhamento' },
   ];
 
   // ── Signals de estado ─────────────────────────────────────────────────────
   selectedCategory = signal<CategoriaEnum>('newborn');
-  mediaList        = signal<Midia[]>([]);
-  loading          = signal(false);
+  mediaList = signal<Midia[]>([]);
+  loading = signal(false);
 
   // Modal
   showUploadModal = signal(false);
-  isDragging      = signal(false);
-  previewUrl      = signal<string | null>(null);
-  uploading       = signal(false);
+  isDragging = signal(false);
+  previewUrl = signal<string | null>(null);
+  uploading = signal(false);
 
   // Dados do upload (não precisam ser signals — são efêmeros)
   uploadCategory: CategoriaEnum = 'newborn';
@@ -117,13 +116,10 @@ export class PortfolioSettingsComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────────────
 
   setCover(media: Midia): void {
-    this.http
-      .patch<void>(`${API_BASE}/midia/${media.id}/cover`, {})
-      .subscribe({
-        next: () => this.loadMedia(),
-        error: (err: HttpErrorResponse) =>
-          console.error('Erro ao definir capa:', err),
-      });
+    this.http.patch<void>(`${API_BASE}/midia/${media.id}/cover`, {}).subscribe({
+      next: () => this.loadMedia(),
+      error: (err: HttpErrorResponse) => console.error('Erro ao definir capa:', err),
+    });
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -134,10 +130,8 @@ export class PortfolioSettingsComponent implements OnInit {
     if (!confirm('Remover esta foto do portfólio?')) return;
 
     this.http.delete<void>(`${API_BASE}/midia/${media.id}`).subscribe({
-      next: () =>
-        this.mediaList.update((list) => list.filter((m) => m.id !== media.id)),
-      error: (err: HttpErrorResponse) =>
-        console.error('Erro ao remover mídia:', err),
+      next: () => this.mediaList.update((list) => list.filter((m) => m.id !== media.id)),
+      error: (err: HttpErrorResponse) => console.error('Erro ao remover mídia:', err),
     });
   }
 
@@ -227,9 +221,7 @@ export class PortfolioSettingsComponent implements OnInit {
 
         // Se a foto foi adicionada na categoria ativa, atualiza o grid
         if (newMedia.categoria === this.selectedCategory()) {
-          this.mediaList.update((list) =>
-            [...list, newMedia].sort((a, b) => a.ordem - b.ordem)
-          );
+          this.mediaList.update((list) => [...list, newMedia].sort((a, b) => a.ordem - b.ordem));
         }
       },
       error: (err: HttpErrorResponse) => {

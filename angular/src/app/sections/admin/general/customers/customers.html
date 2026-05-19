@@ -15,12 +15,18 @@
         </button>
       </div>
 
-      <input
-        type="text"
-        placeholder="Pesquisar..."
-        [ngModel]="search()"
-        (ngModelChange)="onSearch($event)"
-      />
+      <div class="secondary-options">
+        <button id="button-add-customer">
+          <span class="material-icons"> add </span>
+          <span>Adicionar Cliente</span>
+        </button>
+        <input
+          type="text"
+          placeholder="Pesquisar..."
+          [ngModel]="search()"
+          (ngModelChange)="onSearch($event)"
+        />
+      </div>
     </div>
   </header>
 

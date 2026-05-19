@@ -261,3 +261,38 @@
   border-color: rgba(111, 66, 193, 0.35);
   transform: scale(1.01);
 }
+
+.secondary-options {
+  display: flex;
+  gap: 1rem;
+}
+
+#button-add-customer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-light-purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+
+#button-add-customer:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+#button-add-customer:active {
+  transform: scale(0.98);
+}
+
+#button-add-customer .material-icons {
+  font-size: 20px;
+}

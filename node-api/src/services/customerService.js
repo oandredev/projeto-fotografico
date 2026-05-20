@@ -1,8 +1,24 @@
 import * as repo from "../repository/customerRepository.js";
 
 export async function addCustomer(customer) {
-  const id = await repo.addCustomer(customer);
-  return id;
+  try {
+    const result = await repo.addCustomer(customer);
+    return result;
+  } catch (error) {
+    if (error.code === "ER_DUP_ENTRY") {
+      if (error.sqlMessage.includes("cpf")) {
+        throw {
+          message: "CPF já cadastrado para outro cliente",
+        };
+      }
+      throw {
+        message: "Registro duplicado",
+      };
+    }
+    throw {
+      message: "Erro interno",
+    };
+  }
 }
 
 export async function getCustomers(filter) {

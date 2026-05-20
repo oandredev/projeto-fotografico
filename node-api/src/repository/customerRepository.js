@@ -20,7 +20,7 @@ export async function addCustomer(customer) {
     customer.birthDate,
   ]);
 
-  return resposta.insertId;
+  return resposta;
 }
 
 export async function getCustomers(filter = {}) {
@@ -38,7 +38,6 @@ export async function getCustomers(filter = {}) {
   let values = [];
 
   // CATEGORY
-
   if (category === "starred") {
     conditions.push("isStarred = 1");
   } else if (category === "archived") {
@@ -81,7 +80,6 @@ export async function getCustomers(filter = {}) {
   ]);
 
   // TOTAL
-
   const countQuery = `
     SELECT COUNT(*) AS total
     FROM customer

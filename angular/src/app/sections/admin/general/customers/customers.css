@@ -17,7 +17,6 @@
   color: var(--color-light-purple);
 }
 
-/* --- 1. CABEÇALHO E FILTROS --- */
 .top-header {
   flex-shrink: 0;
   margin-bottom: 24px;
@@ -102,9 +101,6 @@
   min-width: 0;
 }
 
-.customer-cell {
-}
-
 .customers-list {
   flex: 1;
   display: flex;
@@ -137,7 +133,6 @@
   min-width: 0;
 }
 
-/* Customização para a célula de ID parecer um mini badge */
 .customer-cell:first-child {
   font-weight: bold;
   color: var(--color-light-purple);
@@ -175,7 +170,6 @@
   font-size: 1rem;
 }
 
-/* --- 4. PAGINAÇÃO --- */
 .pagination-footer {
   flex-shrink: 0;
   padding-top: 20px;
@@ -265,6 +259,8 @@
 .secondary-options {
   display: flex;
   gap: 1rem;
+  margin: 0;
+  padding: 0;
 }
 
 #button-add-customer {
@@ -275,6 +271,7 @@
   color: white;
   border: none;
   border-radius: 6px;
+  max-height: 33px;
   padding: 10px 16px;
   cursor: pointer;
   font-size: 12px;
@@ -287,10 +284,6 @@
 #button-add-customer:hover {
   opacity: 0.9;
   transform: translateY(-1px);
-}
-
-#button-add-customer:active {
-  transform: scale(0.98);
 }
 
 #button-add-customer .material-icons {

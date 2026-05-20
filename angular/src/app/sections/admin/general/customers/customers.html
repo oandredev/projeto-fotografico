@@ -16,7 +16,7 @@
       </div>
 
       <div class="secondary-options">
-        <button id="button-add-customer">
+        <button id="button-add-customer" (click)="addCustomer()">
           <span class="material-icons"> add </span>
           <span>Adicionar Cliente</span>
         </button>
@@ -111,10 +111,14 @@
   <footer class="pagination-footer">
     <div class="pagination" *ngIf="currentPage() > 1 || hasNextPage()">
       <button class="nav-btn" (click)="previousPage()" [disabled]="currentPage() === 1">←</button>
-
       <span class="page-indicator"> Página {{ currentPage() }} de {{ totalPages() }} </span>
-
       <button class="nav-btn" (click)="nextPage()" [disabled]="!hasNextPage()">→</button>
     </div>
   </footer>
 </div>
+
+<app-add-customer
+  *ngIf="showAddCustomer()"
+  (close)="closeAddCustomer()"
+  (customerCreated)="loadCustomers()"
+/>

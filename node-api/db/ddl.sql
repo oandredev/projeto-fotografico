@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS customer (
     name VARCHAR(150) NOT NULL,
     cpf VARCHAR(14) NOT NULL UNIQUE,
     
-    phone VARCHAR(20),
+    phone VARCHAR(20) ,
     email VARCHAR(150) NOT NULL,
     
     birthDate DATE NOT NULL,

@@ -15,11 +15,16 @@ endpoints.get("/customer", auth, async (req, resp) => {
 endpoints.post("/customer", auth, async (req, resp) => {
   let customer = req.body;
 
-  let id = await service.addCustomer(customer);
-
-  resp.status(201).send({
-    id: id,
-  });
+  try {
+    let id = await service.addCustomer(customer);
+    resp.status(201).send({
+      id: id,
+    });
+  } catch (err) {
+    resp.status(400).send({
+      error: err.message,
+    });
+  }
 });
 
 endpoints.put("/customer/:id", auth, async (req, resp) => {

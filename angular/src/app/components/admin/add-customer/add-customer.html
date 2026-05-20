@@ -1,1 +1,113 @@
-<p>add-customer works!</p>
+<div class="customer_overlay">
+  <div class="customer_modal">
+    <div class="customer_heading">
+      <h2 class="customer_title">Novo Cliente</h2>
+
+      <button type="button" class="customer_close-btn" (click)="onClose()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <form class="customer_form" [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+      <div class="customer_field">
+        <label class="customer_label">Nome</label>
+
+        <small class="customer_error" *ngIf="name.invalid && name.touched">
+          Nome obrigatório
+        </small>
+
+        <input
+          class="customer_input"
+          [class.invalid]="name.invalid && name.touched"
+          type="text"
+          placeholder="Nome do cliente"
+          formControlName="name"
+        />
+      </div>
+      <div class="customer_row">
+        <div class="customer_field">
+          <label class="customer_label">CPF</label>
+          <small class="customer_error" *ngIf="cpf.invalid && cpf.touched">
+            {{
+              cpf.errors?.['required']
+                ? 'CPF obrigatório'
+                : cpf.errors?.['duplicated']
+                  ? 'CPF já cadastrado'
+                  : cpf.errors?.['invalidCpf']
+                    ? 'CPF inválido'
+                    : cpf.errors?.['pattern']
+                      ? 'CPF inválido'
+                      : ''
+            }}
+          </small>
+          <input
+            class="customer_input"
+            [class.invalid]="cpf.invalid && cpf.touched"
+            type="text"
+            placeholder="000.000.000-00"
+            formControlName="cpf"
+            (input)="formatCPF($event)"
+          />
+        </div>
+        <div class="customer_field">
+          <label class="customer_label">Telefone</label>
+          <small class="customer_error" *ngIf="phone.invalid && phone.touched">
+            Telefone inválido
+          </small>
+          <input
+            class="customer_input"
+            [class.invalid]="phone.invalid && phone.touched"
+            type="text"
+            placeholder="(11) 99999-9999"
+            formControlName="phone"
+            (input)="formatPhone($event)"
+          />
+        </div>
+      </div>
+      <div class="customer_row">
+        <div class="customer_field">
+          <label class="customer_label"> Data de nascimento </label>
+          <small class="customer_error" *ngIf="birthDate.invalid && birthDate.touched">
+            Data obrigatória
+          </small>
+          <input
+            class="customer_input"
+            [class.invalid]="birthDate.invalid && birthDate.touched"
+            type="date"
+            formControlName="birthDate"
+          />
+        </div>
+        <div class="customer_field">
+          <label class="customer_label">E-mail</label>
+          <small class="customer_error" *ngIf="email.invalid && email.touched">
+            Email inválido
+          </small>
+          <input
+            class="customer_input"
+            [class.invalid]="email.invalid && email.touched"
+            type="email"
+            placeholder="cliente@email.com"
+            formControlName="email"
+          />
+        </div>
+      </div>
+      <div class="customer_actions">
+        <button type="button" class="customer_btn customer_btn--secondary" (click)="onClose()">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="customer_btn customer_btn--primary"
+          [disabled]="loading"
+          [class.success]="buttonState === 'success'"
+          [class.error]="buttonState === 'error'"
+        >
+          <span class="material-icons">
+            {{ buttonIcon }}
+          </span>
+          {{ buttonText }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import connection from "./connection.js";
 
+// Save/Update
 export async function saveAbout(data) {
   const [existing] = await connection.query(`
     SELECT id

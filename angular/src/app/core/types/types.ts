@@ -65,3 +65,12 @@ export interface About {
   imageUrl?: string;
   lastUpdate?: string;
 }
+
+//-------------------------------------------------
+
+export interface Hero {
+  id?: number;
+  slogan: string;
+  imageUrls: string[];
+  lastUpdate?: string;
+}

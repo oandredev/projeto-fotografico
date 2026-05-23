@@ -1,0 +1,283 @@
+:host {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 1.5rem;
+}
+
+.home-settings-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  box-sizing: border-box;
+  background: var(--color-off-white);
+  color: var(--color-light-purple);
+  overflow: hidden; /* fecha a cadeia */
+}
+
+/* HEADER */
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  border-bottom: 1px solid rgba(111, 66, 193, 0.2);
+  padding-bottom: 20px;
+  flex-shrink: 0; /* nunca comprime o header */
+}
+
+.top-header h1 {
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  margin: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 2rem;
+}
+
+.header-actions button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-light-purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+
+.header-actions button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* LAYOUT PRINCIPAL */
+
+.home-content {
+  flex: 1; /* ocupa o restante da altura após o header */
+  min-height: 0; /* permite que flex item encolha abaixo do conteúdo */
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+}
+
+/* CARDS */
+
+.settings-card {
+  background: white;
+  border: 1px solid rgba(111, 66, 193, 0.15);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 0; /* permite que o card encolha dentro do grid */
+  overflow: hidden; /* impede vazamento antes do carousel-list */
+}
+
+/* HEADER DAS SEÇÕES */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.section-header .material-icons {
+  font-size: 28px;
+  color: var(--color-light-purple);
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--color-light-purple);
+}
+
+/* TEXTAREA */
+
+textarea {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border-radius: 12px;
+  padding: 18px;
+  font-size: 14px;
+  line-height: 1.7;
+  background: rgba(111, 66, 193, 0.06);
+  color: #333;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  min-height: 180px;
+  outline: none;
+}
+
+textarea:focus {
+  border: 1px solid var(--color-light-purple);
+}
+
+.text-info {
+  align-self: flex-end;
+  font-size: 12px;
+  color: rgba(111, 66, 193, 0.7);
+  flex-shrink: 0;
+}
+
+/* CARROSSEL */
+
+.carousel-list {
+  flex: 1; /* ocupa toda a altura restante do card */
+  min-height: 0; /* permite encolher — sem isso o scroll nunca ativa */
+  overflow-y: auto; /* scroll nasce aqui */
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-auto-rows: min-content; /* linhas crescem conforme conteúdo, não esticam */
+  gap: 18px;
+  align-content: start; /* itens grudam no topo, não esticam verticalmente */
+  padding-right: 6px;
+}
+
+/* SCROLLBAR */
+
+.carousel-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.carousel-list::-webkit-scrollbar-thumb {
+  background: rgba(111, 66, 193, 0.35);
+  border-radius: 10px;
+}
+
+/* ITEM */
+
+.carousel-item {
+  background: rgba(111, 66, 193, 0.04);
+  border: 1px solid rgba(111, 66, 193, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.carousel-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(111, 66, 193, 0.08);
+}
+
+/* IMAGEM */
+
+.image-preview {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* proporcional em vez de altura fixa */
+  background: rgba(111, 66, 193, 0.04);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* AÇÕES */
+
+.carousel-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  flex-shrink: 0;
+}
+
+.remove-button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 0, 0, 0.08);
+  color: #c0392b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+.remove-button:hover {
+  background: rgba(255, 0, 0, 0.14);
+  transform: scale(1.05);
+}
+
+/* UPLOAD */
+
+.upload-carousel-button {
+  aspect-ratio: 4 / 3; /* mesma proporção dos itens */
+  min-height: 120px;
+
+  border: 2px dashed rgba(111, 66, 193, 0.25);
+  border-radius: 14px;
+  background: rgba(111, 66, 193, 0.03);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+  color: var(--color-light-purple);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.upload-carousel-button:hover {
+  background: rgba(111, 66, 193, 0.06);
+  border-color: var(--color-light-purple);
+  transform: translateY(-2px);
+}
+
+.upload-carousel-button .material-icons {
+  font-size: 2.5rem;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 1000px) {
+  .home-content {
+    grid-template-columns: 1fr;
+    overflow-y: auto; /* scroll na seção inteira em mobile */
+  }
+
+  .carousel-list {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  textarea {
+    min-height: 160px;
+  }
+}

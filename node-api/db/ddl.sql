@@ -74,3 +74,16 @@ CREATE TABLE about (
     lastUpdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP
 );
+
+
+-- -----------------------------------------------------
+-- Tabela: hero
+-- -----------------------------------------------------
+CREATE TABLE hero (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    slogan VARCHAR(180) NOT NULL,
+    imageUrls JSON NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastUpdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);

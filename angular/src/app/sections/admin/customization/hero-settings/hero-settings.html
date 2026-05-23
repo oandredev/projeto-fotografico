@@ -1,1 +1,71 @@
-<p>hero-settings works!</p>
+<div class="home-settings-container">
+  <header class="top-header">
+    <h1>Página Inicial</h1>
+
+    <div class="header-actions">
+      <button (click)="reloadSettings()" *ngIf="hasChanges()">
+        <span class="material-icons">cancel</span>
+        <span>Reverter Alterações</span>
+      </button>
+
+      <button (click)="saveSettings()" *ngIf="hasChanges()">
+        <span class="material-icons">save</span>
+        <span>Salvar Alterações</span>
+      </button>
+
+      <div *ngIf="!hasChanges()">
+        <span class="material-icons">info</span>
+        <span>Nenhuma alteração realizada</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="home-content">
+    <article class="settings-card">
+      <div class="section-header">
+        <span class="material-icons">campaign</span>
+        <h2>Slogan Principal</h2>
+      </div>
+
+      <textarea
+        placeholder="Digite o slogan da página inicial..."
+        [ngModel]="slogan()"
+        (ngModelChange)="slogan.set($event)"
+      ></textarea>
+
+      <div class="text-info">{{ slogan().length }}/180 caracteres</div>
+    </article>
+
+    <article class="settings-card">
+      <div class="section-header">
+        <span class="material-icons">view_carousel</span>
+        <h2>Imagens do Carrossel ({{ carouselImages().length }}/{{ MAX_IMAGES }})</h2>
+      </div>
+
+      <div class="carousel-list">
+        <div class="carousel-item" *ngFor="let image of carouselImages(); let i = index">
+          <div class="image-preview">
+            <img [src]="image.preview" alt="Imagem do carrossel" />
+          </div>
+
+          <div class="carousel-actions">
+            <button class="remove-button" (click)="removeCarouselImage(i)">
+              <span class="material-icons">delete</span>
+            </button>
+          </div>
+        </div>
+        <label class="upload-carousel-button" *ngIf="carouselImages().length < MAX_IMAGES">
+          <span class="material-icons">add_photo_alternate</span>
+          Adicionar Imagem
+          <input
+            type="file"
+            accept="image/*"
+            hidden
+            multiple
+            (change)="onCarouselImagesSelected($event)"
+          />
+        </label>
+      </div>
+    </article>
+  </section>
+</div>

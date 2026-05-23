@@ -36,13 +36,7 @@ export async function updateAbout(id, about) {
     throw new Error("Presentation text is required");
   }
 
-  const existing = await repo.getAbout();
-
-  if (!existing) {
-    return await repo.saveAbout(about);
-  }
-
-  return await repo.saveAbout(about);
+  return await repo.saveAbout(about); // Save/Update
 }
 
 export async function deleteAbout(id) {

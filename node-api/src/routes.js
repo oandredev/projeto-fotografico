@@ -3,10 +3,14 @@ import contaController from "./controller/contaController.js";
 import messageController from "./controller/messageController.js";
 import customerController from "./controller/customerController.js";
 import aboutController from "./controller/aboutController.js";
+import heroController from "./controller/heroController.js";
 
 export default function addRoutes(api) {
   api.use(contaController);
+
   api.use(messageController);
   api.use(customerController);
+
   api.use(aboutController);
+  api.use(heroController);
 }

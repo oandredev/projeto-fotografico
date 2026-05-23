@@ -1,1 +1,61 @@
-<p>about-settings works!</p>
+<div class="about-container">
+  <header class="top-header">
+    <h1>SOBRE</h1>
+
+    <div class="header-actions">
+      <button (click)="loadAbout()" *ngIf="hasChanges()">
+        <span class="material-icons">cancel</span>
+        <span>Reverter Alterações</span>
+      </button>
+      <button (click)="saveAboutSettings()" *ngIf="hasChanges()">
+        <span class="material-icons">save</span>
+        <span>Salvar Alterações</span>
+      </button>
+      <div *ngIf="!hasChanges()">
+        <span class="material-icons">info</span>
+        <span>Nenhuma alteração realizada</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="about-content">
+    <article class="about-card">
+      <div class="section-header">
+        <span class="material-icons">image</span>
+        <h2>Imagem Associada</h2>
+      </div>
+
+      <div class="image-upload-container">
+        <div class="preview-image">
+          <img *ngIf="imagePreview" [src]="imagePreview()" alt="Imagem da seção sobre" />
+
+          <div class="placeholder" *ngIf="!imagePreview">
+            <span class="material-icons">photo</span>
+            <p>Nenhuma imagem selecionada</p>
+          </div>
+        </div>
+
+        <label class="upload-button">
+          <span class="material-icons">upload</span>
+          Selecionar Imagem
+
+          <input type="file" accept="image/*" hidden (change)="onImageSelected($event)" />
+        </label>
+      </div>
+    </article>
+    <article class="about-card">
+      <div class="section-header">
+        <span class="material-icons">description</span>
+        <h2>Texto de Apresentação</h2>
+      </div>
+
+      <textarea
+        placeholder="Digite o texto de apresentação..."
+        [ngModel]="aboutText()"
+        (ngModelChange)="aboutText.set($event)"
+      ></textarea>
+
+      <div class="text-info">{{ aboutText().length }}/550 caracteres</div>
+    </article>
+  </section>
+</div>

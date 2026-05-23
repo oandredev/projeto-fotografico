@@ -7,9 +7,9 @@
     "types": []
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../node-api/src/config/static.js",
+    "../node-api/src/config/multer.config.js"
   ],
-  "exclude": [
-    "src/**/*.spec.ts"
-  ]
+  "exclude": ["src/**/*.spec.ts"]
 }

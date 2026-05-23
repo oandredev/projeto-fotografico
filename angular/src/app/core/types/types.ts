@@ -58,3 +58,10 @@ export interface Customer {
 }
 
 //-------------------------------------------------
+
+export interface About {
+  id?: number;
+  presentationText: string;
+  imageUrl?: string;
+  lastUpdate?: string;
+}

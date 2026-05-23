@@ -61,3 +61,16 @@ CREATE TABLE IF NOT EXISTS customer (
     
     register DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+
+-- -----------------------------------------------------
+-- Tabela: Detalhes | Sobre
+-- -----------------------------------------------------
+
+CREATE TABLE about (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    presentationText TEXT NOT NULL,
+    imageUrl VARCHAR(500),
+    lastUpdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);

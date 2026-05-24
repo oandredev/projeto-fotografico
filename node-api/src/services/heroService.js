@@ -41,11 +41,23 @@ export async function saveHero(data, uploadedFiles = [], maxImages = 16) {
     if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
   }
 
-  const uploadedImages = uploadedFiles.map(
-    (file) => `/uploads/hero/${file.filename}`,
-  );
+  const uploadedMap = {};
+  for (const file of uploadedFiles) {
+    uploadedMap[file.originalname] = `/uploads/hero/${file.filename}`;
+  }
 
-  const newImages = [...existingImages, ...uploadedImages];
+  let newImages;
+
+  if (data.imageOrder?.length) {
+    newImages = data.imageOrder
+      .map((entry) => {
+        if (entry.startsWith("/uploads/")) return entry;
+        return uploadedMap[entry] ?? null;
+      })
+      .filter(Boolean);
+  } else {
+    newImages = [...existingImages, ...Object.values(uploadedMap)];
+  }
 
   const id = await repo.saveHero({
     slogan: data.slogan.trim(),

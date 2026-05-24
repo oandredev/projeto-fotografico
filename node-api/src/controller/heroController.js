@@ -60,6 +60,7 @@ endpoints.put(
         {
           slogan: req.body.slogan,
           existingImages,
+          imageOrder: JSON.parse(req.body.imageOrder || "[]"),
         },
         uploadedFiles,
         HERO_MAX_IMAGES,
@@ -67,7 +68,6 @@ endpoints.put(
 
       resp.send(result);
     } catch (err) {
-      // Limpa arquivos enviados se o service rejeitar
       for (const file of req.files || []) {
         if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
       }

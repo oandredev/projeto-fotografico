@@ -15,7 +15,7 @@
   box-sizing: border-box;
   background: var(--color-off-white);
   color: var(--color-light-purple);
-  overflow: hidden; /* fecha a cadeia */
+  overflow: hidden;
 }
 
 /* HEADER */
@@ -27,7 +27,7 @@
   margin-bottom: 32px;
   border-bottom: 1px solid rgba(111, 66, 193, 0.2);
   padding-bottom: 20px;
-  flex-shrink: 0; /* nunca comprime o header */
+  flex-shrink: 0;
 }
 
 .top-header h1 {
@@ -67,11 +67,15 @@
   transform: translateY(-1px);
 }
 
-/* LAYOUT PRINCIPAL */
+.header-actions div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 .home-content {
-  flex: 1; /* ocupa o restante da altura após o header */
-  min-height: 0; /* permite que flex item encolha abaixo do conteúdo */
+  flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: 420px 1fr;
   gap: 24px;
@@ -87,11 +91,9 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-height: 0; /* permite que o card encolha dentro do grid */
-  overflow: hidden; /* impede vazamento antes do carousel-list */
+  min-height: 0;
+  overflow: hidden;
 }
-
-/* HEADER DAS SEÇÕES */
 
 .section-header {
   display: flex;
@@ -140,22 +142,16 @@ textarea:focus {
   flex-shrink: 0;
 }
 
-/* CARROSSEL */
-
 .carousel-list {
-  flex: 1; /* ocupa toda a altura restante do card */
-  min-height: 0; /* permite encolher — sem isso o scroll nunca ativa */
-  overflow-y: auto; /* scroll nasce aqui */
-
+  flex: 1;
+  min-height: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  grid-auto-rows: min-content; /* linhas crescem conforme conteúdo, não esticam */
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-rows: min-content;
   gap: 18px;
-  align-content: start; /* itens grudam no topo, não esticam verticalmente */
+  align-content: start;
   padding-right: 6px;
 }
-
-/* SCROLLBAR */
 
 .carousel-list::-webkit-scrollbar {
   width: 6px;
@@ -166,18 +162,24 @@ textarea:focus {
   border-radius: 10px;
 }
 
-/* ITEM */
-
 .carousel-item {
+  position: relative;
   background: rgba(111, 66, 193, 0.04);
   border: 1px solid rgba(111, 66, 193, 0.12);
   border-radius: 14px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  cursor: grab;
   transition:
     transform 0.2s,
     box-shadow 0.2s;
+}
+
+.carousel-item.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+  border: 2px dashed var(--color-light-purple);
 }
 
 .carousel-item:hover {
@@ -185,34 +187,52 @@ textarea:focus {
   box-shadow: 0 8px 18px rgba(111, 66, 193, 0.08);
 }
 
-/* IMAGEM */
+.carousel-order {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(111, 66, 193, 0.85);
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  line-height: 1;
+}
 
 .image-preview {
   width: 100%;
-  aspect-ratio: 4 / 3; /* proporcional em vez de altura fixa */
+  aspect-ratio: 1 / 1;
   background: rgba(111, 66, 193, 0.04);
+  overflow: hidden;
 }
 
 .image-preview img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  pointer-events: none;
 }
-
-/* AÇÕES */
 
 .carousel-actions {
   display: flex;
   justify-content: flex-end;
-  padding: 10px;
+  padding: 8px;
   flex-shrink: 0;
 }
 
 .remove-button {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   background: rgba(255, 0, 0, 0.08);
   color: #c0392b;
   cursor: pointer;
@@ -229,30 +249,25 @@ textarea:focus {
   transform: scale(1.05);
 }
 
-/* UPLOAD */
-
 .upload-carousel-button {
-  aspect-ratio: 4 / 3; /* mesma proporção dos itens */
-  min-height: 120px;
-
+  aspect-ratio: 1 / 1;
   border: 2px dashed rgba(111, 66, 193, 0.25);
   border-radius: 14px;
   background: rgba(111, 66, 193, 0.03);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-
+  gap: 8px;
   cursor: pointer;
   transition:
     background 0.2s,
     border-color 0.2s,
     transform 0.2s;
   color: var(--color-light-purple);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
+  text-align: center;
 }
 
 .upload-carousel-button:hover {
@@ -262,19 +277,17 @@ textarea:focus {
 }
 
 .upload-carousel-button .material-icons {
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
-
-/* RESPONSIVO */
 
 @media (max-width: 1000px) {
   .home-content {
     grid-template-columns: 1fr;
-    overflow-y: auto; /* scroll na seção inteira em mobile */
+    overflow-y: auto;
   }
 
   .carousel-list {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 
   textarea {

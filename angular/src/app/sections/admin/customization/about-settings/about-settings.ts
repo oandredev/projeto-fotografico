@@ -20,6 +20,8 @@ export class AboutSettings implements OnInit {
   originalText = signal('');
   originalImage = signal<string | null>(null);
 
+  readonly MAX_ABOUT_TEXT = 550;
+
   constructor(private aboutService: AboutService) {}
 
   ngOnInit(): void {
@@ -44,6 +46,14 @@ export class AboutSettings implements OnInit {
       },
       error: (error) => console.error(error),
     });
+  }
+
+  onAboutTextChange(value: string) {
+    if (value.length > this.MAX_ABOUT_TEXT) {
+      value = value.slice(0, this.MAX_ABOUT_TEXT);
+    }
+
+    this.aboutText.set(value);
   }
 
   onImageSelected(event: Event): void {

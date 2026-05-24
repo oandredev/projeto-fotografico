@@ -7,8 +7,7 @@
 
 - André Rodrigues
 - André Coutinho
-- Fernanda Souza
-- Fernando
+- Fernando Tavares
 
 ---
 
@@ -22,7 +21,7 @@ Aplicação web completa para um site fotográfico da **Larissa Calegaro**, com 
 
 ```
 /projeto-fotografico
- ├── /api        → Backend (Node.js + MySQL)
+ ├── /node-api   → Backend (Node.js + MySQL + Multer (Para imagens))
  └── /angular    → Frontend (Angular)
 ```
 
@@ -30,6 +29,7 @@ Aplicação web completa para um site fotográfico da **Larissa Calegaro**, com 
 
 - Node.js
 - MySQL
+- Multer (Para armazenar imagens)
 - CRUD de dados
 - Regras de negócio
 
@@ -66,7 +66,7 @@ cd projeto-fotografico
 #### Backend
 
 ```bash
-cd api
+cd node-api
 npm install
 ```
 
@@ -102,11 +102,17 @@ npx ng serve --open
 - Frontend: [http://localhost:4200](http://localhost:4200)
 - Backend: [http://localhost:3000](http://localhost:3000)
 
----
+**OBS:** As portas informadas e as variavéis de ambientes são as utilizadas como padrão, mas podem ser alteradas nos seguintes arquivos:
+
+- Angular → `environment.ts`
+- Node.js → `.env`
+
+## LEMBRE-SE em um projeto real esses arquivos NÃO devem ser públicos por questões de segurança.
 
 ## ⚠️ Observações
 
 - Certifique-se de que o serviço MySQL está rodando (Serviço MySQL80)
 - Configure credenciais do banco corretamente no .env (Usuário, senha)
+- Considere que no primeiro acesso, fotos e textos base não serão exibidos, pois dependem de informações do banco de dados, o qual deve ser inicializado previamente, assim como as inserções das informações devem ser feitas utilizando a área administrativa (Exceto o cadastro da conta na tabela de login, a qual deve ser realizada diretamente pelo MySQL)
 
 ---

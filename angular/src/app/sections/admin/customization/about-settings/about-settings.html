@@ -48,11 +48,11 @@
         <span class="material-icons">description</span>
         <h2>Texto de Apresentação</h2>
       </div>
-
       <textarea
         placeholder="Digite o texto de apresentação..."
         [ngModel]="aboutText()"
-        (ngModelChange)="aboutText.set($event)"
+        (ngModelChange)="onAboutTextChange($event)"
+        maxlength="550"
       ></textarea>
 
       <div class="text-info">{{ aboutText().length }}/550 caracteres</div>

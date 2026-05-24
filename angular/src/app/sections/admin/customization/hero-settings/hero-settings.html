@@ -31,6 +31,8 @@
         placeholder="Digite o slogan da página inicial..."
         [ngModel]="slogan()"
         (ngModelChange)="slogan.set($event)"
+        (ngModelChange)="onSloganChange($event)"
+        maxlength="180"
       ></textarea>
 
       <div class="text-info">{{ slogan().length }}/180 caracteres</div>
@@ -43,7 +45,18 @@
       </div>
 
       <div class="carousel-list">
-        <div class="carousel-item" *ngFor="let image of carouselImages(); let i = index">
+        <div
+          class="carousel-item"
+          *ngFor="let image of carouselImages(); let i = index"
+          draggable="true"
+          (dragstart)="onDragStart(i)"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop(i)"
+          (dragend)="onDragEnd()"
+          [class.dragging]="dragIndex() === i"
+        >
+          <span class="carousel-order">{{ i + 1 }}</span>
+
           <div class="image-preview">
             <img [src]="image.preview" alt="Imagem do carrossel" />
           </div>
@@ -54,6 +67,7 @@
             </button>
           </div>
         </div>
+
         <label class="upload-carousel-button" *ngIf="carouselImages().length < MAX_IMAGES">
           <span class="material-icons">add_photo_alternate</span>
           Adicionar Imagem

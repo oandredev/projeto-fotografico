@@ -17,11 +17,12 @@ export class HeroService {
     return this.http.get<Hero>(this.API);
   }
 
-  save(hero: Hero, images: File[] = []): Observable<any> {
+  save(hero: Hero, images: File[] = [], orderedPreviews: string[] = []): Observable<any> {
     const formData = new FormData();
 
     formData.append('slogan', hero.slogan?.trim() ?? '');
     formData.append('existingImages', JSON.stringify(hero.imageUrls ?? []));
+    formData.append('imageOrder', JSON.stringify(orderedPreviews));
 
     for (const image of images) {
       formData.append('images', image);

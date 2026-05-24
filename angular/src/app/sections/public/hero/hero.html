@@ -1,47 +1,43 @@
 <section class="hero" id="hero">
-  <div class="hero_content">
-    <div class="hero_logo">
-      <img src="logo.png" alt="Larissa Calegaro | Photo & Video" />
+  <div class="hero_container">
+    <div class="hero_content">
+      <div class="hero_logo">
+        <img src="logo.png" alt="Larissa Calegaro | Photo & Video" />
+      </div>
+      <p class="hero_tagline" [innerHTML]="slogan()"></p>
     </div>
-    <p class="hero_tagline">Fotografando famílias com<br />registros que duram pra sempre</p>
-  </div>
 
-<div class="carousel">
-  <div class="group">
-    <div class="card"><img src="carrossel/carrossel1.png" alt="carrossel1"></div>
-    <div class="card"><img src="carrossel/carrossel2.png" alt="carrossel2"></div>
-    <div class="card"><img src="carrossel/carrossel3.png" alt="carrossel3"></div>
-    <div class="card"><img src="carrossel/carrossel4.png" alt="carrossel4"></div>
-    <div class="card"><img src="carrossel/carrossel5.png" alt="carrossel5"></div>
-    <div class="card"><img src="carrossel/carrossel6.png" alt="carrossel6"></div>
-    <div class="card"><img src="carrossel/carrossel7.png" alt="carrossel7"></div>
-    <div class="card"><img src="carrossel/carrossel8.png" alt="carrossel8"></div>
-    <div class="card"><img src="carrossel/carrossel9.png" alt="carrossel9"></div>
-    <div class="card"><img src="carrossel/carrossel10.png" alt="carrosse10"></div>
-    <div class="card"><img src="carrossel/carrossel11.png" alt="carrossel11"></div>
-    <div class="card"><img src="carrossel/carrossel12.png" alt="carrossel12"></div>
-    <div class="card"><img src="carrossel/carrossel13.png" alt="carrossel13"></div>
-    <div class="card"><img src="carrossel/carrossel14.png" alt="carrossel14"></div>
-    <div class="card"><img src="carrossel/carrossel15.png" alt="carrossel15"></div>
+    <div class="carousel" *ngIf="imageUrls().length">
+      <div class="group">
+        <div class="card" *ngFor="let url of imageUrls()">
+          <img [src]="API_URL + url" alt="carrossel" />
+        </div>
+      </div>
+      <div class="group" aria-hidden="true">
+        <div class="card" *ngFor="let url of imageUrls()">
+          <img [src]="API_URL + url" alt="carrossel" />
+        </div>
+      </div>
+      <div class="group" aria-hidden="true">
+        <div class="card" *ngFor="let url of imageUrls()">
+          <img [src]="API_URL + url" alt="carrossel" />
+        </div>
+      </div>
+      <div class="group" aria-hidden="true">
+        <div class="card" *ngFor="let url of imageUrls()">
+          <img [src]="API_URL + url" alt="carrossel" />
+        </div>
+      </div>
+      <div class="group" aria-hidden="true">
+        <div class="card" *ngFor="let url of imageUrls()">
+          <img [src]="API_URL + url" alt="carrossel" />
+        </div>
+      </div>
+      <div class="group" aria-hidden="true">
+        <div class="card" *ngFor="let url of imageUrls()">
+          <img [src]="API_URL + url" alt="carrossel" />
+        </div>
+      </div>
+    </div>
   </div>
-  <div aria-hidden class="group">
-    <div class="card"><img src="carrossel/carrossel1.png" alt="carrossel1"></div>
-    <div class="card"><img src="carrossel/carrossel2.png" alt="carrossel2"></div>
-    <div class="card"><img src="carrossel/carrossel3.png" alt="carrossel3"></div>
-    <div class="card"><img src="carrossel/carrossel4.png" alt="carrossel4"></div>
-    <div class="card"><img src="carrossel/carrossel5.png" alt="carrossel5"></div>
-    <div class="card"><img src="carrossel/carrossel6.png" alt="carrossel6"></div>
-    <div class="card"><img src="carrossel/carrossel7.png" alt="carrossel7"></div>
-    <div class="card"><img src="carrossel/carrossel8.png" alt="carrossel8"></div>
-    <div class="card"><img src="carrossel/carrossel9.png" alt="carrossel9"></div>
-    <div class="card"><img src="carrossel/carrossel10.png" alt="carrosse10"></div>
-    <div class="card"><img src="carrossel/carrossel11.png" alt="carrossel11"></div>
-    <div class="card"><img src="carrossel/carrossel12.png" alt="carrossel12"></div>
-    <div class="card"><img src="carrossel/carrossel13.png" alt="carrossel13"></div>
-    <div class="card"><img src="carrossel/carrossel14.png" alt="carrossel14"></div>
-    <div class="card"><img src="carrossel/carrossel15.png" alt="carrossel15"></div>
-
-  </div>
-</div>
-
 </section>

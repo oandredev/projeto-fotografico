@@ -69,6 +69,18 @@
   width: 100%;
 }
 
+#login-button {
+  text-transform: capitalize;
+}
+
+#login-button:hover {
+  color: var(--color-yellow);
+}
+
+#login-button::after {
+  background-color: var(--color-yellow);
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 0 24px;

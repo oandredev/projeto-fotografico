@@ -48,3 +48,4 @@ function createUpload(folder) {
 
 export const aboutUpload = createUpload("about");
 export const heroUpload = createUpload("hero");
+export const portfolioUpload = createUpload("portfolio");

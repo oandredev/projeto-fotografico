@@ -74,3 +74,17 @@ export interface Hero {
   imageUrls: string[];
   lastUpdate?: string;
 }
+
+//-------------------------------------------------
+
+export interface PortfolioImage {
+  id: string;
+  preview: string; // URL retornada pelo Node (ex: /uploads/foto.jpg)
+  filename?: string;
+}
+
+export interface PortfolioCategory {
+  id: string;
+  name: string;
+  images: PortfolioImage[];
+}

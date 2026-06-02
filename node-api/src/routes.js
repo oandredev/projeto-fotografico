@@ -5,6 +5,7 @@ import customerController from "./controller/customerController.js";
 import aboutController from "./controller/aboutController.js";
 import heroController from "./controller/heroController.js";
 import portfolioCategoryController from "./controller/portfolioCategoryController.js";
+import portfolioController from "./controller/portfolioController.js";
 
 export default function addRoutes(api) {
   api.use(contaController);
@@ -15,4 +16,5 @@ export default function addRoutes(api) {
   api.use(aboutController);
   api.use(heroController);
   api.use(portfolioCategoryController);
+  api.use(portfolioController);
 }

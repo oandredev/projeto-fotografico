@@ -1,140 +1,226 @@
-<div class="portfolio-settings-container">
-
-  <!-- ── Cabeçalho ── -->
+<div class="portfolio-container">
+  <!-- HEADER -->
   <header class="top-header">
-    <h1>PORTFÓLIO</h1>
+    <h1>Portfólio</h1>
 
-    <div class="filters">
-      <div class="filter-buttons">
-        <button
-          *ngFor="let cat of categories"
-          [class.active]="selectedCategory() === cat.value"
-          (click)="selectCategory(cat.value)"
-        >
-          {{ cat.label }}
-        </button>
-      </div>
-
-      <button class="upload-btn" (click)="openUploadModal()">
-        <span class="material-icons">add_photo_alternate</span>
-        Adicionar Foto
+    <div class="header-actions">
+      <button class="btn-revert" *ngIf="hasChanges()">
+        <span class="material-icons">cancel</span>
+        <span>Reverter Alterações</span>
       </button>
+
+      <button class="btn-save" *ngIf="hasChanges()">
+        <span class="material-icons">save</span>
+        <span>Salvar Alterações</span>
+      </button>
+
+      <div class="no-changes" *ngIf="!hasChanges()">
+        <span class="material-icons">info</span>
+        <span>Nenhuma alteração realizada</span>
+      </div>
     </div>
   </header>
 
-  <!-- ── Área principal ── -->
-  <section class="gallery-area">
+  <!-- CONTEÚDO PRINCIPAL -->
+  <section class="portfolio-content">
+    <!-- COLUNA ESQUERDA: categorias -->
+    <article class="settings-card left-card">
+      <div class="section-header">
+        <span class="material-icons">category</span>
+        <h2>Categorias</h2>
+      </div>
 
-    <!-- Loading -->
-    <div class="empty-state" *ngIf="loading()">
-      <span class="material-icons icon">hourglass_top</span>
-      <p>Carregando...</p>
-    </div>
+      <!-- Dropdown de seleção -->
+      <div class="field-group">
+        <label class="field-label">Categoria ativa</label>
 
-    <!-- Empty state -->
-    <div class="empty-state" *ngIf="!loading() && mediaList().length === 0">
-      <span class="material-icons icon">photo_library</span>
-      <p>Nenhuma foto nesta categoria.</p>
-      <button class="empty-state-btn" (click)="openUploadModal()">
-        Adicionar primeira foto
-      </button>
-    </div>
-
-    <!-- Grid de fotos -->
-    <div class="photo-grid" *ngIf="!loading() && mediaList().length > 0">
-
-      <!-- Capa (primeiro item — maior) -->
-      <div class="photo-item cover" *ngIf="mediaList()[0] as cover">
-        <img [src]="cover.url" [alt]="'Capa — ' + selectedCategory()" class="photo-img" />
-
-        <div class="photo-overlay">
-          <span class="cover-badge">
-            <span class="material-icons">star</span>
-            Capa
-          </span>
-          <button class="delete-btn" (click)="deleteMedia(cover)" title="Remover foto">
-            <span class="material-icons">delete</span>
+        <div class="select-wrapper">
+          <button class="select-trigger" (click)="toggleDropdown()" [class.open]="dropdownOpen()">
+            <span class="material-icons trigger-icon">folder_open</span>
+            <span class="trigger-text">{{
+              selectedCategory()?.name || 'Selecionar categoria...'
+            }}</span>
+            <span class="material-icons trigger-arrow">{{
+              dropdownOpen() ? 'expand_less' : 'expand_more'
+            }}</span>
           </button>
+
+          <ul class="select-menu" *ngIf="dropdownOpen()">
+            <li
+              class="select-option"
+              *ngFor="let cat of categories()"
+              [class.is-active]="cat.id === selectedCategory()?.id"
+              (click)="selectCategory(cat)"
+            >
+              <span class="material-icons opt-icon">folder</span>
+              <span class="opt-name">{{ cat.name }}</span>
+              <span class="opt-badge">{{ cat.images.length }}</span>
+            </li>
+
+            <li class="select-divider" *ngIf="categories().length"></li>
+
+            <li class="select-option opt-add" (click)="openAddCategory()">
+              <span class="material-icons opt-icon">add_circle_outline</span>
+              <span class="opt-name">Nova categoria...</span>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <!-- Demais fotos -->
-      <div
-        class="photo-item"
-        *ngFor="let media of mediaList().slice(1); let i = index"
-      >
-        <img [src]="media.url" [alt]="'Foto ' + (i + 2)" class="photo-img" />
-
-        <div class="photo-overlay">
-          <button class="set-cover-btn" (click)="setCover(media)" title="Definir como capa">
-            <span class="material-icons">star_border</span>
+      <!-- Formulário nova categoria -->
+      <div class="new-cat-form" *ngIf="showAddForm()">
+        <input
+          class="cat-input"
+          type="text"
+          placeholder="Nome da categoria"
+          [ngModel]="newCategoryName()"
+          (ngModelChange)="newCategoryName.set($event)"
+          (keydown.enter)="confirmAdd()"
+          (keydown.escape)="cancelAdd()"
+          autofocus
+        />
+        <div class="form-btns">
+          <button class="icon-btn icon-confirm" (click)="confirmAdd()" title="Confirmar">
+            <span class="material-icons">check</span>
           </button>
-          <button class="delete-btn" (click)="deleteMedia(media)" title="Remover foto">
-            <span class="material-icons">delete</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── Modal de Upload ── -->
-  <div class="modal-backdrop" *ngIf="showUploadModal()" (click)="closeUploadModal()">
-    <div class="modal" (click)="$event.stopPropagation()">
-
-      <div class="modal-header">
-        <h2>Adicionar Foto</h2>
-        <button class="modal-close" (click)="closeUploadModal()">
-          <span class="material-icons">close</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div
-          class="drop-zone"
-          [class.drag-over]="isDragging()"
-          (dragover)="onDragOver($event)"
-          (dragleave)="onDragLeave()"
-          (drop)="onDrop($event)"
-          (click)="fileInput.click()"
-        >
-          <span class="material-icons drop-icon">cloud_upload</span>
-          <p>Arraste uma foto ou <strong>clique para selecionar</strong></p>
-          <span class="drop-hint">JPG, PNG ou WEBP · Máx. 10 MB</span>
-          <input
-            #fileInput
-            type="file"
-            accept="image/*"
-            hidden
-            (change)="onFileSelected($event)"
-          />
-        </div>
-
-        <div class="preview-row" *ngIf="previewUrl()">
-          <img [src]="previewUrl()" alt="Pré-visualização" class="upload-preview" />
-          <button class="remove-preview" (click)="clearPreview()">
+          <button class="icon-btn icon-cancel" (click)="cancelAdd()" title="Cancelar">
             <span class="material-icons">close</span>
           </button>
         </div>
-
-        <div class="modal-category-row">
-          <label>Categoria</label>
-          <select [(ngModel)]="uploadCategory">
-            <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
-          </select>
-        </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn-cancel" (click)="closeUploadModal()">Cancelar</button>
-        <button class="btn-confirm" [disabled]="!previewUrl() || uploading()" (click)="confirmUpload()">
-          <span class="material-icons" *ngIf="!uploading()">upload</span>
-          <span class="material-icons spinning" *ngIf="uploading()">autorenew</span>
-          {{ uploading() ? 'Enviando...' : 'Enviar' }}
+      <!-- Lista gerenciável -->
+      <div class="cat-list-wrap" *ngIf="categories().length">
+        <label class="field-label">Gerenciar</label>
+
+        <ul class="cat-list">
+          <li
+            class="cat-item"
+            *ngFor="let cat of categories(); let i = index"
+            [class.is-selected]="cat.id === selectedCategory()?.id"
+            [class.cat-dragging]="catDragIndex() === i"
+            [class.cat-drag-over]="catDragOverIndex() === i && catDragIndex() !== i"
+            draggable="true"
+            (dragstart)="onCatDragStart(i)"
+            (dragover)="onCatDragOver($event, i)"
+            (drop)="onCatDrop(i)"
+            (dragend)="onCatDragEnd()"
+            (click)="selectCategory(cat)"
+          >
+            <span
+              class="material-icons drag-handle"
+              title="Arrastar para reordenar"
+              (mousedown)="$event.stopPropagation()"
+              >drag_indicator</span
+            >
+
+            <div class="cat-left">
+              <span class="material-icons cat-icon">folder</span>
+              <div class="cat-info">
+                <span class="cat-name" *ngIf="editingId() !== cat.id">{{ cat.name }}</span>
+                <input
+                  class="cat-edit-input"
+                  *ngIf="editingId() === cat.id"
+                  [ngModel]="editingName()"
+                  (ngModelChange)="editingName.set($event)"
+                  (keydown.enter)="confirmEdit(cat)"
+                  (keydown.escape)="cancelEdit()"
+                  (click)="$event.stopPropagation()"
+                />
+                <span class="cat-count">{{ cat.images.length }} foto(s)</span>
+              </div>
+            </div>
+
+            <div class="cat-actions" (click)="$event.stopPropagation()">
+              <ng-container *ngIf="editingId() === cat.id; else defaultActions">
+                <button class="icon-btn icon-confirm" (click)="confirmEdit(cat)" title="Confirmar">
+                  <span class="material-icons">check</span>
+                </button>
+                <button class="icon-btn icon-cancel" (click)="cancelEdit()" title="Cancelar">
+                  <span class="material-icons">close</span>
+                </button>
+              </ng-container>
+              <ng-template #defaultActions>
+                <button class="icon-btn icon-edit" (click)="startEdit(cat)" title="Renomear">
+                  <span class="material-icons">edit</span>
+                </button>
+                <button class="icon-btn icon-delete" (click)="deleteCategory(i)" title="Excluir">
+                  <span class="material-icons">delete</span>
+                </button>
+              </ng-template>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-cats" *ngIf="!categories().length">
+        <span class="material-icons empty-icon">inbox</span>
+        <p>Nenhuma categoria criada.</p>
+        <button class="btn-create-first" (click)="openAddCategory()">
+          <span class="material-icons">add</span>
+          Criar categoria
         </button>
       </div>
+    </article>
 
-    </div>
-  </div>
+    <!-- COLUNA DIREITA: fotos -->
+    <article class="settings-card right-card">
+      <div class="section-header">
+        <span class="material-icons">photo_library</span>
+        <h2 *ngIf="selectedCategory()">
+          {{ selectedCategory()!.name }}
+          <span class="count-badge">
+            {{ selectedCategory()!.images.length }}/{{ MAX_PHOTOS }}
+          </span>
+        </h2>
+        <h2 *ngIf="!selectedCategory()">Fotos</h2>
+      </div>
 
+      <!-- Sem categoria selecionada -->
+      <div class="empty-photos" *ngIf="!selectedCategory()">
+        <span class="material-icons empty-icon">photo_album</span>
+        <p>Selecione ou crie uma categoria para gerenciar as fotos.</p>
+      </div>
+
+      <!-- Grade de fotos -->
+      <div class="photos-grid" *ngIf="selectedCategory()">
+        <div
+          class="photo-card"
+          *ngFor="let img of selectedCategory()!.images; let i = index"
+          draggable="true"
+          (dragstart)="onDragStart(i)"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop(i)"
+          (dragend)="onDragEnd()"
+          [class.dragging]="dragIndex() === i"
+        >
+          <span class="photo-order">{{ i + 1 }}</span>
+
+          <div class="photo-thumb">
+            <img [src]="img.preview" [alt]="'Foto ' + (i + 1)" />
+          </div>
+
+          <div class="photo-foot">
+            <button class="remove-btn" (click)="removePhoto(i)" title="Remover">
+              <span class="material-icons">delete</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Botão adicionar -->
+        <label class="add-photo-btn" *ngIf="selectedCategory()!.images.length < MAX_PHOTOS">
+          <span class="material-icons">add_photo_alternate</span>
+          <span>Adicionar Foto</span>
+          <input type="file" accept="image/*" multiple hidden (change)="onFilesSelected($event)" />
+        </label>
+
+        <!-- Categoria vazia -->
+        <div class="empty-grid" *ngIf="!selectedCategory()!.images.length">
+          <span class="material-icons empty-icon">broken_image</span>
+          <p>Nenhuma foto nesta categoria.</p>
+        </div>
+      </div>
+    </article>
+  </section>
 </div>

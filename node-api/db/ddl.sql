@@ -79,17 +79,28 @@ CREATE TABLE hero (
 );
 
 -- -----------------------------------------------------
--- Tabela: CategoriasPortfolio
+-- Tabela: Categorias para o Portfolio
 -- -----------------------------------------------------
-
-CREATE TABLE category (
+CREATE TABLE portfolio_category (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    lastUpdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    name VARCHAR(120) NOT NULL UNIQUE,
+    order_index INT NOT NULL UNIQUE,
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- -----------------------------------------------------
--- Tabela: Portfólio    
+-- Tabela: Portfolio
 -- -----------------------------------------------------
+CREATE TABLE portfolio (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    category_id INT NOT NULL UNIQUE,
+    image_urls JSON NOT NULL,
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_portfolio_category
+        FOREIGN KEY (category_id)
+        REFERENCES portfolio_category(id)
+        ON DELETE CASCADE
+);

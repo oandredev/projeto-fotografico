@@ -90,3 +90,14 @@ export interface Portfolio {
   image_urls: string[];
   last_update?: string;
 }
+
+export interface PortfolioImage {
+  file: File | null;
+  preview: string;
+  isNew?: boolean;
+}
+
+export interface PortfolioCategoryView extends PortfolioCategory {
+  portfolioId?: number;
+  images: PortfolioImage[];
+}

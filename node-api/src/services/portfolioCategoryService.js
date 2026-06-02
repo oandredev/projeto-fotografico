@@ -1,70 +1,64 @@
 import * as repo from "../repository/portfolioCategoryRepository.js";
+import * as portfolioService from "./portfolioService.js";
+import fs from "fs/promises";
+import path from "path";
 
-function createError(message, status) {
-  const err = new Error(message);
+function createError(msg, status) {
+  const err = new Error(msg);
   err.status = status;
   return err;
 }
 
 export async function savePortfolioCategory(data) {
-  if (!data.name || data.name.trim() === "") {
+  if (!data.name?.trim()) {
     throw createError("Category name is required", 400);
   }
 
-  if (
-    data.order_index === undefined ||
-    data.order_index === null ||
-    isNaN(data.order_index)
-  ) {
+  if (data.order_index == null) {
     throw createError("Order index is required", 400);
   }
 
   if (data.id) {
-    const existing = await repo.getPortfolioCategoryById(data.id);
-    if (!existing) {
-      throw createError("Category not found", 404);
-    }
+    const exists = await repo.getPortfolioCategoryById(data.id);
+    if (!exists) throw createError("Category not found", 404);
   }
 
-  const id = await repo.savePortfolioCategory({
+  await repo.savePortfolioCategory({
     id: data.id,
     name: data.name.trim(),
     order_index: Number(data.order_index),
   });
 
-  if (!id) {
-    throw createError("Error saving category", 500);
-  }
-
-  return { result: "Change saved successfully!" };
+  return { result: "Saved" };
 }
 
 export async function getPortfolioCategories() {
-  return await repo.getPortfolioCategories();
-}
-
-export async function getPortfolioCategory(filter) {
-  return await repo.getPortfolioCategory(filter);
+  return repo.getPortfolioCategories();
 }
 
 export async function getPortfolioCategoryById(id) {
-  if (!id || isNaN(id) || id <= 0) {
-    throw createError("Invalid id", 400);
-  }
-
-  return await repo.getPortfolioCategoryById(id);
+  return repo.getPortfolioCategoryById(id);
 }
 
 export async function deletePortfolioCategory(id) {
-  if (!id || isNaN(id) || id <= 0) {
-    throw createError("Invalid id", 400);
+  const portfolios = await portfolioService.getPortfoliosByCategory(id);
+
+  for (const p of portfolios) {
+    for (const img of p.image_urls ?? []) {
+      const filePath = path.join(process.cwd(), img.replace(/^\//, ""));
+      try {
+        await fs.unlink(filePath);
+      } catch {}
+    }
+
+    await portfolioService.deletePortfolio(p.id);
   }
 
-  const affectedRows = await repo.deletePortfolioCategory(id);
+  const deleted = await repo.deletePortfolioCategory(id);
 
-  if (!affectedRows) {
+  if (!deleted) {
     throw createError("Category not found", 404);
   }
 
-  return { result: "Category deleted successfully!" };
+  return { success: true };
 }

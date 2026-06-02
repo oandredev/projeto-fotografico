@@ -1,113 +1,59 @@
 import connection from "./connection.js";
 
-function handleDbError(err) {
-  if (err.code === "ER_DUP_ENTRY") {
-    if (err.message.includes("category_id")) {
-      const error = new Error("Category already has a portfolio");
-      error.status = 409;
-      throw error;
-    }
+function parseImages(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
 
-    const error = new Error("Duplicate entry");
-    error.status = 409;
-    throw error;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return [];
   }
-
-  const error = new Error("Database error");
-  error.status = 500;
-  throw error;
 }
 
 export async function savePortfolio(data) {
-  try {
-    if (data.id) {
-      await connection.query(
-        `
-        UPDATE portfolio
-        SET category_id = ?, image_urls = ?
-        WHERE id = ?
-        `,
-        [data.category_id, JSON.stringify(data.image_urls), data.id],
-      );
-
-      return data.id;
-    }
-
-    const [response] = await connection.query(
+  if (data.id) {
+    await connection.query(
       `
-      INSERT INTO portfolio
-      (category_id, image_urls)
-      VALUES (?, ?)
+      UPDATE portfolio
+      SET category_id = ?, image_urls = ?
+      WHERE id = ?
       `,
-      [data.category_id, JSON.stringify(data.image_urls)],
+      [data.category_id, JSON.stringify(data.image_urls ?? []), data.id],
     );
 
-    return response.insertId;
-  } catch (err) {
-    handleDbError(err);
+    return data.id;
   }
+
+  const [res] = await connection.query(
+    `
+    INSERT INTO portfolio (category_id, image_urls)
+    VALUES (?, ?)
+    `,
+    [data.category_id, JSON.stringify(data.image_urls ?? [])],
+  );
+
+  return res.insertId;
 }
 
 export async function getPortfolios() {
   const [rows] = await connection.query(`
-    SELECT
-      p.id,
-      p.category_id,
-      p.image_urls,
-      p.last_update,
-      c.name category_name
+    SELECT p.id, p.category_id, p.image_urls, p.last_update,
+           c.name AS category_name, c.order_index
     FROM portfolio p
-    INNER JOIN portfolio_category c
-      ON c.id = p.category_id
+    INNER JOIN portfolio_category c ON c.id = p.category_id
     ORDER BY c.order_index
   `);
 
-  return rows.map((item) => ({
-    ...item,
-    image_urls: JSON.parse(item.image_urls),
+  return rows.map((r) => ({
+    ...r,
+    image_urls: parseImages(r.image_urls),
   }));
-}
-
-export async function getPortfolio(filter = {}) {
-  let command = `
-    SELECT
-      id,
-      category_id,
-      image_urls,
-      last_update
-    FROM portfolio
-  `;
-
-  const params = [];
-
-  if (filter.id) {
-    command += " WHERE id = ?";
-    params.push(filter.id);
-  }
-
-  command += " LIMIT 1";
-
-  const [rows] = await connection.query(command, params);
-
-  if (!rows[0]) return null;
-
-  return {
-    ...rows[0],
-    image_urls: JSON.parse(rows[0].image_urls),
-  };
 }
 
 export async function getPortfolioById(id) {
   const [rows] = await connection.query(
-    `
-    SELECT
-      id,
-      category_id,
-      image_urls,
-      last_update
-    FROM portfolio
-    WHERE id = ?
-    `,
+    `SELECT * FROM portfolio WHERE id = ? LIMIT 1`,
     [id],
   );
 
@@ -115,37 +61,27 @@ export async function getPortfolioById(id) {
 
   return {
     ...rows[0],
-    image_urls: JSON.parse(rows[0].image_urls),
+    image_urls: parseImages(rows[0].image_urls),
   };
 }
 
-export async function getPortfolioByCategory(categoryId) {
+export async function getPortfoliosByCategory(categoryId) {
   const [rows] = await connection.query(
-    `
-    SELECT
-      id,
-      category_id,
-      image_urls,
-      last_update
-    FROM portfolio
-    WHERE category_id = ?
-    `,
+    `SELECT * FROM portfolio WHERE category_id = ?`,
     [categoryId],
   );
 
-  if (!rows[0]) return null;
-
-  return {
-    ...rows[0],
-    image_urls: JSON.parse(rows[0].image_urls),
-  };
+  return rows.map((r) => ({
+    ...r,
+    image_urls: parseImages(r.image_urls),
+  }));
 }
 
 export async function deletePortfolio(id) {
-  const [response] = await connection.query(
+  const [res] = await connection.query(
     `DELETE FROM portfolio WHERE id = ?`,
     [id],
   );
 
-  return response.affectedRows;
+  return res.affectedRows;
 }

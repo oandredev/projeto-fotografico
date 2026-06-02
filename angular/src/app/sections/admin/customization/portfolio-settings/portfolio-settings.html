@@ -4,12 +4,12 @@
     <h1>Portfólio</h1>
 
     <div class="header-actions">
-      <button class="btn-revert" *ngIf="hasChanges()">
+      <button class="btn-revert" *ngIf="hasChanges()" (click)="reloadSettings()">
         <span class="material-icons">cancel</span>
         <span>Reverter Alterações</span>
       </button>
 
-      <button class="btn-save" *ngIf="hasChanges()">
+      <button class="btn-save" *ngIf="hasChanges()" (click)="saveChanges()">
         <span class="material-icons">save</span>
         <span>Salvar Alterações</span>
       </button>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
   --color-dark-purple: #413d55;
   --color-light-purple: #78729c;
@@ -16,7 +18,7 @@
 
   --color-error-red: #ef4444;
 
-  --font-body: Arial, Helvetica, sans-serif;
+  --font-body: 'Poppins', sans-serif;
 }
 
 body {

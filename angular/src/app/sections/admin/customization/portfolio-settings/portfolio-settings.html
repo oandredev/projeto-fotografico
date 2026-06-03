@@ -148,7 +148,7 @@
       </div>
 
       <div class="empty-cats" *ngIf="!categories().length">
-        <span class="material-icons empty-icon">inbox</span>
+        <span class="material-icons empty-icon icon-porfolio">inbox</span>
         <p>Nenhuma categoria criada.</p>
         <button class="btn-create-first" (click)="openAddCategory()">
           <span class="material-icons">add</span>
@@ -170,7 +170,7 @@
       </div>
 
       <div class="empty-photos" *ngIf="!selectedCategory()">
-        <span class="material-icons empty-icon">photo_album</span>
+        <span class="material-icons purple icon-porfolio">image</span>
         <p>Selecione ou crie uma categoria para gerenciar as fotos.</p>
       </div>
 
@@ -203,11 +203,6 @@
           <span>Adicionar Foto</span>
           <input type="file" accept="image/*" multiple hidden (change)="onFilesSelected($event)" />
         </label>
-
-        <div class="empty-grid" *ngIf="!selectedCategory()!.images.length">
-          <span class="material-icons empty-icon">broken_image</span>
-          <p>Nenhuma foto nesta categoria.</p>
-        </div>
       </div>
     </article>
   </section>

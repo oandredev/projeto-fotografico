@@ -13,7 +13,6 @@
   height: 100%;
   padding: 32px;
   box-sizing: border-box;
-  background: var(--color-off-white);
   color: var(--color-light-purple);
   overflow: hidden;
 }
@@ -39,7 +38,6 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
   padding-right: 2rem;
 }
 
@@ -70,9 +68,7 @@
 .no-changes {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: rgba(111, 66, 193, 0.55);
+  gap: 0.5rem;
 }
 
 .portfolio-content {
@@ -114,11 +110,6 @@
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
-}
-
-.section-header .material-icons {
-  font-size: 24px;
-  color: var(--color-light-purple);
 }
 
 .section-header h2 {
@@ -502,18 +493,14 @@
   text-align: center;
 }
 
-.empty-icon {
-  font-size: 44px !important;
-  color: rgba(111, 66, 193, 0.22);
-}
-
 .empty-cats p,
 .empty-photos p {
-  font-size: 13.5px;
-  color: rgba(111, 66, 193, 0.45);
   margin: 0;
-  max-width: 200px;
   line-height: 1.5;
+}
+
+.icon-porfolio {
+  font-size: 48px !important;
 }
 
 .btn-create-first {
@@ -553,7 +540,6 @@
   grid-auto-rows: min-content;
   gap: 14px;
   align-content: start;
-  overflow-y: auto;
   padding-right: 4px;
   scrollbar-width: thin;
   scrollbar-color: rgba(111, 66, 193, 0.25) transparent;

@@ -65,6 +65,8 @@ export class PortfolioSettings implements OnInit {
 
         if (mapped.length) {
           this.selectedCategory.set(mapped[0]);
+        } else {
+          this.selectedCategory.set(null);
         }
         this.changed.set(false);
       },

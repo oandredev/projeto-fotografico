@@ -13,6 +13,19 @@ function parseImages(value) {
   }
 }
 
+export async function getPortfolios() {
+  return repo.getPortfolios();
+}
+
+export async function getPortfolioById(id) {
+  return repo.getPortfolioById(id);
+}
+
+export async function getPortfoliosByCategory(categoryId) {
+  const all = await repo.getPortfoliosByCategory(categoryId);
+  return all;
+}
+
 export async function savePortfolio(data, uploadedFiles, maxImages = 20) {
   const existing = data.id ? await repo.getPortfolioById(data.id) : null;
 
@@ -44,19 +57,6 @@ export async function savePortfolio(data, uploadedFiles, maxImages = 20) {
   }
 
   return { id, image_urls: finalImages };
-}
-
-export async function getPortfolios() {
-  return repo.getPortfolios();
-}
-
-export async function getPortfolioById(id) {
-  return repo.getPortfolioById(id);
-}
-
-export async function getPortfoliosByCategory(categoryId) {
-  const all = await repo.getPortfoliosByCategory(categoryId);
-  return all;
 }
 
 export async function deletePortfolio(id) {

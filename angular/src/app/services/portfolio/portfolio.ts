@@ -1,8 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
 import { Observable, catchError, throwError } from 'rxjs';
-
 import { environment } from '../../environment';
 import { Portfolio } from '../../core/types/types';
 
@@ -34,7 +32,6 @@ export class PortfolioService {
     formData.append('existingImages', JSON.stringify(existingImages));
 
     files.forEach((file) => {
-      // precisa bater com o multer.array("images")
       formData.append('images', file);
     });
 

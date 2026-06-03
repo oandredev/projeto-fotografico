@@ -37,9 +37,7 @@ endpoints.put("/portfolio-category/:id", auth, async (req, resp) => {
 endpoints.delete("/portfolio-category/:id", auth, async (req, resp) => {
   try {
     const id = Number(req.params.id);
-
     const result = await service.deletePortfolioCategory(id);
-
     resp.send(result);
   } catch (err) {
     return resp.status(err.status ?? 500).send({

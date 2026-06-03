@@ -7,6 +7,7 @@ import { environment } from '../../environment';
 @Injectable({ providedIn: 'root' })
 export class PortfolioCategoryService {
   private readonly API = `http://localhost:${environment.API_PORT}/portfolio-category`;
+
   private http = inject(HttpClient);
 
   getAll(): Observable<PortfolioCategory[]> {

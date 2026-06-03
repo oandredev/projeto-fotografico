@@ -1,5 +1,4 @@
 <div class="portfolio-container">
-  <!-- HEADER -->
   <header class="top-header">
     <h1>Portfólio</h1>
 
@@ -21,16 +20,13 @@
     </div>
   </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
   <section class="portfolio-content">
-    <!-- COLUNA ESQUERDA: categorias -->
     <article class="settings-card left-card">
       <div class="section-header">
         <span class="material-icons">category</span>
         <h2>Categorias</h2>
       </div>
 
-      <!-- Dropdown de seleção -->
       <div class="field-group">
         <label class="field-label">Categoria ativa</label>
 
@@ -67,7 +63,6 @@
         </div>
       </div>
 
-      <!-- Formulário nova categoria -->
       <div class="new-cat-form" *ngIf="showAddForm()">
         <input
           class="cat-input"
@@ -89,7 +84,6 @@
         </div>
       </div>
 
-      <!-- Lista gerenciável -->
       <div class="cat-list-wrap" *ngIf="categories().length">
         <label class="field-label">Gerenciar</label>
 
@@ -153,7 +147,6 @@
         </ul>
       </div>
 
-      <!-- Empty state -->
       <div class="empty-cats" *ngIf="!categories().length">
         <span class="material-icons empty-icon">inbox</span>
         <p>Nenhuma categoria criada.</p>
@@ -164,7 +157,6 @@
       </div>
     </article>
 
-    <!-- COLUNA DIREITA: fotos -->
     <article class="settings-card right-card">
       <div class="section-header">
         <span class="material-icons">photo_library</span>
@@ -177,13 +169,11 @@
         <h2 *ngIf="!selectedCategory()">Fotos</h2>
       </div>
 
-      <!-- Sem categoria selecionada -->
       <div class="empty-photos" *ngIf="!selectedCategory()">
         <span class="material-icons empty-icon">photo_album</span>
         <p>Selecione ou crie uma categoria para gerenciar as fotos.</p>
       </div>
 
-      <!-- Grade de fotos -->
       <div class="photos-grid" *ngIf="selectedCategory()">
         <div
           class="photo-card"
@@ -208,14 +198,12 @@
           </div>
         </div>
 
-        <!-- Botão adicionar -->
         <label class="add-photo-btn" *ngIf="selectedCategory()!.images.length < MAX_PHOTOS">
           <span class="material-icons">add_photo_alternate</span>
           <span>Adicionar Foto</span>
           <input type="file" accept="image/*" multiple hidden (change)="onFilesSelected($event)" />
         </label>
 
-        <!-- Categoria vazia -->
         <div class="empty-grid" *ngIf="!selectedCategory()!.images.length">
           <span class="material-icons empty-icon">broken_image</span>
           <p>Nenhuma foto nesta categoria.</p>

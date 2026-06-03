@@ -9,6 +9,14 @@ function createError(msg, status) {
   return err;
 }
 
+export async function getPortfolioCategories() {
+  return repo.getPortfolioCategories();
+}
+
+export async function getPortfolioCategoryById(id) {
+  return repo.getPortfolioCategoryById(id);
+}
+
 export async function savePortfolioCategory(data) {
   if (!data.name?.trim()) {
     throw createError("Category name is required", 400);
@@ -30,14 +38,6 @@ export async function savePortfolioCategory(data) {
   });
 
   return { result: "Saved" };
-}
-
-export async function getPortfolioCategories() {
-  return repo.getPortfolioCategories();
-}
-
-export async function getPortfolioCategoryById(id) {
-  return repo.getPortfolioCategoryById(id);
 }
 
 export async function deletePortfolioCategory(id) {

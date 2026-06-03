@@ -2,11 +2,8 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-
 import { environment } from '../../../../environment';
-
 import { PortfolioCategoryView } from '../../../../core/types/types';
-
 import { PortfolioService } from '../../../../services/portfolio/portfolio';
 import { PortfolioCategoryService } from '../../../../services/portfolio-category/portfolio-category';
 
@@ -27,17 +24,12 @@ export class PortfolioSettings implements OnInit {
 
   categories = signal<PortfolioCategoryView[]>([]);
   selectedCategory = signal<PortfolioCategoryView | null>(null);
-
   dropdownOpen = signal(false);
   showAddForm = signal(false);
-
   newCategoryName = signal('');
-
   editingId = signal<number | null>(null);
   editingName = signal('');
-
   dragIndex = signal<number | null>(null);
-
   catDragIndex = signal<number | null>(null);
   catDragOverIndex = signal<number | null>(null);
 
@@ -74,7 +66,6 @@ export class PortfolioSettings implements OnInit {
         if (mapped.length) {
           this.selectedCategory.set(mapped[0]);
         }
-
         this.changed.set(false);
       },
       error: console.error,
@@ -95,7 +86,9 @@ export class PortfolioSettings implements OnInit {
   }
 
   openAddCategory() {
+    this.dropdownOpen.set(false);
     this.showAddForm.set(true);
+    this.newCategoryName.set('');
     this.newCategoryName.set('');
   }
 
@@ -157,7 +150,6 @@ export class PortfolioSettings implements OnInit {
 
     this.editingId.set(null);
     this.editingName.set('');
-
     this.changed.set(true);
   }
 
@@ -183,33 +175,36 @@ export class PortfolioSettings implements OnInit {
     if (!category) return;
 
     category.images.splice(index, 1);
-
     this.categories.update((cats) => [...cats]);
-
     this.changed.set(true);
   }
 
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-
     if (!input.files?.length) return;
 
     const category = this.selectedCategory();
-
     if (!category) return;
 
-    Array.from(input.files).forEach((file) => {
+    const remaining = this.MAX_PHOTOS - category.images.length;
+
+    if (remaining <= 0) {
+      input.value = '';
+      return;
+    }
+
+    const acceptedFiles = Array.from(input.files).filter((_, index) => index < remaining);
+
+    for (const file of acceptedFiles) {
       category.images.push({
         file,
         preview: URL.createObjectURL(file),
         isNew: true,
       });
-    });
+    }
 
     this.categories.update((cats) => [...cats]);
-
     this.changed.set(true);
-
     input.value = '';
   }
 
@@ -231,17 +226,12 @@ export class PortfolioSettings implements OnInit {
     if (!category) return;
 
     const images = [...category.images];
-
     const [item] = images.splice(source, 1);
 
     images.splice(index, 0, item);
-
     category.images = images;
-
     this.categories.update((cats) => [...cats]);
-
     this.dragIndex.set(null);
-
     this.changed.set(true);
   }
 
@@ -264,20 +254,15 @@ export class PortfolioSettings implements OnInit {
     if (source === null) return;
 
     const categories = [...this.categories()];
-
     const [item] = categories.splice(source, 1);
-
     categories.splice(index, 0, item);
-
     categories.forEach((cat, i) => {
       cat.order_index = i + 1;
     });
 
     this.categories.set(categories);
-
     this.catDragIndex.set(null);
     this.catDragOverIndex.set(null);
-
     this.changed.set(true);
   }
 
@@ -295,9 +280,7 @@ export class PortfolioSettings implements OnInit {
     );
 
     const selected = this.selectedCategory();
-
     if (!selected) return;
-
     const files = selected.images.filter((img) => img.file).map((img) => img.file as File);
 
     const existingImages = selected.images

@@ -46,6 +46,8 @@ function createUpload(folder) {
   });
 }
 
+// Folders
+
 export const aboutUpload = createUpload("about");
 export const heroUpload = createUpload("hero");
 export const portfolioUpload = createUpload("portfolio");

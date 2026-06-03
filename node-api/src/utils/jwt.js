@@ -40,7 +40,6 @@ export function getAuthentication(checkRole, throw401 = true) {
       if (throw401) {
         let error = new Error();
         error.stack = "Authentication Error: JWT must be provided";
-
         resp.status(401).end();
       } else {
         next();

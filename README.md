@@ -7,7 +7,6 @@
 
 - André Rodrigues
 - André Coutinho
-- Fernando Tavares
 
 ---
 
@@ -100,7 +99,7 @@ npx ng serve --open
 ## 🧪 Acesso
 
 - Frontend: [http://localhost:4200](http://localhost:4200)
-- Backend: [http://localhost:3000](http://localhost:3000)
+- API NodeJs (PORT 3000): [http://localhost:3000](http://localhost:3000)
 
 **OBS:** As portas informadas e as variavéis de ambientes são as utilizadas como padrão, mas podem ser alteradas nos seguintes arquivos:
 

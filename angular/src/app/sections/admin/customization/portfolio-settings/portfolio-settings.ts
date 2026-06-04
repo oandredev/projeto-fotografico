@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { environment } from '../../../../environment';
-import { PortfolioCategoryView } from '../../../../core/types/types';
 import { PortfolioService } from '../../../../services/portfolio/portfolio';
 import { PortfolioCategoryService } from '../../../../services/portfolio-category/portfolio-category';
+import { LocalCategory } from '../../../../core/types/types';
 
 @Component({
   selector: 'app-portfolio-settings',
@@ -22,8 +22,11 @@ export class PortfolioSettings implements OnInit {
 
   readonly MAX_PHOTOS = 20;
 
-  categories = signal<PortfolioCategoryView[]>([]);
-  selectedCategory = signal<PortfolioCategoryView | null>(null);
+  categories = signal<LocalCategory[]>([]);
+  selectedCategory = signal<LocalCategory | null>(null);
+
+  private _originalOrder = signal<number[]>([]);
+
   dropdownOpen = signal(false);
   showAddForm = signal(false);
   newCategoryName = signal('');
@@ -33,9 +36,32 @@ export class PortfolioSettings implements OnInit {
   catDragIndex = signal<number | null>(null);
   catDragOverIndex = signal<number | null>(null);
 
-  private changed = signal(false);
+  private _tempIdSeq = -1;
+  private nextTempId() {
+    return this._tempIdSeq--;
+  }
 
-  hasChanges = computed(() => this.changed());
+  hasChanges = computed(() => {
+    const cats = this.categories();
+    const order = this._originalOrder();
+
+    const hasNew = cats.some((c) => c.originalId === 0);
+    const hasRename = cats.some((c) => c.originalId !== 0 && c.name !== c.originalName);
+    const hasReorder = cats.some((c, i) => c.originalId !== (order[i] ?? null));
+
+    const hasPhotoChanges = cats.some((c) => {
+      if (c.originalId === 0) return c.images.length > 0;
+      if (c.images.some((img) => img.file !== null)) return true;
+
+      const currentPreviews = c.images.filter((img) => img.file === null).map((img) => img.preview);
+
+      if (currentPreviews.length !== c.originalImagePreviews.length) return true;
+
+      return currentPreviews.some((p, i) => p !== c.originalImagePreviews[i]);
+    });
+
+    return hasNew || hasRename || hasReorder || hasPhotoChanges;
+  });
 
   ngOnInit(): void {
     this.loadData();
@@ -47,28 +73,27 @@ export class PortfolioSettings implements OnInit {
       portfolios: this.portfolioService.getAll(),
     }).subscribe({
       next: ({ categories, portfolios }) => {
-        const mapped: PortfolioCategoryView[] = categories.map((category) => {
+        const mapped: LocalCategory[] = categories.map((category) => {
           const portfolio = portfolios.find((p) => p.category_id === category.id);
+          const previews =
+            portfolio?.image_urls.map((url) => `http://localhost:${environment.API_PORT}${url}`) ??
+            [];
 
           return {
-            ...category,
+            id: category.id,
+            originalId: category.id,
+            originalName: category.name,
+            originalImagePreviews: [...previews],
+            name: category.name,
+            order_index: category.order_index,
             portfolioId: portfolio?.id,
-            images:
-              portfolio?.image_urls.map((url) => ({
-                file: null,
-                preview: `http://localhost:${environment.API_PORT}${url}`,
-              })) ?? [],
+            images: previews.map((preview) => ({ file: null, preview })),
           };
         });
 
         this.categories.set(mapped);
-
-        if (mapped.length) {
-          this.selectedCategory.set(mapped[0]);
-        } else {
-          this.selectedCategory.set(null);
-        }
-        this.changed.set(false);
+        this._originalOrder.set(mapped.map((c) => c.id));
+        this.selectedCategory.set(mapped[0] ?? null);
       },
       error: console.error,
     });
@@ -78,39 +103,46 @@ export class PortfolioSettings implements OnInit {
     this.loadData();
   }
 
+  // Dropdown
   toggleDropdown() {
     this.dropdownOpen.update((v) => !v);
   }
 
-  selectCategory(category: PortfolioCategoryView) {
-    this.selectedCategory.set(category);
+  selectCategory(cat: LocalCategory) {
+    this.selectedCategory.set(cat);
     this.dropdownOpen.set(false);
   }
 
+  // Add Category (Local)
   openAddCategory() {
     this.dropdownOpen.set(false);
     this.showAddForm.set(true);
-    this.newCategoryName.set('');
     this.newCategoryName.set('');
   }
 
   confirmAdd() {
     const name = this.newCategoryName().trim();
-
     if (!name) return;
 
-    this.portfolioCategoryService
-      .create({
-        name,
-        order_index: this.categories().length + 1,
-      })
-      .subscribe({
-        next: () => {
-          this.showAddForm.set(false);
-          this.newCategoryName.set('');
-          this.loadData();
-        },
-      });
+    const duplicate = this.categories().some((c) => c.name.toLowerCase() === name.toLowerCase());
+    if (duplicate) {
+      alert('Não é possível criar categorias com o mesmo nome.');
+      return;
+    }
+
+    const newCat: LocalCategory = {
+      id: this.nextTempId(),
+      originalId: 0,
+      originalName: '',
+      originalImagePreviews: [],
+      name,
+      order_index: this.categories().length + 1,
+      images: [],
+    };
+
+    this.categories.update((cats) => [...cats, newCat]);
+    this.showAddForm.set(false);
+    this.newCategoryName.set('');
   }
 
   cancelAdd() {
@@ -118,41 +150,32 @@ export class PortfolioSettings implements OnInit {
     this.newCategoryName.set('');
   }
 
-  startEdit(category: PortfolioCategoryView) {
-    this.editingId.set(category.id);
-    this.editingName.set(category.name);
+  // Rename Category (Local)
+  startEdit(cat: LocalCategory) {
+    this.editingId.set(cat.id);
+    this.editingName.set(cat.name);
   }
 
-  confirmEdit(category: PortfolioCategoryView) {
+  confirmEdit(cat: LocalCategory) {
     const name = this.editingName().trim();
-
     if (!name) return;
 
-    this.categories.update((cats) =>
-      cats.map((c) =>
-        c.id === category.id
-          ? {
-              ...c,
-              name,
-            }
-          : c,
-      ),
+    const duplicate = this.categories().some(
+      (c) => c.id !== cat.id && c.name.toLowerCase() === name.toLowerCase(),
     );
+    if (duplicate) {
+      alert('Não é possível utilizar um nome já existente.');
+      return;
+    }
 
-    if (this.selectedCategory()?.id === category.id) {
-      this.selectedCategory.update((cat) =>
-        cat
-          ? {
-              ...cat,
-              name,
-            }
-          : null,
-      );
+    this.categories.update((cats) => cats.map((c) => (c.id === cat.id ? { ...c, name } : c)));
+
+    if (this.selectedCategory()?.id === cat.id) {
+      this.selectedCategory.update((sel) => (sel ? { ...sel, name } : null));
     }
 
     this.editingId.set(null);
     this.editingName.set('');
-    this.changed.set(true);
   }
 
   cancelEdit() {
@@ -161,88 +184,61 @@ export class PortfolioSettings implements OnInit {
   }
 
   deleteCategory(index: number) {
-    const category = this.categories()[index];
+    const cat = this.categories()[index];
+    if (!cat) return;
 
-    if (!category) return;
+    if (
+      !confirm(
+        `Tem certeza que deseja excluir a categoria: "${cat.name}"?\n` +
+          `Todas as fotos associadas serão removidas também. Esta ação não pode ser desfeita!`,
+      )
+    )
+      return;
 
-    this.portfolioCategoryService.delete(category.id).subscribe({
+    if (cat.originalId === 0) {
+      this.categories.update((cats) => cats.filter((_, i) => i !== index));
+      if (this.selectedCategory()?.id === cat.id) {
+        this.selectedCategory.set(this.categories()[0] ?? null);
+      }
+      return;
+    }
+
+    this.portfolioCategoryService.delete(cat.originalId).subscribe({
       next: () => this.loadData(),
       error: console.error,
     });
   }
 
-  removePhoto(index: number) {
-    const category = this.selectedCategory();
-
-    if (!category) return;
-
-    category.images.splice(index, 1);
-    this.categories.update((cats) => [...cats]);
-    this.changed.set(true);
-  }
-
-  onFilesSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
-
-    const category = this.selectedCategory();
-    if (!category) return;
-
-    const remaining = this.MAX_PHOTOS - category.images.length;
-
-    if (remaining <= 0) {
-      input.value = '';
-      return;
-    }
-
-    const acceptedFiles = Array.from(input.files).filter((_, index) => index < remaining);
-
-    for (const file of acceptedFiles) {
-      category.images.push({
-        file,
-        preview: URL.createObjectURL(file),
-        isNew: true,
-      });
-    }
-
-    this.categories.update((cats) => [...cats]);
-    this.changed.set(true);
-    input.value = '';
-  }
-
   onDragStart(index: number) {
     this.dragIndex.set(index);
   }
-
   onDragOver(event: DragEvent) {
     event.preventDefault();
+  }
+  onDragEnd() {
+    this.dragIndex.set(null);
   }
 
   onDrop(index: number) {
     const source = this.dragIndex();
-
     if (source === null) return;
 
-    const category = this.selectedCategory();
+    const cat = this.selectedCategory();
+    if (!cat) return;
 
-    if (!category) return;
-
-    const images = [...category.images];
+    const images = [...cat.images];
     const [item] = images.splice(source, 1);
-
     images.splice(index, 0, item);
-    category.images = images;
-    this.categories.update((cats) => [...cats]);
-    this.dragIndex.set(null);
-    this.changed.set(true);
-  }
-
-  onDragEnd() {
+    this._updateSelectedImages(cat, images);
     this.dragIndex.set(null);
   }
 
   onCatDragStart(index: number) {
     this.catDragIndex.set(index);
+  }
+  onCatDragEnd() {
+    this.catDragIndex.set(null);
+    this.catDragOverIndex.set(null);
   }
 
   onCatDragOver(event: DragEvent, index: number) {
@@ -252,51 +248,95 @@ export class PortfolioSettings implements OnInit {
 
   onCatDrop(index: number) {
     const source = this.catDragIndex();
-
     if (source === null) return;
 
-    const categories = [...this.categories()];
-    const [item] = categories.splice(source, 1);
-    categories.splice(index, 0, item);
-    categories.forEach((cat, i) => {
-      cat.order_index = i + 1;
-    });
+    const cats = [...this.categories()];
+    const [item] = cats.splice(source, 1);
+    cats.splice(index, 0, item);
+    cats.forEach((c, i) => (c.order_index = i + 1));
 
-    this.categories.set(categories);
-    this.catDragIndex.set(null);
-    this.catDragOverIndex.set(null);
-    this.changed.set(true);
-  }
-
-  onCatDragEnd() {
+    this.categories.set(cats);
     this.catDragIndex.set(null);
     this.catDragOverIndex.set(null);
   }
+
+  removePhoto(index: number) {
+    const cat = this.selectedCategory();
+    if (!cat) return;
+
+    const images = [...cat.images];
+    images.splice(index, 1);
+    this._updateSelectedImages(cat, images);
+  }
+
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const cat = this.selectedCategory();
+    if (!cat) return;
+
+    const remaining = this.MAX_PHOTOS - cat.images.length;
+    if (remaining <= 0) {
+      input.value = '';
+      return;
+    }
+
+    const images = [...cat.images];
+    Array.from(input.files)
+      .slice(0, remaining)
+      .forEach((file) => images.push({ file, preview: URL.createObjectURL(file) }));
+
+    this._updateSelectedImages(cat, images);
+    input.value = '';
+  }
+
+  // Save ALl Changes
 
   saveChanges() {
-    const categoryRequests = this.categories().map((category) =>
-      this.portfolioCategoryService.update(category.id, {
-        name: category.name,
-        order_index: category.order_index,
-      }),
-    );
+    const cats = this.categories();
 
-    const selected = this.selectedCategory();
-    if (!selected) return;
-    const files = selected.images.filter((img) => img.file).map((img) => img.file as File);
+    const createRequests = cats
+      .filter((c) => c.originalId === 0)
+      .map((c) =>
+        this.portfolioCategoryService.create({ name: c.name, order_index: c.order_index }),
+      );
 
-    const existingImages = selected.images
-      .filter((img) => !img.file)
-      .map((img) => img.preview.replace(`http://localhost:${environment.API_PORT}`, ''));
+    const updateRequests = cats
+      .filter((c) => c.originalId !== 0)
+      .map((c) =>
+        this.portfolioCategoryService.update(c.originalId, {
+          name: c.name,
+          order_index: c.order_index,
+        }),
+      );
 
-    forkJoin([
-      ...categoryRequests,
-      this.portfolioService.save(selected.portfolioId ?? null, selected.id, existingImages, files),
-    ]).subscribe({
-      next: () => {
-        this.loadData();
-      },
+    const photoRequests = cats
+      .filter((c) => c.originalId !== 0)
+      .map((c) => {
+        const files = c.images.filter((img) => img.file !== null).map((img) => img.file as File);
+
+        const existingImages = c.images
+          .filter((img) => img.file === null)
+          .map((img) => img.preview.replace(`http://localhost:${environment.API_PORT}`, ''));
+
+        return this.portfolioService.save(
+          c.portfolioId ?? null,
+          c.originalId,
+          existingImages,
+          files,
+        );
+      });
+    forkJoin([...createRequests, ...updateRequests, ...photoRequests]).subscribe({
+      next: () => this.loadData(),
       error: console.error,
     });
+  }
+
+  // Utils
+  private _updateSelectedImages(cat: LocalCategory, images: LocalCategory['images']) {
+    const updated = { ...cat, images };
+    this.categories.update((cats) => cats.map((c) => (c.id === cat.id ? updated : c)));
+    this.selectedCategory.set(updated);
   }
 }

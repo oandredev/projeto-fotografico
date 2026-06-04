@@ -101,3 +101,14 @@ export interface PortfolioCategoryView extends PortfolioCategory {
   portfolioId?: number;
   images: PortfolioImage[];
 }
+
+export interface LocalCategory {
+  id: number;
+  originalId: number;
+  originalName: string;
+  originalImagePreviews: string[];
+  name: string;
+  order_index: number;
+  portfolioId?: number;
+  images: { file: File | null; preview: string }[];
+}

@@ -24,21 +24,22 @@
 
 /* ── Grid ── */
 .portfolio_grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 28px;
 }
 
 .portfolio_item {
-  width: 20rem;
-  height: 20rem;
+  width: 320px;
+  height: 320px;
   position: relative;
   border-radius: 16px;
   overflow: hidden;
   border: 3px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  aspect-ratio: 4 / 3;
+  flex-shrink: 0;
 }
 
 .portfolio_img {
@@ -77,20 +78,31 @@
   transform: translateY(0);
 }
 
-/* ── Responsive ── */
+/* ── Tablet ── */
 @media (max-width: 900px) {
-  .portfolio_grid {
-    grid-template-columns: repeat(2, 1fr);
+  .portfolio {
+    padding: 72px 32px;
+  }
+
+  .portfolio_item {
+    width: 280px;
+    height: 280px;
   }
 }
 
+/* ── Mobile ── */
 @media (max-width: 600px) {
   .portfolio {
     padding: 64px 24px;
   }
 
-  .portfolio_grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .portfolio_title {
+    font-size: 1.8rem;
+  }
+
+  .portfolio_item {
+    width: 100%;
+    max-width: 340px;
+    height: 340px;
   }
 }

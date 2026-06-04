@@ -1,36 +1,11 @@
-<section class="portfolio" id="portfolio">
+<section class="portfolio" id="portfolio" *ngIf="cards().length > 0">
   <div class="portfolio_container">
     <h2 class="portfolio_title">Portfólio</h2>
 
     <div class="portfolio_grid">
-      <div class="portfolio_item">
-        <img src="capas/capa_newborn.png" alt="Newborn" class="portfolio_img" />
-        <span class="portfolio_label">Newborn</span>
-      </div>
-
-      <div class="portfolio_item">
-        <img src="capas/capa_gravidez.png" alt="Gravidez" class="portfolio_img" />
-        <span class="portfolio_label">Gravidez</span>
-      </div>
-
-      <div class="portfolio_item">
-        <img src="capas/capa_familia.png" alt="Família" class="portfolio_img" />
-        <span class="portfolio_label">Família</span>
-      </div>
-
-      <div class="portfolio_item">
-        <img src="capas/capa_aniversario.png" alt="Aniversário" class="portfolio_img" />
-        <span class="portfolio_label">Aniversário</span>
-      </div>
-
-      <div class="portfolio_item">
-        <img src="capas/capa_parto.png" alt="Parto" class="portfolio_img" />
-        <span class="portfolio_label">Parto</span>
-      </div>
-
-      <div class="portfolio_item">
-        <img src="capas/capa_acompanhamento.png" alt="Acompanhamento" class="portfolio_img" />
-        <span class="portfolio_label">Acompanhamento</span>
+      <div class="portfolio_item" *ngFor="let item of cards()">
+        <img [src]="item.coverUrl" [alt]="item.categoryName" class="portfolio_img" />
+        <span class="portfolio_label">{{ item.categoryName }}</span>
       </div>
     </div>
   </div>

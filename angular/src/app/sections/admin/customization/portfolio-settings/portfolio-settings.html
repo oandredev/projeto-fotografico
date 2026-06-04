@@ -16,33 +16,49 @@
       </div>
     </div>
   </header>
+
   <section class="portfolio-content">
+    <!-- ── Coluna esquerda: categorias ── -->
     <article class="settings-card left-card">
       <div class="section-header">
         <span class="material-icons">category</span>
         <h2>Categorias</h2>
       </div>
+
+      <!-- Seletor de categoria ativa -->
       <div class="field-group">
         <label class="field-label">Categoria ativa</label>
         <div class="select-wrapper">
           <button class="select-trigger" (click)="toggleDropdown()" [class.open]="dropdownOpen()">
             <span class="material-icons trigger-icon">folder_open</span>
-            <span class="trigger-text">{{
-              selectedCategory()?.name || 'Selecionar categoria...'
-            }}</span>
-            <span class="material-icons trigger-arrow">{{
-              dropdownOpen() ? 'expand_less' : 'expand_more'
-            }}</span>
+            <span class="trigger-text">
+              {{ selectedCategory()?.name || 'Selecionar categoria...' }}
+              <!-- Badge visual de "pendente" para categorias ainda não salvas -->
+              <span
+                class="pending-badge"
+                *ngIf="selectedCategory() && selectedCategory()!.originalId === 0"
+                title="Ainda não salva"
+                >novo</span
+              >
+            </span>
+            <span class="material-icons trigger-arrow">
+              {{ dropdownOpen() ? 'expand_less' : 'expand_more' }}
+            </span>
           </button>
+
           <ul class="select-menu" *ngIf="dropdownOpen()">
             <li
               class="select-option"
               *ngFor="let cat of categories()"
               [class.is-active]="cat.id === selectedCategory()?.id"
+              [class.is-pending]="cat.originalId === 0"
               (click)="selectCategory(cat)"
             >
               <span class="material-icons opt-icon">folder</span>
               <span class="opt-name">{{ cat.name }}</span>
+              <span class="pending-badge" *ngIf="cat.originalId === 0" title="Ainda não salva"
+                >novo</span
+              >
               <span class="opt-badge">{{ cat.images.length }}</span>
             </li>
 
@@ -55,6 +71,8 @@
           </ul>
         </div>
       </div>
+
+      <!-- Formulário de nova categoria -->
       <div class="new-cat-form" *ngIf="showAddForm()">
         <input
           class="cat-input"
@@ -75,14 +93,16 @@
           </button>
         </div>
       </div>
+
+      <!-- Lista de gerenciamento -->
       <div class="cat-list-wrap" *ngIf="categories().length">
         <label class="field-label">Gerenciar</label>
-
         <ul class="cat-list">
           <li
             class="cat-item"
             *ngFor="let cat of categories(); let i = index"
             [class.is-selected]="cat.id === selectedCategory()?.id"
+            [class.is-pending]="cat.originalId === 0"
             [class.cat-dragging]="catDragIndex() === i"
             [class.cat-drag-over]="catDragOverIndex() === i && catDragIndex() !== i"
             draggable="true"
@@ -98,10 +118,13 @@
               (mousedown)="$event.stopPropagation()"
               >drag_indicator</span
             >
+
             <div class="cat-left">
               <span class="material-icons cat-icon">folder</span>
               <div class="cat-info">
-                <span class="cat-name" *ngIf="editingId() !== cat.id">{{ cat.name }}</span>
+                <span class="cat-name" *ngIf="editingId() !== cat.id">
+                  {{ cat.name }}
+                </span>
                 <input
                   class="cat-edit-input"
                   *ngIf="editingId() === cat.id"
@@ -114,6 +137,7 @@
                 <span class="cat-count">{{ cat.images.length }} foto(s)</span>
               </div>
             </div>
+
             <div class="cat-actions" (click)="$event.stopPropagation()">
               <ng-container *ngIf="editingId() === cat.id; else defaultActions">
                 <button class="icon-btn icon-confirm" (click)="confirmEdit(cat)" title="Confirmar">
@@ -135,6 +159,8 @@
           </li>
         </ul>
       </div>
+
+      <!-- Estado vazio -->
       <div class="empty-cats" *ngIf="!categories().length">
         <span class="material-icons empty-icon icon-porfolio">inbox</span>
         <p>Nenhuma categoria criada.</p>
@@ -144,22 +170,36 @@
         </button>
       </div>
     </article>
+
+    <!-- ── Coluna direita: fotos ── -->
     <article class="settings-card right-card">
       <div class="section-header">
         <span class="material-icons">photo_library</span>
-
         <h2 *ngIf="selectedCategory()">
           {{ selectedCategory()!.name }}
           <span class="count-badge">
             {{ selectedCategory()!.images.length }}/{{ MAX_PHOTOS }}
           </span>
+          <!-- Aviso de que esta categoria ainda não foi salva -->
+          <span
+            class="pending-warning"
+            *ngIf="selectedCategory()!.originalId === 0"
+            title="As fotos desta categoria serão salvas junto com a categoria ao clicar em Salvar Alterações"
+          >
+            <span class="material-icons" style="font-size: 16px; vertical-align: middle"
+              >schedule</span
+            >
+            aguardando salvamento
+          </span>
         </h2>
         <h2 *ngIf="!selectedCategory()">Fotos</h2>
       </div>
+
       <div class="empty-photos" *ngIf="!selectedCategory()">
         <span class="material-icons purple icon-porfolio">image</span>
         <p>Selecione ou crie uma categoria para gerenciar as fotos.</p>
       </div>
+
       <div class="photos-grid" *ngIf="selectedCategory()">
         <div
           class="photo-card"
@@ -185,6 +225,7 @@
             </button>
           </div>
         </div>
+
         <label class="add-photo-btn" *ngIf="selectedCategory()!.images.length < MAX_PHOTOS">
           <span class="material-icons">add_photo_alternate</span>
           <span>Adicionar Foto</span>

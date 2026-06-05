@@ -67,6 +67,8 @@
 }
 
 .logout {
+  margin-top: auto;
+  margin-bottom: 1rem;
   border-radius: 10px;
   border: none;
   background: var(--color-dark-purple);

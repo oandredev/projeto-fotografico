@@ -16,9 +16,7 @@ public class LoginService {
     private LoginRepository repository;
 
     public Login salvar(Login conta) {
-    if (conta.getPassword() != null && !conta.getPassword().isEmpty()) {
         conta.setPassword(md5(conta.getPassword()));
-    }
         return repository.save(conta);
     }
 

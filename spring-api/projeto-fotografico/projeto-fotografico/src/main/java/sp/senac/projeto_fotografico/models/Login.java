@@ -3,6 +3,7 @@ package sp.senac.projeto_fotografico.models;
 import java.security.Timestamp;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,5 +24,4 @@ public class Login {
     
     @Column(name = "password", length = 150)
     private String password;
-
 }

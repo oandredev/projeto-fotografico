@@ -49,5 +49,7 @@ public class LoginController {
         Optional<Login> login = service.buscar(email);
         return login.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    
     
 }

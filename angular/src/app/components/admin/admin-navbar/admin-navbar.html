@@ -21,11 +21,6 @@
       <span>Clientes</span>
     </a>
 
-    <a class="menu-item" routerLink="/admin/services" routerLinkActive="active">
-      <span class="material-icons">photo_camera</span>
-      <span>Serviços</span>
-    </a>
-
     <a class="menu-item" routerLink="/admin/statistics" routerLinkActive="active">
       <span class="material-icons">query_stats</span>
       <span>Estatísticas</span>
@@ -55,16 +50,11 @@
       <span>Portfólio</span>
     </a>
 
-    <a class="menu-item" routerLink="/admin/contact-settings" routerLinkActive="active">
-      <span class="material-icons">call</span>
-      <span>Contatos</span>
-    </a>
-
     <div class="divider"></div>
-
-    <button class="logout" (click)="sair()">
-      <span>SAIR</span>
-      <span class="material-icons">logout</span>
-    </button>
   </nav>
+
+  <button class="logout" (click)="sair()">
+    <span>SAIR</span>
+    <span class="material-icons">logout</span>
+  </button>
 </aside>

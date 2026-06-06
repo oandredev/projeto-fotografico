@@ -1,0 +1,53 @@
+<div
+  class="lightbox-backdrop"
+  *ngIf="isOpen()"
+  [class.lb-closing]="isClosing()"
+  (click)="onBackdropClick($event)"
+>
+  <div class="lightbox-panel" role="dialog" aria-modal="true">
+    <div class="lightbox-header">
+      <div class="lb-header-side"></div>
+      <div class="lb-header-center">
+        <span class="lightbox-category">{{ categoryName() }}</span>
+        <span class="lightbox-counter">{{ activeIndex() + 1 }} / {{ images().length }}</span>
+      </div>
+      <div class="lb-header-side lb-header-side--right">
+        <button class="lb-btn-icon lb-close" (click)="close()" title="Fechar">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="lightbox-stage">
+      <button class="lb-nav lb-prev" (click)="prev()" title="Anterior">
+        <span class="material-icons">chevron_left</span>
+      </button>
+
+      <div class="lb-image-wrap">
+        <img
+          class="lb-image"
+          [src]="activeImage()"
+          [alt]="categoryName() + ' — foto ' + (activeIndex() + 1)"
+          [class.lb-fade]="fading()"
+        />
+      </div>
+
+      <button class="lb-nav lb-next" (click)="next()" title="Próxima">
+        <span class="material-icons">chevron_right</span>
+      </button>
+    </div>
+
+    <div class="lb-carousel" #carousel>
+      <button
+        class="lb-thumb"
+        *ngFor="let img of images(); let i = index"
+        [class.lb-thumb-active]="i === activeIndex()"
+        (click)="goTo(i)"
+        [title]="'Foto ' + (i + 1)"
+      >
+        <img [src]="img" [alt]="'Miniatura ' + (i + 1)" />
+        <span class="lb-thumb-order">{{ i + 1 }}</span>
+      </button>
+    </div>
+  </div>
+</div>

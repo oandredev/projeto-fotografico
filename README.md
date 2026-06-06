@@ -20,13 +20,16 @@ Aplicação web completa para um site fotográfico da **Larissa Calegaro**, com 
 
 ```
 /projeto-fotografico
- ├── /node-api   → Backend (Node.js + MySQL + Multer (Para imagens))
+ ├── /uploads    → Banco de Imagens (Armazena as imagens, criando relacionamento com os endereços armazenados no banco de dados)
+ ├── /node-api   → Backend A (Node.js + Multer (Para imagens))
+ ├── /spring-api → Backend B (SpringBoot)
  └── /angular    → Frontend (Angular)
 ```
 
-### 🔸 Backend (API - Node)
+### 🔸 Backend (API - NodeJs | SpringBoot)
 
 - Node.js
+- SpringBoot
 - MySQL
 - Multer (Para armazenar imagens)
 - CRUD de dados
@@ -45,7 +48,8 @@ Aplicação web completa para um site fotográfico da **Larissa Calegaro**, com 
 - Cadastro de fotos
 - Listagem de portfólio
 - Visualização detalhada
-- Upload de imagens
+- Upload de imagens, descrição e slogan
+- Envio de mensagens
 
 ---
 
@@ -100,11 +104,13 @@ npx ng serve --open
 
 - Frontend: [http://localhost:4200](http://localhost:4200)
 - API NodeJs (PORT 3000): [http://localhost:3000](http://localhost:3000)
+- API SpringBoot (PORT XXXX): [http://localhost:XXXX](http://localhost:XXXX)
 
 **OBS:** As portas informadas e as variavéis de ambientes são as utilizadas como padrão, mas podem ser alteradas nos seguintes arquivos:
 
 - Angular → `environment.ts`
 - Node.js → `.env`
+- SpringBoot → `.????`
 
 ## LEMBRE-SE em um projeto real esses arquivos NÃO devem ser públicos por questões de segurança.
 

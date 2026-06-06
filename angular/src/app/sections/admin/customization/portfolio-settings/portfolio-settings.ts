@@ -1,12 +1,11 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { forkJoin } from 'rxjs';
+import { of, switchMap, forkJoin } from 'rxjs';
 import { environment } from '../../../../environment';
 import { PortfolioService } from '../../../../services/portfolio/portfolio';
 import { PortfolioCategoryService } from '../../../../services/portfolio-category/portfolio-category';
 import { LocalCategory } from '../../../../core/types/types';
-
 @Component({
   selector: 'app-portfolio-settings',
   standalone: true,
@@ -296,41 +295,80 @@ export class PortfolioSettings implements OnInit {
   saveChanges() {
     const cats = this.categories();
 
-    const createRequests = cats
-      .filter((c) => c.originalId === 0)
-      .map((c) =>
-        this.portfolioCategoryService.create({ name: c.name, order_index: c.order_index }),
-      );
+    const newCats = cats.filter((c) => c.originalId === 0);
+    const existingCats = cats.filter((c) => c.originalId !== 0);
 
-    const updateRequests = cats
-      .filter((c) => c.originalId !== 0)
-      .map((c) =>
-        this.portfolioCategoryService.update(c.originalId, {
-          name: c.name,
-          order_index: c.order_index,
-        }),
-      );
+    const updateRequests = existingCats.map((c) =>
+      this.portfolioCategoryService.update(c.originalId, {
+        name: c.name,
+        order_index: c.order_index,
+      }),
+    );
 
-    const photoRequests = cats
-      .filter((c) => c.originalId !== 0)
-      .map((c) => {
-        const files = c.images.filter((img) => img.file !== null).map((img) => img.file as File);
+    const existingPhotoRequests = existingCats.map((c) => {
+      const files = c.images.filter((img) => img.file !== null).map((img) => img.file as File);
+      const existingImages = c.images
+        .filter((img) => img.file === null)
+        .map((img) => img.preview.replace(`http://localhost:${environment.API_PORT}`, ''));
 
-        const existingImages = c.images
-          .filter((img) => img.file === null)
-          .map((img) => img.preview.replace(`http://localhost:${environment.API_PORT}`, ''));
-
-        return this.portfolioService.save(
-          c.portfolioId ?? null,
-          c.originalId,
-          existingImages,
-          files,
-        );
-      });
-    forkJoin([...createRequests, ...updateRequests, ...photoRequests]).subscribe({
-      next: () => this.loadData(),
-      error: console.error,
+      return this.portfolioService.save(c.portfolioId ?? null, c.originalId, existingImages, files);
     });
+
+    const baseRequests = [...updateRequests, ...existingPhotoRequests];
+
+    if (newCats.length === 0) {
+      forkJoin(baseRequests.length ? baseRequests : [of(null)]).subscribe({
+        next: () => this.loadData(),
+        error: console.error,
+      });
+      return;
+    }
+
+    // 1) Cria as novas categorias
+    forkJoin(
+      newCats.map((c) =>
+        this.portfolioCategoryService.create({ name: c.name, order_index: c.order_index }),
+      ),
+    )
+      .pipe(
+        // 2) Busca a lista atualizada para obter os IDs reais pelo nome
+        switchMap(() => this.portfolioCategoryService.getAll()),
+      )
+      .subscribe({
+        next: (allCategories) => {
+          const newPhotoRequests = newCats
+            .map((c) => {
+              const realId = allCategories.find(
+                (a) => a.name.toLowerCase() === c.name.toLowerCase(),
+              )?.id;
+
+              if (!realId || c.images.length === 0) return null;
+
+              const files = c.images
+                .filter((img) => img.file !== null)
+                .map((img) => img.file as File);
+              const existingImages = c.images
+                .filter((img) => img.file === null)
+                .map((img) => img.preview.replace(`http://localhost:${environment.API_PORT}`, ''));
+
+              return this.portfolioService.save(null, realId, existingImages, files);
+            })
+            .filter((r) => r !== null);
+
+          const allRemaining = [...baseRequests, ...newPhotoRequests];
+
+          if (allRemaining.length === 0) {
+            this.loadData();
+            return;
+          }
+
+          forkJoin(allRemaining).subscribe({
+            next: () => this.loadData(),
+            error: console.error,
+          });
+        },
+        error: console.error,
+      });
   }
 
   // Utils

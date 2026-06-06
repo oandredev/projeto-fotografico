@@ -19,6 +19,15 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   text-align: center;
+  margin: 0 0 12px;
+}
+
+.portfolio_subtitle {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 0.04em;
   margin: 0 0 56px;
 }
 
@@ -47,35 +56,66 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: all 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    filter 0.3s ease-in-out;
 }
 
+/* ── Label (sempre visível no topo) ── */
 .portfolio_label {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
-  padding: 32px 16px 14px;
-  background: linear-gradient(to top, rgba(65, 61, 85, 0.85), transparent);
-  color: var(--color-pink);
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  padding: 14px 16px 32px;
+  background: linear-gradient(to bottom, rgba(40, 35, 60, 0.72), transparent);
+  color: var(--color-white);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   text-align: center;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: all 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 
+/* ── Overlay de hover ── */
+.portfolio_overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(50, 44, 75, 0.6);
+  color: var(--color-white);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.portfolio_overlay .material-icons {
+  font-size: 38px;
+}
+
+.portfolio_overlay-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ── Hover states ── */
 .portfolio_item:hover .portfolio_img {
   transform: scale(1.04);
-  filter: brightness(55%);
+  filter: brightness(60%);
 }
 
 .portfolio_item:hover .portfolio_label {
+  opacity: 0;
+}
+
+.portfolio_item:hover .portfolio_overlay {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* ── Tablet ── */

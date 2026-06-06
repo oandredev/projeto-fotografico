@@ -2,11 +2,30 @@
   <div class="portfolio_container">
     <h2 class="portfolio_title">Portfólio</h2>
 
+    <p class="portfolio_subtitle">Veja meu trabalho em diferentes categorias:</p>
+
     <div class="portfolio_grid">
-      <div class="portfolio_item" *ngFor="let item of cards()">
+      <div
+        class="portfolio_item"
+        *ngFor="let item of cards(); let i = index"
+        (click)="openLightbox(i)"
+        role="button"
+        tabindex="0"
+        (keydown.enter)="openLightbox(i)"
+        [attr.aria-label]="'Abrir fotos de ' + item.categoryName"
+      >
         <img [src]="item.coverUrl" [alt]="item.categoryName" class="portfolio_img" />
+
         <span class="portfolio_label">{{ item.categoryName }}</span>
+
+        <div class="portfolio_overlay">
+          <span class="material-icons">open_in_full</span>
+          <span class="portfolio_overlay-text">Visualizar</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Lightbox -->
+<app-light-box #lightbox />

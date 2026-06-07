@@ -12,6 +12,11 @@ endpoints.get("/customer", auth, async (req, resp) => {
   resp.send(result);
 });
 
+endpoints.get("/customer/stats", auth, async (req, resp) => {
+  let result = await service.getCustomerStats();
+  resp.send(result);
+});
+
 endpoints.post("/customer", auth, async (req, resp) => {
   let customer = req.body;
 

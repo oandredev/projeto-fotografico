@@ -16,256 +16,305 @@
     </div>
   </header>
 
-  <!-- ================= CLIENTES ================= -->
-  @if (activeTab() === 'clientes') {
-    <section class="tab-content" aria-label="Clientes">
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <span class="metric-label">Total</span>
-          <span class="metric-value">{{ stats.clientes.total }}</span>
-          <span class="metric-sub">clientes cadastrados</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-label">Favoritos</span>
-          <span class="metric-value">{{ stats.clientes.favoritos }}</span>
-          <span class="metric-sub">marcados</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-label">Arquivados</span>
-          <span class="metric-value">{{ stats.clientes.arquivados }}</span>
-          <span class="metric-sub">fora do fluxo</span>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label-row">
-            <span class="metric-label">Cadastros</span>
-            <select
-              [ngModel]="clientePeriod()"
-              (ngModelChange)="setClientePeriod($event)"
-              class="period-select"
-            >
-              <option value="day">Hoje</option>
-              <option value="week">Semana</option>
-              <option value="month">Mês</option>
-              <option value="year">Ano</option>
-            </select>
-          </div>
-          <span class="metric-value">{{ clienteCadastros().value }}</span>
-          <span class="metric-sub">{{ clienteCadastros().label }}</span>
-        </div>
-      </div>
-
-      <div class="chart-card">
-        <div class="chart-header">
-          <span>Cadastros por período</span>
-        </div>
-        <div class="sparkline-wrap">
-          <div class="spark-col">
-            <div
-              class="spark-bar"
-              [style.height.%]="
-                sparkHeight(stats.clientes.cadastros.day.value, stats.clientes.cadastros.year.value)
-              "
-            ></div>
-            <span class="spark-label">Hoje</span>
-          </div>
-          <div class="spark-col">
-            <div
-              class="spark-bar"
-              [style.height.%]="
-                sparkHeight(
-                  stats.clientes.cadastros.week.value,
-                  stats.clientes.cadastros.year.value
-                )
-              "
-            ></div>
-            <span class="spark-label">Semana</span>
-          </div>
-          <div class="spark-col">
-            <div
-              class="spark-bar"
-              [style.height.%]="
-                sparkHeight(
-                  stats.clientes.cadastros.month.value,
-                  stats.clientes.cadastros.year.value
-                )
-              "
-            ></div>
-            <span class="spark-label">Mês</span>
-          </div>
-          <div class="spark-col">
-            <div class="spark-bar" [style.height.%]="100"></div>
-            <span class="spark-label">Ano</span>
-          </div>
-        </div>
-      </div>
-    </section>
+  @if (loading()) {
+    <div class="loading-state">Carregando dashboard...</div>
   }
 
-  <!-- ================= MENSAGENS ================= -->
-  @if (activeTab() === 'mensagens') {
-    <section class="tab-content" aria-label="Mensagens">
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <span class="metric-label">Total</span>
-          <span class="metric-value">{{ stats.mensagens.total | number: '1.0-0' : 'pt-BR' }}</span>
-          <span class="metric-sub">no sistema</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-label">Favoritas</span>
-          <span class="metric-value">{{ stats.mensagens.favoritas }}</span>
-          <span class="metric-sub">salvas</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-label">Arquivadas</span>
-          <span class="metric-value">{{ stats.mensagens.arquivadas }}</span>
-          <span class="metric-sub">movidas</span>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label-row">
-            <span class="metric-label">Recebidas</span>
-            <select
-              [ngModel]="mensagemPeriod()"
-              (ngModelChange)="setMensagemPeriod($event)"
-              class="period-select"
-            >
-              <option value="day">Hoje</option>
-              <option value="week">Semana</option>
-              <option value="month">Mês</option>
-              <option value="year">Ano</option>
-            </select>
+  @if (!loading() && stats(); as data) {
+    <!-- ================= CLIENTES ================= -->
+    @if (activeTab() === 'clientes') {
+      <section class="tab-content" aria-label="Clientes">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Total</span>
+            <span class="metric-value">{{ data.clientes.total }}</span>
+            <span class="metric-sub">clientes cadastrados</span>
           </div>
-          <span class="metric-value">{{ mensagensRecebidas().value }}</span>
-          <span class="metric-sub">{{ mensagensRecebidas().label }}</span>
-        </div>
-      </div>
-
-      <div class="chart-card">
-        <div class="chart-header">
-          <span>Mensagens por período</span>
-        </div>
-        <div class="sparkline-wrap">
-          <div class="spark-col">
-            <div
-              class="spark-bar"
-              [style.height.%]="
-                sparkHeight(
-                  stats.mensagens.recebidas.day.value,
-                  stats.mensagens.recebidas.year.value
-                )
-              "
-            ></div>
-            <span class="spark-label">Hoje</span>
+          <div class="metric-card">
+            <span class="metric-label">Favoritos</span>
+            <span class="metric-value">{{ data.clientes.favoritos }}</span>
+            <span class="metric-sub">marcados</span>
           </div>
-          <div class="spark-col">
-            <div
-              class="spark-bar"
-              [style.height.%]="
-                sparkHeight(
-                  stats.mensagens.recebidas.week.value,
-                  stats.mensagens.recebidas.year.value
-                )
-              "
-            ></div>
-            <span class="spark-label">Semana</span>
+          <div class="metric-card">
+            <span class="metric-label">Arquivados</span>
+            <span class="metric-value">{{ data.clientes.arquivados }}</span>
+            <span class="metric-sub">fora do fluxo</span>
           </div>
-          <div class="spark-col">
-            <div
-              class="spark-bar"
-              [style.height.%]="
-                sparkHeight(
-                  stats.mensagens.recebidas.month.value,
-                  stats.mensagens.recebidas.year.value
-                )
-              "
-            ></div>
-            <span class="spark-label">Mês</span>
-          </div>
-          <div class="spark-col">
-            <div class="spark-bar" [style.height.%]="100"></div>
-            <span class="spark-label">Ano</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="chart-card">
-        <div class="chart-header">
-          <span>Status das mensagens</span>
-        </div>
-        <div class="distribution-wrap">
-          <div class="dist-bar-col">
-            <div class="dist-bar-track">
-              <div
-                class="dist-bar-fill fill-ativas"
-                [style.height.%]="mensagensAtivasPercent()"
-              ></div>
+          <div class="metric-card">
+            <div class="metric-label-row">
+              <span class="metric-label">Cadastros</span>
+              <select
+                [ngModel]="clientePeriod()"
+                (ngModelChange)="setClientePeriod($event)"
+                class="period-select"
+              >
+                <option value="day">Hoje</option>
+                <option value="week">Semana</option>
+                <option value="month">Mês</option>
+                <option value="year">Ano</option>
+              </select>
             </div>
-            <span class="dist-bar-pct">{{ mensagensAtivasPercent() }}%</span>
-            <span class="dist-bar-label">Ativas</span>
-          </div>
-          <div class="dist-bar-col">
-            <div class="dist-bar-track">
-              <div
-                class="dist-bar-fill fill-favoritas"
-                [style.height.%]="mensagensFavoritasPercent()"
-              ></div>
-            </div>
-            <span class="dist-bar-pct">{{ mensagensFavoritasPercent() }}%</span>
-            <span class="dist-bar-label">Favoritas</span>
-          </div>
-          <div class="dist-bar-col">
-            <div class="dist-bar-track">
-              <div
-                class="dist-bar-fill fill-arquivadas"
-                [style.height.%]="mensagensArquivadasPercent()"
-              ></div>
-            </div>
-            <span class="dist-bar-pct">{{ mensagensArquivadasPercent() }}%</span>
-            <span class="dist-bar-label">Arquivadas</span>
+            <span class="metric-value">{{ clienteCadastros().value }}</span>
+            <span class="metric-sub">{{ clienteCadastros().label }}</span>
           </div>
         </div>
-      </div>
-    </section>
-  }
 
-  <!-- ================= PORTFÓLIO ================= -->
-  @if (activeTab() === 'portfolio') {
-    <section class="tab-content" aria-label="Portfólio">
-      <div class="metrics-grid metrics-grid--3">
-        <div class="metric-card">
-          <span class="metric-label">Categorias ativas</span>
-          <span class="metric-value">{{ stats.portfolio.categoriasAtivas }}</span>
-          <span class="metric-sub">com ao menos 1 foto</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-label">Fotos armazenadas</span>
-          <span class="metric-value">{{ stats.portfolio.fotosArmazenadas }}</span>
-          <span class="metric-sub">em todas as categorias</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-label">Visualizações</span>
-          <span class="metric-value">{{ visualizacoesFormatted() }}</span>
-          <span class="metric-sub">total de vezes que alguma categoria foi visualizada</span>
-        </div>
-      </div>
-
-      <p class="section-label">Categorias — Visualizações</p>
-
-      <div class="category-list">
-        @for (cat of stats.portfolio.categorias; track cat.name) {
-          <div class="category-row">
-            <span class="cat-dot" [style.background]="cat.color"></span>
-            <span class="cat-name">{{ cat.name }}</span>
-            <div class="cat-bar-track">
-              <div
-                class="cat-bar-fill"
-                [style.width]="barWidth(cat.photos)"
-                [style.background]="cat.color"
-              ></div>
-            </div>
-            <span class="cat-views">{{ formatViews(cat.views) }} views</span>
+        <div class="chart-card">
+          <div class="chart-header">
+            <span>Cadastros por período</span>
           </div>
-        }
-      </div>
-    </section>
+          <div class="sparkline-wrap">
+            <div class="spark-col">
+              <div
+                class="spark-bar"
+                [style.height.%]="
+                  sparkHeight(data.clientes.cadastros.day.value, data.clientes.cadastros.year.value)
+                "
+              ></div>
+              <span class="spark-label">Hoje</span>
+            </div>
+            <div class="spark-col">
+              <div
+                class="spark-bar"
+                [style.height.%]="
+                  sparkHeight(
+                    data.clientes.cadastros.week.value,
+                    data.clientes.cadastros.year.value
+                  )
+                "
+              ></div>
+              <span class="spark-label">Semana</span>
+            </div>
+            <div class="spark-col">
+              <div
+                class="spark-bar"
+                [style.height.%]="
+                  sparkHeight(
+                    data.clientes.cadastros.month.value,
+                    data.clientes.cadastros.year.value
+                  )
+                "
+              ></div>
+              <span class="spark-label">Mês</span>
+            </div>
+            <div class="spark-col">
+              <div class="spark-bar" [style.height.%]="100"></div>
+              <span class="spark-label">Ano</span>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <span>Status dos Clientes</span>
+          </div>
+
+          <div class="distribution-wrap">
+            <div class="dist-bar-col">
+              <div class="dist-bar-track">
+                <div
+                  class="dist-bar-fill fill-ativas"
+                  [style.height.%]="clientesTotalPercent()"
+                ></div>
+              </div>
+
+              <span class="dist-bar-pct">{{ clientesTotalPercent() }}%</span>
+              <span class="dist-bar-label">Geral</span>
+            </div>
+
+            <div class="dist-bar-col">
+              <div class="dist-bar-track">
+                <div
+                  class="dist-bar-fill fill-favoritas"
+                  [style.height.%]="clientesFavoritosPercent()"
+                ></div>
+              </div>
+
+              <span class="dist-bar-pct">{{ clientesFavoritosPercent() }}%</span>
+              <span class="dist-bar-label">Favoritos</span>
+            </div>
+
+            <div class="dist-bar-col">
+              <div class="dist-bar-track">
+                <div
+                  class="dist-bar-fill fill-arquivadas"
+                  [style.height.%]="clientesArquivadosPercent()"
+                ></div>
+              </div>
+
+              <span class="dist-bar-pct">{{ clientesArquivadosPercent() }}%</span>
+              <span class="dist-bar-label">Arquivados</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- ================= MENSAGENS ================= -->
+    @if (activeTab() === 'mensagens') {
+      <section class="tab-content" aria-label="Mensagens">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Total</span>
+            <span class="metric-value">{{ data.mensagens.total }}</span>
+            <span class="metric-sub">no sistema</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Favoritas</span>
+            <span class="metric-value">{{ data.mensagens.favoritas }}</span>
+            <span class="metric-sub">salvas</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Arquivadas</span>
+            <span class="metric-value">{{ data.mensagens.arquivadas }}</span>
+            <span class="metric-sub">movidas</span>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label-row">
+              <span class="metric-label">Recebidas</span>
+              <select
+                [ngModel]="mensagemPeriod()"
+                (ngModelChange)="setMensagemPeriod($event)"
+                class="period-select"
+              >
+                <option value="day">Hoje</option>
+                <option value="week">Semana</option>
+                <option value="month">Mês</option>
+                <option value="year">Ano</option>
+              </select>
+            </div>
+            <span class="metric-value">{{ mensagensRecebidas().value }}</span>
+            <span class="metric-sub">{{ mensagensRecebidas().label }}</span>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <span>Mensagens por período</span>
+          </div>
+          <div class="sparkline-wrap">
+            <div class="spark-col">
+              <div
+                class="spark-bar"
+                [style.height.%]="
+                  sparkHeight(
+                    data.mensagens.recebidas.day.value,
+                    data.mensagens.recebidas.year.value
+                  )
+                "
+              ></div>
+              <span class="spark-label">Hoje</span>
+            </div>
+            <div class="spark-col">
+              <div
+                class="spark-bar"
+                [style.height.%]="
+                  sparkHeight(
+                    data.mensagens.recebidas.week.value,
+                    data.mensagens.recebidas.year.value
+                  )
+                "
+              ></div>
+              <span class="spark-label">Semana</span>
+            </div>
+            <div class="spark-col">
+              <div
+                class="spark-bar"
+                [style.height.%]="
+                  sparkHeight(
+                    data.mensagens.recebidas.month.value,
+                    data.mensagens.recebidas.year.value
+                  )
+                "
+              ></div>
+              <span class="spark-label">Mês</span>
+            </div>
+            <div class="spark-col">
+              <div class="spark-bar" [style.height.%]="100"></div>
+              <span class="spark-label">Ano</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <span>Status das mensagens</span>
+          </div>
+          <div class="distribution-wrap">
+            <div class="dist-bar-col">
+              <div class="dist-bar-track">
+                <div
+                  class="dist-bar-fill fill-ativas"
+                  [style.height.%]="mensagensAtivasPercent()"
+                ></div>
+              </div>
+              <span class="dist-bar-pct">{{ mensagensAtivasPercent() }}%</span>
+              <span class="dist-bar-label">Ativas</span>
+            </div>
+            <div class="dist-bar-col">
+              <div class="dist-bar-track">
+                <div
+                  class="dist-bar-fill fill-favoritas"
+                  [style.height.%]="mensagensFavoritasPercent()"
+                ></div>
+              </div>
+              <span class="dist-bar-pct">{{ mensagensFavoritasPercent() }}%</span>
+              <span class="dist-bar-label">Favoritas</span>
+            </div>
+            <div class="dist-bar-col">
+              <div class="dist-bar-track">
+                <div
+                  class="dist-bar-fill fill-arquivadas"
+                  [style.height.%]="mensagensArquivadasPercent()"
+                ></div>
+              </div>
+              <span class="dist-bar-pct">{{ mensagensArquivadasPercent() }}%</span>
+              <span class="dist-bar-label">Arquivadas</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- ================= PORTFÓLIO ================= -->
+    @if (activeTab() === 'portfolio') {
+      <section class="tab-content" aria-label="Portfólio">
+        <div class="metrics-grid metrics-grid--3">
+          <div class="metric-card">
+            <span class="metric-label">Categorias</span>
+            <span class="metric-value">{{ data.portfolio.categoriasAtivas }}</span>
+            <span class="metric-sub">Existentes até o momento</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Fotos armazenadas</span>
+            <span class="metric-value">{{ data.portfolio.fotosArmazenadas }}</span>
+            <span class="metric-sub">em todas as categorias</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Visualizações</span>
+            <span class="metric-value">{{ data.portfolio.visualizacoes }}</span>
+            <span class="metric-sub">total de vezes que alguma categoria foi visualizada</span>
+          </div>
+        </div>
+
+        <p class="section-label">Categorias — Visualizações</p>
+
+        <div class="category-list">
+          @for (cat of data.portfolio.categorias; track cat.name) {
+            <div class="category-row">
+              <span class="cat-dot" [style.background]="cat.color"></span>
+              <span class="cat-name">{{ cat.name }}</span>
+              <div class="cat-bar-track">
+                <div
+                  class="cat-bar-fill"
+                  [style.width]="barWidth(cat.photos)"
+                  [style.background]="cat.color"
+                ></div>
+              </div>
+              <span class="cat-views">{{ formatViews(cat.views) }} views</span>
+            </div>
+          }
+        </div>
+      </section>
+    }
   }
 </div>

@@ -10,6 +10,11 @@ export async function getMessages(filter) {
   return result;
 }
 
+export async function getMessageStats() {
+  let result = await repo.getMessageStats();
+  return result;
+}
+
 export async function updateMessage(id, message) {
   let linhasAfetadas = await repo.updateMessage(id, message);
   return linhasAfetadas;

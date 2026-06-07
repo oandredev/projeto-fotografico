@@ -26,6 +26,11 @@ export async function getCustomers(filter) {
   return result;
 }
 
+export async function getCustomerStats() {
+  const result = await repo.getCustomerStats();
+  return result;
+}
+
 export async function updateCustomer(id, customer) {
   const lines = await repo.updateCustomer(id, customer);
   return lines;

@@ -17,7 +17,7 @@ export class Statistics implements OnInit {
 
   stats = signal<DashboardStats | null>(null);
   loading = signal(true);
-  activeTab = signal<DashTab>('clientes');
+  activeTab = signal<DashTab>('mensagens');
   clientePeriod = signal<PeriodFilter>('week');
   mensagemPeriod = signal<PeriodFilter>('week');
 

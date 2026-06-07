@@ -16,6 +16,12 @@
           Portfólio
         </button>
       </div>
+      <div class="secondary-options">
+        <button id="button-refresh" (click)="loadDashboard()">
+          <span class="material-icons"> refresh </span>
+          <span>Buscar últimas atualizações</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -347,7 +353,7 @@
         <p class="section-label">Categorias — Visualizações</p>
 
         <div class="category-list">
-          @for (cat of data.portfolio.categorias; track cat.name; let i = $index) {
+          @for (cat of categoriasSorted(); track cat.name; let i = $index) {
             <div
               class="category-row"
               [@floatUp]="{

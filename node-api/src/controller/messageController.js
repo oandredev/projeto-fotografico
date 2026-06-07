@@ -12,6 +12,11 @@ endpoints.get("/message", async (req, resp) => {
   resp.send(result);
 });
 
+endpoints.get("/message/stats", async (req, resp) => {
+  let result = await service.getMessageStats();
+  resp.send(result);
+});
+
 endpoints.post("/message", async (req, resp) => {
   let message = req.body;
 

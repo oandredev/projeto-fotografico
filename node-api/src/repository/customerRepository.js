@@ -23,6 +23,27 @@ export async function addCustomer(customer) {
   return resposta;
 }
 
+export async function getCustomerStats() {
+  const query = `
+    SELECT
+      COUNT(*) AS total,
+
+      SUM(isStarred = 1) AS favoritos,
+      SUM(isArchived = 1) AS arquivados,
+
+      SUM(DATE(\`register\`) = CURDATE()) AS day,
+      SUM(\`register\` >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AS week,
+      SUM(\`register\` >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS month,
+      SUM(\`register\` >= DATE_SUB(NOW(), INTERVAL 1 YEAR)) AS year
+
+    FROM customer
+  `;
+
+  const [result] = await connection.query(query);
+
+  return result[0];
+}
+
 export async function getCustomers(filter = {}) {
   const { page = 1, name = "", category = "all" } = filter;
 

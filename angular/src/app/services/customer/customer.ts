@@ -26,6 +26,10 @@ export class CustomerService {
     return this.http.get<PaginatedCustomers>(this.API, { params });
   }
 
+  getStats(): Observable<any> {
+    return this.http.get(`${this.API}/stats`);
+  }
+
   save(customer: Customer): Observable<{ id: number }> {
     return this.http.post<{ id: number }>(this.API, this.formatCustomer(customer));
   }

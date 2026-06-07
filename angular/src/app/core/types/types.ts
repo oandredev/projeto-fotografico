@@ -112,3 +112,46 @@ export interface LocalCategory {
   portfolioId?: number;
   images: { file: File | null; preview: string }[];
 }
+
+//-------------------------------------------------
+
+// Dashboard Types
+
+export type DashTab = 'clientes' | 'mensagens' | 'portfolio';
+export type PeriodFilter = 'day' | 'week' | 'month' | 'year';
+
+export interface PeriodData {
+  value: number;
+  label: string;
+}
+
+export interface CategoryItem {
+  name: string;
+  photos: number;
+  views: number;
+  color: string;
+}
+
+export interface DashboardStats {
+  clientes: {
+    total: number;
+    favoritos: number;
+    arquivados: number;
+    cadastros: Record<PeriodFilter, PeriodData>;
+  };
+
+  mensagens: {
+    total: number;
+    favoritas: number;
+    arquivadas: number;
+    ativas: number;
+    recebidas: Record<PeriodFilter, PeriodData>;
+  };
+
+  portfolio: {
+    categoriasAtivas: number;
+    fotosArmazenadas: number;
+    visualizacoes: number;
+    categorias: CategoryItem[];
+  };
+}

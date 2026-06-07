@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { Login as LoginI } from '../../core/types/types';
+import { APP_ANIMATIONS } from '../../shared/animations/animation';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { Login as LoginI } from '../../core/types/types';
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
+  animations: APP_ANIMATIONS,
 })
 export class Login {
   constructor(

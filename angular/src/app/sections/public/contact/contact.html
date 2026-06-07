@@ -1,16 +1,9 @@
 <section class="contact" id="contact">
   <div class="contact_container">
-    <!-- HEADER -->
-
     <div class="contact_heading">
       <h2 class="contact_title">Contato</h2>
     </div>
-
-    <!-- BODY -->
-
     <div class="contact_body">
-      <!-- FORM -->
-
       <form
         class="contact_card contact_card--form"
         [formGroup]="contactForm"
@@ -23,9 +16,6 @@
             Preencha os campos abaixo e retornaremos o mais breve possível.
           </p>
         </div>
-
-        <!-- NAME -->
-
         <div class="contact_field">
           <label class="contact_label" for="name"> Nome </label>
 
@@ -40,14 +30,11 @@
             autocomplete="name"
             placeholder="Seu nome"
             formControlName="name"
+            maxlength="50"
           />
         </div>
 
-        <!-- EMAIL + PHONE -->
-
         <div class="contact_row">
-          <!-- EMAIL -->
-
           <div class="contact_field">
             <label class="contact_label" for="email"> Email </label>
 
@@ -64,8 +51,6 @@
               formControlName="email"
             />
           </div>
-
-          <!-- PHONE -->
 
           <div class="contact_field">
             <label class="contact_label" for="phone"> Telefone </label>
@@ -86,8 +71,6 @@
           </div>
         </div>
 
-        <!-- SUBJECT -->
-
         <div class="contact_field">
           <label class="contact_label" for="subject"> Assunto </label>
           <small class="contact_error" *ngIf="subject.invalid && subject.touched">
@@ -103,8 +86,6 @@
             maxlength="150"
           />
         </div>
-
-        <!-- MESSAGE -->
 
         <div class="contact_field">
           <label class="contact_label" for="message"> Mensagem </label>
@@ -127,8 +108,6 @@
           ></textarea>
         </div>
 
-        <!-- BUTTON -->
-
         <button
           class="contact_btn"
           type="submit"
@@ -144,8 +123,6 @@
         </button>
       </form>
 
-      <!-- SOCIAL -->
-
       <div class="contact_card contact_card--social">
         <div class="contact_social-header">
           <h3 class="contact_social-title">Outros canais</h3>
@@ -154,8 +131,6 @@
         </div>
 
         <div class="contact_social-icons">
-          <!-- INSTAGRAM -->
-
           <a
             class="contact_social-item"
             href="https://instagram.com/larissacalegarofotografia/"
@@ -174,8 +149,6 @@
               <small> @larissacalegarofotografia </small>
             </div>
           </a>
-
-          <!-- WHATS -->
 
           <a
             class="contact_social-item"

@@ -343,6 +343,7 @@
   gap: 12px;
   padding: 11px 16px;
   border-bottom: 1px solid rgba(111, 66, 193, 0.07);
+
   transition:
     background 0.15s ease,
     transform 0.15s ease;
@@ -368,6 +369,8 @@
   font-size: 12px;
   font-weight: 600;
   color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cat-bar-track {

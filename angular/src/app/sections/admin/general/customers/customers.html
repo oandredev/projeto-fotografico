@@ -1,4 +1,7 @@
-<div class="customers-container">
+<div
+  class="customers-container"
+  [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
+>
   <header class="top-header">
     <h1>CLIENTES</h1>
 
@@ -44,9 +47,16 @@
     <!-- ITEMS -->
     <article
       class="customer-card"
-      *ngFor="let customer of customers()"
+      *ngFor="let customer of customers(); let i = index"
       (click)="selectCustomer(customer)"
       [class.selected]="selectedCustomer?.id === customer.id"
+      [@floatUp]="{
+        value: '',
+        params: {
+          duration: '300ms',
+          delay: getOffset(i) + 'ms',
+        },
+      }"
     >
       <div class="customer-cell">
         {{ customer.id }}

@@ -124,7 +124,14 @@ export class Statistics implements OnInit {
     return Math.max(...stats.portfolio.categorias.map((c) => Number(c.views) || 0), 1);
   });
 
-  private loadDashboard(): void {
+  categoriasSorted = computed(() => {
+    const stats = this.stats();
+    if (!stats) return [];
+    // spread para não mutar o array original da signal
+    return [...stats.portfolio.categorias].sort((a, b) => Number(b.views) - Number(a.views));
+  });
+
+  loadDashboard(): void {
     this.loading.set(true);
 
     this.statisticsService
@@ -145,6 +152,7 @@ export class Statistics implements OnInit {
   }
 
   setTab(tab: DashTab): void {
+    this.loadDashboard();
     this.activeTab.set(tab);
   }
 

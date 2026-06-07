@@ -392,6 +392,41 @@
   color: rgba(111, 66, 193, 0.45);
 }
 
+.secondary-options {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+#button-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-light-purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  max-height: 33px;
+  padding: 10px 16px;
+  margin-right: 4.5rem;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+
+#button-refresh:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+#button-refresh .material-icons {
+  font-size: 20px;
+}
+
 /* =============================================
    RESPONSIVE
    ============================================= */

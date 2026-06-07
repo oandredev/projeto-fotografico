@@ -38,16 +38,18 @@
     </div>
 
     <div class="lb-carousel" #carousel>
-      <button
-        class="lb-thumb"
-        *ngFor="let img of images(); let i = index"
-        [class.lb-thumb-active]="i === activeIndex()"
-        (click)="goTo(i)"
-        [title]="'Foto ' + (i + 1)"
-      >
-        <img [src]="img" [alt]="'Miniatura ' + (i + 1)" />
-        <span class="lb-thumb-order">{{ i + 1 }}</span>
-      </button>
+      <div class="lb-carousel-inner">
+        <button
+          class="lb-thumb"
+          *ngFor="let img of images(); let i = index"
+          [class.lb-thumb-active]="i === activeIndex()"
+          (click)="goTo(i)"
+          [title]="'Foto ' + (i + 1)"
+        >
+          <img [src]="img" [alt]="'Miniatura ' + (i + 1)" />
+          <span class="lb-thumb-order">{{ i + 1 }}</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

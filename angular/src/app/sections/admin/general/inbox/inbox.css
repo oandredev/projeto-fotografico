@@ -147,6 +147,8 @@
   margin: 4px 0;
   font-size: 14px;
   color: var(--color-light-purple);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .body {

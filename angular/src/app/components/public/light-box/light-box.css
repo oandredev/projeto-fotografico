@@ -79,6 +79,7 @@
   align-items: center;
   padding: 0 4px;
   width: 100%;
+  overflow: hidden;
 }
 
 .lb-header-center {
@@ -86,6 +87,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  overflow: hidden;
 }
 
 .lb-header-side {
@@ -102,6 +104,9 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--color-light-purple);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
 }
 
 .lightbox-counter {
@@ -204,18 +209,14 @@
   opacity: 0;
 }
 
-/* ── Carousel strip ── */
 .lb-carousel {
   flex-shrink: 0;
   width: 100%;
-  display: flex;
-  gap: 8px;
   overflow-x: auto;
   padding: 4px 2px 2px;
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: #d8d0eb transparent;
-  justify-content: center;
 }
 
 .lb-carousel::-webkit-scrollbar {
@@ -226,7 +227,15 @@
   border-radius: 4px;
 }
 
-/* ── Thumb ── */
+.lb-carousel-inner {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  min-width: 100%;
+  justify-content: center;
+  padding: 0 2px;
+}
+
 .lb-thumb {
   flex-shrink: 0;
   position: relative;

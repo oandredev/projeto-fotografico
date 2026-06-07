@@ -28,6 +28,7 @@ export async function getCustomerStats() {
     SELECT
       COUNT(*) AS total,
 
+      SUM(isArchived = 0) AS geral,
       SUM(isStarred = 1) AS favoritos,
       SUM(isArchived = 1) AS arquivados,
 

@@ -1,4 +1,7 @@
-<div class="home-settings-container">
+<div
+  class="home-settings-container"
+  [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
+>
   <header class="top-header">
     <h1>Página Inicial</h1>
 
@@ -54,6 +57,13 @@
           (drop)="onDrop(i)"
           (dragend)="onDragEnd()"
           [class.dragging]="dragIndex() === i"
+          [@floatUp]="{
+            value: '',
+            params: {
+              duration: '300ms',
+              delay: getOffset(i) + 'ms',
+            },
+          }"
         >
           <span class="carousel-order">{{ i + 1 }}</span>
 

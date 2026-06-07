@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Customer } from '../../../../core/types/types';
 import { CustomerService } from '../../../../services/customer/customer';
 import { AddCustomer } from '../../../../components/admin/add-customer/add-customer';
+import { APP_ANIMATIONS } from '../../../../shared/animations/animation';
 
 @Component({
   selector: 'app-customers',
@@ -11,6 +12,7 @@ import { AddCustomer } from '../../../../components/admin/add-customer/add-custo
   imports: [CommonModule, FormsModule, AddCustomer],
   templateUrl: './customers.html',
   styleUrl: './customers.css',
+  animations: [APP_ANIMATIONS],
 })
 export class Customers {
   constructor(private customerService: CustomerService) {
@@ -157,5 +159,9 @@ export class Customers {
 
   closeAddCustomer(): void {
     this.showAddCustomer.set(false);
+  }
+
+  getOffset(i: number): number {
+    return Math.min(i, 25) * 40;
   }
 }

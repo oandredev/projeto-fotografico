@@ -4,12 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { AboutService } from '../../../../services/about/about';
 import { environment } from '../../../../environment';
 import { About } from '../../../../core/types/types';
+import { APP_ANIMATIONS } from '../../../../shared/animations/animation';
 @Component({
   selector: 'app-about-settings',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './about-settings.html',
   styleUrl: './about-settings.css',
+  animations: [APP_ANIMATIONS],
 })
 export class AboutSettings implements OnInit {
   aboutText = signal('');

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { StatisticsService } from '../../../../services/statistics/statistics';
 import { DashboardStats, PeriodFilter, DashTab } from '../../../../core/types/types';
+import { APP_ANIMATIONS } from '../../../../shared/animations/animation';
 
 @Component({
   selector: 'app-statistics',
@@ -11,6 +12,7 @@ import { DashboardStats, PeriodFilter, DashTab } from '../../../../core/types/ty
   imports: [CommonModule, FormsModule],
   templateUrl: './statistics.html',
   styleUrl: './statistics.css',
+  animations: [APP_ANIMATIONS],
 })
 export class Statistics implements OnInit {
   constructor(private statisticsService: StatisticsService) {}

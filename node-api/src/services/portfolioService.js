@@ -1,6 +1,7 @@
 import * as repo from "../repository/portfolioRepository.js";
 import fs from "fs";
 import path from "path";
+import { resolveUploadPath, deleteFile } from "../utils/multerFunctions.js";
 
 function parseImages(value) {
   if (!value) return [];
@@ -12,6 +13,8 @@ function parseImages(value) {
     return [];
   }
 }
+
+//-----------------------------------------------------------------
 
 export async function getPortfolios() {
   return repo.getPortfolios();
@@ -28,9 +31,7 @@ export async function getPortfoliosByCategory(categoryId) {
 
 export async function savePortfolio(data, uploadedFiles, maxImages = 20) {
   const existing = data.id ? await repo.getPortfolioById(data.id) : null;
-
   const oldImages = existing?.image_urls ?? [];
-
   const uploadedImages = uploadedFiles.map(
     (f) => `/uploads/portfolio/${f.filename}`,
   );
@@ -52,8 +53,7 @@ export async function savePortfolio(data, uploadedFiles, maxImages = 20) {
   });
 
   for (const img of removed) {
-    const filePath = path.join(process.cwd(), img.replace(/^\//, ""));
-    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    deleteFile(img);
   }
 
   return { id, image_urls: finalImages };
@@ -69,14 +69,15 @@ export async function deletePortfolio(id) {
   }
 
   for (const img of portfolio.image_urls ?? []) {
-    const filePath = path.join(process.cwd(), img.replace(/^\//, ""));
-    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    deleteFile(img);
   }
 
   await repo.deletePortfolio(id);
 
   return { result: "Portfolio deleted successfully!" };
 }
+
+//-----------------------------------------------------------------
 
 export async function getStats() {
   const totals = await repo.getPortfolioStats();

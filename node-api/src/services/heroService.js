@@ -1,7 +1,5 @@
 import * as repo from "../repository/heroRepository.js";
-import fs from "fs";
-import path from "path";
-import { PROJECT_ROOT } from "../controller/heroController.js";
+import { deleteFile } from "../utils/multerFunctions.js";
 
 export async function saveHero(data, uploadedFiles = [], maxImages = 16) {
   if (!data.slogan || data.slogan.trim() === "") {
@@ -33,12 +31,8 @@ export async function saveHero(data, uploadedFiles = [], maxImages = 16) {
     (img) => !existingImages.includes(img),
   );
 
-  for (const imagePath of removedImages) {
-    const relativePath = imagePath.startsWith("/")
-      ? imagePath.slice(1)
-      : imagePath;
-    const fullPath = path.resolve(PROJECT_ROOT, relativePath);
-    if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+  for (const img of removedImages) {
+    deleteFile(img);
   }
 
   const uploadedMap = {};

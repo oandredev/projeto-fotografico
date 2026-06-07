@@ -6,12 +6,15 @@ import { environment } from '../../../../environment';
 import { PortfolioService } from '../../../../services/portfolio/portfolio';
 import { PortfolioCategoryService } from '../../../../services/portfolio-category/portfolio-category';
 import { LocalCategory } from '../../../../core/types/types';
+import { APP_ANIMATIONS } from '../../../../shared/animations/animation';
+
 @Component({
   selector: 'app-portfolio-settings',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './portfolio-settings.html',
   styleUrls: ['./portfolio-settings.css'],
+  animations: [APP_ANIMATIONS],
 })
 export class PortfolioSettings implements OnInit {
   constructor(

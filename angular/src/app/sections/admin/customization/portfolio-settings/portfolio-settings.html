@@ -1,4 +1,7 @@
-<div class="portfolio-container">
+<div
+  class="portfolio-container"
+  [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
+>
   <header class="top-header">
     <h1>Portfólio</h1>
     <div class="header-actions">
@@ -33,7 +36,6 @@
             <span class="material-icons trigger-icon">folder_open</span>
             <span class="trigger-text">
               {{ selectedCategory()?.name || 'Selecionar categoria...' }}
-              <!-- Badge visual de "pendente" para categorias ainda não salvas -->
               <span
                 class="pending-badge"
                 *ngIf="selectedCategory() && selectedCategory()!.originalId === 0"
@@ -111,6 +113,13 @@
             (drop)="onCatDrop(i)"
             (dragend)="onCatDragEnd()"
             (click)="selectCategory(cat)"
+            [@floatUp]="{
+              value: '',
+              params: {
+                duration: '300ms',
+                delay: i * 60 + 'ms',
+              },
+            }"
           >
             <span
               class="material-icons drag-handle"
@@ -160,7 +169,6 @@
         </ul>
       </div>
 
-      <!-- Estado vazio -->
       <div class="empty-cats" *ngIf="!categories().length">
         <span class="material-icons empty-icon icon-porfolio">inbox</span>
         <p>Nenhuma categoria criada.</p>
@@ -171,7 +179,6 @@
       </div>
     </article>
 
-    <!-- ── Coluna direita: fotos ── -->
     <article class="settings-card right-card">
       <div class="section-header">
         <span class="material-icons">photo_library</span>
@@ -180,7 +187,6 @@
           <span class="count-badge">
             {{ selectedCategory()!.images.length }}/{{ MAX_PHOTOS }}
           </span>
-          <!-- Aviso de que esta categoria ainda não foi salva -->
           <span
             class="pending-warning"
             *ngIf="selectedCategory()!.originalId === 0"
@@ -210,6 +216,13 @@
           (drop)="onDrop(i)"
           (dragend)="onDragEnd()"
           [class.dragging]="dragIndex() === i"
+          [@floatUp]="{
+            value: '',
+            params: {
+              duration: '300ms',
+              delay: i * 60 + 'ms',
+            },
+          }"
         >
           <span class="photo-order" [class.photo-cover]="i === 0">
             {{ i === 0 ? 'CAPA' : i + 1 }}

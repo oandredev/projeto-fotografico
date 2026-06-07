@@ -1,4 +1,7 @@
-<div class="messages-container">
+<div
+  class="messages-container"
+  [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
+>
   <header class="top-header">
     <h1>MENSAGENS</h1>
 
@@ -26,7 +29,17 @@
   </header>
 
   <section class="messages-list">
-    <article class="message-card" *ngFor="let message of messages()">
+    <article
+      class="message-card"
+      *ngFor="let message of messages(); let i = index"
+      [@floatUp]="{
+        value: '',
+        params: {
+          duration: '300ms',
+          delay: getOffset(i) + 'ms',
+        },
+      }"
+    >
       <div class="avatar">
         <span>#{{ message.id }}</span>
       </div>

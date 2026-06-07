@@ -2,8 +2,7 @@ import * as service from "../services/aboutService.js";
 import { Router } from "express";
 import { getAuthentication } from "../utils/jwt.js";
 import { aboutUpload } from "../config/multer.config.js";
-import fs from "fs";
-import path from "path";
+import { resolveUploadPath, deleteFile } from "../utils/multerFunctions.js";
 
 const endpoints = Router();
 const auth = getAuthentication();
@@ -32,11 +31,7 @@ endpoints.put(
       }
 
       if (req.file && existing.imageUrl) {
-        const oldImagePath = path.resolve(existing.imageUrl.replace("/", ""));
-
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        }
+        deleteFile(existing.imageUrl);
       }
 
       const about = {

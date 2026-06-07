@@ -2,16 +2,17 @@ import * as service from "../services/heroService.js";
 import { Router } from "express";
 import { getAuthentication } from "../utils/jwt.js";
 import { heroUpload } from "../config/multer.config.js";
+import { deleteFile } from "../utils/multerFunctions.js";
 import multer from "multer";
 import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-export const PROJECT_ROOT = path.resolve(__dirname, "../..");
+//-----------------------------------------------------------------
+
 const endpoints = Router();
 const auth = getAuthentication();
 const HERO_MAX_IMAGES = 16;
+
+//-----------------------------------------------------------------
 
 endpoints.get("/hero", async (req, resp) => {
   const result = await service.getHero(req.query);

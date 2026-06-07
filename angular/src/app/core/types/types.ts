@@ -91,6 +91,18 @@ export interface Portfolio {
   last_update?: string;
 }
 
+export interface PortfolioStats {
+  categoriasAtivas: number;
+  fotosArmazenadas: number;
+  visualizacoes: number;
+
+  categorias: {
+    category_id: number;
+    photos: number;
+    views: number;
+  }[];
+}
+
 export interface PortfolioImage {
   file: File | null;
   preview: string;

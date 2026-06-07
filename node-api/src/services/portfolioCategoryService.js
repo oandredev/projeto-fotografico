@@ -62,3 +62,11 @@ export async function deletePortfolioCategory(id) {
 
   return { success: true };
 }
+
+export async function incrementViews(id) {
+  const affectedRows = await repo.incrementViews(id);
+
+  if (affectedRows === 0) {
+    throw new Error("Category not found");
+  }
+}

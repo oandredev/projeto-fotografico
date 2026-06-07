@@ -46,4 +46,16 @@ endpoints.delete("/portfolio-category/:id", auth, async (req, resp) => {
   }
 });
 
+endpoints.post("/portfolio-category/:id/view", async (req, resp) => {
+  try {
+    const id = Number(req.params.id);
+    await service.incrementViews(id);
+    resp.send({ success: true });
+  } catch (err) {
+    return resp.status(404).send({
+      error: err.message,
+    });
+  }
+});
+
 export default endpoints;

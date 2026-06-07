@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, map, Observable } from 'rxjs';
-
 import { CustomerService } from '../customer/customer';
 import { MessageService } from '../message/message';
+import { PortfolioService } from '../portfolio/portfolio';
 import { PortfolioCategoryService } from '../portfolio-category/portfolio-category';
-
-import { Customer, Message, PortfolioCategory } from '../../core/types/types';
-
-import { DashboardStats, PeriodFilter, CategoryItem } from '../../core/types/types';
+import { DashboardStats } from '../../core/types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -17,22 +14,17 @@ export class StatisticsService {
     private customerService: CustomerService,
     private messageService: MessageService,
     private portfolioCategoryService: PortfolioCategoryService,
+    private portfolioService: PortfolioService,
   ) {}
 
   getDashboard(): Observable<DashboardStats> {
     return forkJoin({
       customers: this.customerService.getStats(),
       messages: this.messageService.getStats(),
+      portfolio: this.portfolioService.getStats(),
       categories: this.portfolioCategoryService.getAll(),
     }).pipe(
-      map(({ customers, messages, categories }) => {
-        const portfolioCategories: CategoryItem[] = categories.map((category) => ({
-          name: category.name,
-          photos: 0,
-          views: 0,
-          color: this.getCategoryColor(category.order_index),
-        }));
-
+      map(({ customers, messages, portfolio, categories }) => {
         return {
           clientes: {
             total: customers.total,
@@ -74,61 +66,34 @@ export class StatisticsService {
           },
 
           portfolio: {
-            categoriasAtivas: categories.length,
-            fotosArmazenadas: 0,
-            visualizacoes: 0,
-            categorias: portfolioCategories,
+            categoriasAtivas: portfolio.categoriasAtivas,
+            fotosArmazenadas: portfolio.fotosArmazenadas,
+            visualizacoes: portfolio.visualizacoes,
+
+            categorias: categories.map((category) => {
+              const stat = portfolio.categorias.find((c) => c.category_id === category.id);
+
+              return {
+                name: category.name,
+                photos: stat?.photos ?? 0,
+                views: stat?.views ?? 0,
+                color: this.getCategoryColor(category.order_index),
+              };
+            }),
           },
+          categorias: categories.map((category) => {
+            const stat = portfolio.categorias.find((c) => c.category_id === category.id);
+
+            return {
+              name: category.name,
+              photos: stat?.photos ?? 0,
+              views: stat?.views ?? 0,
+              color: this.getCategoryColor(category.order_index),
+            };
+          }),
         };
       }),
     );
-  }
-
-  private countCustomers(customers: Customer[], period: PeriodFilter): number {
-    return this.filterByPeriod(customers, (customer) => customer.register, period);
-  }
-
-  private countMessages(messages: Message[], period: PeriodFilter): number {
-    return this.filterByPeriod(messages, (message) => message.date, period);
-  }
-
-  private filterByPeriod<T>(
-    items: T[],
-    getDate: (item: T) => string | undefined,
-    period: PeriodFilter,
-  ): number {
-    const now = new Date();
-
-    return items.filter((item) => {
-      const value = getDate(item);
-
-      if (!value) {
-        return false;
-      }
-
-      const date = new Date(value);
-
-      switch (period) {
-        case 'day':
-          return (
-            date.getDate() === now.getDate() &&
-            date.getMonth() === now.getMonth() &&
-            date.getFullYear() === now.getFullYear()
-          );
-
-        case 'week': {
-          const diff = (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);
-
-          return diff <= 7;
-        }
-
-        case 'month':
-          return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-
-        case 'year':
-          return date.getFullYear() === now.getFullYear();
-      }
-    }).length;
   }
 
   private getCategoryColor(order: number): string {

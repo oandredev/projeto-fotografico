@@ -27,7 +27,25 @@ endpoints.get("/portfolio", async (req, resp) => {
   }
 });
 
+endpoints.get("/portfolio/stats", async (req, resp) => {
+  try {
+    const stats = await service.getStats();
+    resp.send(stats);
+  } catch (err) {
+    console.error(err);
+
+    resp.status(err.status ?? 500).send({
+      error: err.message,
+      stack: err.stack,
+    });
+  }
+});
+
 endpoints.get("/portfolio/:id", async (req, resp) => {
+  if (isNaN(id)) {
+    return resp.status(400).send({ error: "Invalid portfolio id" });
+  }
+
   try {
     const data = await service.getPortfolioById(Number(req.params.id));
 

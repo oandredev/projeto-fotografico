@@ -43,3 +43,15 @@ export async function deletePortfolioCategory(id) {
 
   return res.affectedRows;
 }
+
+export async function incrementViews(id) {
+  const query = `
+    UPDATE portfolio_category
+       SET views = views + 1
+     WHERE id = ?;
+  `;
+
+  const [result] = await connection.query(query, [id]);
+
+  return result.affectedRows;
+}

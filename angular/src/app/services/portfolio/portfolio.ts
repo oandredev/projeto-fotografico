@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from '../../environment';
-import { Portfolio } from '../../core/types/types';
+import { Portfolio, PortfolioStats } from '../../core/types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -48,13 +48,15 @@ export class PortfolioService {
     return this.http.delete(`${this.API}/${id}`).pipe(catchError(this.handleError));
   }
 
+  getStats(): Observable<PortfolioStats> {
+    return this.http.get<PortfolioStats>(`${this.API}/stats`).pipe(catchError(this.handleError));
+  }
+
   private handleError(response: HttpErrorResponse): Observable<never> {
     const message = response.error?.error ?? response.message ?? 'Unexpected error';
-
     const err = new Error(message) as Error & {
       status: number;
     };
-
     err.status = response.status;
 
     return throwError(() => err);

@@ -30,6 +30,10 @@ export class PortfolioCategoryService {
     return this.http.delete<String>(`${this.API}/${id}`).pipe(catchError(this.handleError));
   }
 
+  incrementView(id: number): Observable<void> {
+    return this.http.post<void>(`${this.API}/${id}/view`, {});
+  }
+
   private handleError(response: HttpErrorResponse): Observable<never> {
     const message = response.error?.error ?? response.message ?? 'Unexpected error';
     const err = new Error(message) as Error & { status: number };

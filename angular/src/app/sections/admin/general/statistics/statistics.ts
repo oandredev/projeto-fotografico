@@ -112,6 +112,16 @@ export class Statistics implements OnInit {
     return Math.round((stats.clientes.arquivados / stats.clientes.total) * 100);
   });
 
+  maxViews = computed(() => {
+    const stats = this.stats();
+
+    if (!stats) {
+      return 1;
+    }
+
+    return Math.max(...stats.portfolio.categorias.map((c) => Number(c.views) || 0), 1);
+  });
+
   private loadDashboard(): void {
     this.loading.set(true);
 
@@ -144,8 +154,8 @@ export class Statistics implements OnInit {
     this.mensagemPeriod.set(period);
   }
 
-  barWidth(photos: number): string {
-    return `${Math.round((photos / this.maxPhotos()) * 100)}%`;
+  barWidth(views: number): string {
+    return `${Math.round((views / this.maxViews()) * 100)}%`;
   }
 
   sparkHeight(value: number, max: number): number {

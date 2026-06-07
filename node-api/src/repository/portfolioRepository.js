@@ -78,10 +78,40 @@ export async function getPortfoliosByCategory(categoryId) {
 }
 
 export async function deletePortfolio(id) {
-  const [res] = await connection.query(
-    `DELETE FROM portfolio WHERE id = ?`,
-    [id],
-  );
+  const [res] = await connection.query(`DELETE FROM portfolio WHERE id = ?`, [
+    id,
+  ]);
 
   return res.affectedRows;
+}
+
+// Stats (Calleds from portfolioService together with getStats)
+
+export async function getPortfolioStats() {
+  const totalsQuery = `
+    SELECT
+      COUNT(DISTINCT category_id) categoriasAtivas,
+      COALESCE(SUM(JSON_LENGTH(image_urls)),0) fotosArmazenadas
+    FROM portfolio;
+  `;
+
+  const [totals] = await connection.query(totalsQuery);
+
+  return totals[0];
+}
+
+export async function getPortfolioCategoryStats() {
+  const query = `
+    SELECT
+      p.category_id,
+      JSON_LENGTH(p.image_urls) photos,
+      c.views
+    FROM portfolio p
+    INNER JOIN portfolio_category c
+            ON c.id = p.category_id;
+  `;
+
+  const [result] = await connection.query(query);
+
+  return result;
 }

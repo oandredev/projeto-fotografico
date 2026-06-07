@@ -77,3 +77,19 @@ export async function deletePortfolio(id) {
 
   return { result: "Portfolio deleted successfully!" };
 }
+
+export async function getStats() {
+  const totals = await repo.getPortfolioStats();
+  const categorias = await repo.getPortfolioCategoryStats();
+  const visualizacoes = categorias.reduce(
+    (acc, item) => acc + Number(item.views || 0),
+    0,
+  );
+
+  return {
+    categoriasAtivas: Number(totals.categoriasAtivas),
+    fotosArmazenadas: Number(totals.fotosArmazenadas),
+    visualizacoes,
+    categorias,
+  };
+}

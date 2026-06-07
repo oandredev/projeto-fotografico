@@ -7,6 +7,7 @@ import { environment } from '../../../environment';
 import { LightBox } from '../../../components/public/light-box/light-box';
 
 interface PortfolioCard {
+  categoryId: number;
   categoryName: string;
   coverUrl: string;
   allUrls: string[];
@@ -36,6 +37,7 @@ export class Portfolio implements OnInit {
         const result = portfolios
           .filter((p) => p.image_urls?.length)
           .map((p) => ({
+            categoryId: p.category_id,
             categoryName: categories.find((c) => c.id === p.category_id)?.name ?? '',
             coverUrl: `http://localhost:${environment.API_PORT}${p.image_urls[0]}`,
             allUrls: p.image_urls.map((url) => `http://localhost:${environment.API_PORT}${url}`),
@@ -50,6 +52,7 @@ export class Portfolio implements OnInit {
   openLightbox(cardIndex: number): void {
     const card = this.cards()[cardIndex];
     if (!card) return;
+    this.portfolioCategoryService.incrementView(card.categoryId).subscribe();
     this.lightbox.open(card.allUrls, 0, card.categoryName);
   }
 }

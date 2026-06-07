@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { environment } from '../../../../environment';
 import { HeroService } from '../../../../services/hero/hero';
 import { Hero } from '../../../../core/types/types';
+import { APP_ANIMATIONS } from '../../../../shared/animations/animation';
 
 @Component({
   selector: 'app-hero-settings',
@@ -12,6 +12,7 @@ import { Hero } from '../../../../core/types/types';
   imports: [CommonModule, FormsModule],
   templateUrl: './hero-settings.html',
   styleUrl: './hero-settings.css',
+  animations: [APP_ANIMATIONS],
 })
 export class HeroSettings implements OnInit {
   constructor(private heroService: HeroService) {}
@@ -205,5 +206,9 @@ export class HeroSettings implements OnInit {
         URL.revokeObjectURL(image.preview);
       }
     }
+  }
+
+  getOffset(i: number): number {
+    return Math.min(i, 16) * 65;
   }
 }

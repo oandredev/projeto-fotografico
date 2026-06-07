@@ -1,4 +1,7 @@
-<div class="dashboard-container">
+<div
+  class="dashboard-container"
+  [@floatUp]="{ value: '', params: { duration: '300ms', delay: '0ms' } }"
+>
   <header class="top-header">
     <h1>DASHBOARD</h1>
     <div class="filters">
@@ -25,22 +28,34 @@
     @if (activeTab() === 'clientes') {
       <section class="tab-content" aria-label="Clientes">
         <div class="metrics-grid">
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
+          >
             <span class="metric-label">Total</span>
             <span class="metric-value">{{ data.clientes.total }}</span>
             <span class="metric-sub">clientes cadastrados</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '50ms' } }"
+          >
             <span class="metric-label">Favoritos</span>
             <span class="metric-value">{{ data.clientes.favoritos }}</span>
             <span class="metric-sub">marcados</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '75ms' } }"
+          >
             <span class="metric-label">Arquivados</span>
             <span class="metric-value">{{ data.clientes.arquivados }}</span>
             <span class="metric-sub">fora do fluxo</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '100ms' } }"
+          >
             <div class="metric-label-row">
               <span class="metric-label">Cadastros</span>
               <select
@@ -59,7 +74,10 @@
           </div>
         </div>
 
-        <div class="chart-card">
+        <div
+          class="chart-card"
+          [@floatUp]="{ value: '', params: { duration: '300ms', delay: '150ms' } }"
+        >
           <div class="chart-header">
             <span>Cadastros por período</span>
           </div>
@@ -103,7 +121,10 @@
             </div>
           </div>
         </div>
-        <div class="chart-card">
+        <div
+          class="chart-card"
+          [@floatUp]="{ value: '', params: { duration: '300ms', delay: '200ms' } }"
+        >
           <div class="chart-header">
             <span>Status dos Clientes</span>
           </div>
@@ -153,22 +174,34 @@
     @if (activeTab() === 'mensagens') {
       <section class="tab-content" aria-label="Mensagens">
         <div class="metrics-grid">
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
+          >
             <span class="metric-label">Total</span>
             <span class="metric-value">{{ data.mensagens.total }}</span>
             <span class="metric-sub">no sistema</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '50ms' } }"
+          >
             <span class="metric-label">Favoritas</span>
             <span class="metric-value">{{ data.mensagens.favoritas }}</span>
             <span class="metric-sub">salvas</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '100ms' } }"
+          >
             <span class="metric-label">Arquivadas</span>
             <span class="metric-value">{{ data.mensagens.arquivadas }}</span>
             <span class="metric-sub">movidas</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '150ms' } }"
+          >
             <div class="metric-label-row">
               <span class="metric-label">Recebidas</span>
               <select
@@ -187,7 +220,10 @@
           </div>
         </div>
 
-        <div class="chart-card">
+        <div
+          class="chart-card"
+          [@floatUp]="{ value: '', params: { duration: '300ms', delay: '200ms' } }"
+        >
           <div class="chart-header">
             <span>Mensagens por período</span>
           </div>
@@ -235,7 +271,10 @@
           </div>
         </div>
 
-        <div class="chart-card">
+        <div
+          class="chart-card"
+          [@floatUp]="{ value: '', params: { duration: '300ms', delay: '250ms' } }"
+        >
           <div class="chart-header">
             <span>Status das mensagens</span>
           </div>
@@ -279,17 +318,26 @@
     @if (activeTab() === 'portfolio') {
       <section class="tab-content" aria-label="Portfólio">
         <div class="metrics-grid metrics-grid--3">
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
+          >
             <span class="metric-label">Categorias</span>
             <span class="metric-value">{{ data.portfolio.categoriasAtivas }}</span>
             <span class="metric-sub">Existentes até o momento</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '50ms' } }"
+          >
             <span class="metric-label">Fotos armazenadas</span>
             <span class="metric-value">{{ data.portfolio.fotosArmazenadas }}</span>
             <span class="metric-sub">em todas as categorias</span>
           </div>
-          <div class="metric-card">
+          <div
+            class="metric-card"
+            [@floatUp]="{ value: '', params: { duration: '300ms', delay: '75ms' } }"
+          >
             <span class="metric-label">Visualizações</span>
             <span class="metric-value">{{ data.portfolio.visualizacoes }}</span>
             <span class="metric-sub">total de vezes que alguma categoria foi visualizada</span>
@@ -299,10 +347,21 @@
         <p class="section-label">Categorias — Visualizações</p>
 
         <div class="category-list">
-          @for (cat of data.portfolio.categorias; track cat.name) {
-            <div class="category-row">
+          @for (cat of data.portfolio.categorias; track cat.name; let i = $index) {
+            <div
+              class="category-row"
+              [@floatUp]="{
+                value: '',
+                params: {
+                  duration: '300ms',
+                  delay: i * 60 + 'ms',
+                },
+              }"
+            >
               <span class="cat-dot" [style.background]="cat.color"></span>
+
               <span class="cat-name">{{ cat.name }}</span>
+
               <div class="cat-bar-track">
                 <div
                   class="cat-bar-fill"
@@ -310,7 +369,8 @@
                   [style.background]="cat.color"
                 ></div>
               </div>
-              <span class="cat-views">{{ formatViews(cat.views) }} views</span>
+
+              <span class="cat-views"> {{ formatViews(cat.views) }} views </span>
             </div>
           }
         </div>

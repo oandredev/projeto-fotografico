@@ -10,9 +10,7 @@ import { Login } from './pages/login/login';
 import { Admin } from './pages/admin/admin';
 import { Inbox } from './sections/admin/general/inbox/inbox';
 import { Customers } from './sections/admin/general/customers/customers';
-import { Services } from './sections/admin/general/services/services';
 import { Statistics } from './sections/admin/general/statistics/statistics';
-import { Announcement } from './sections/admin/general/announcement/announcement';
 import { HeroSettings } from './sections/admin/customization/hero-settings/hero-settings';
 import { AboutSettings } from './sections/admin/customization/about-settings/about-settings';
 import { PortfolioSettings } from './sections/admin/customization/portfolio-settings/portfolio-settings';
@@ -30,9 +28,7 @@ export const routes: Routes = [
       { path: '', component: Inbox },
       { path: 'inbox', component: Inbox, title: 'Caixa de Entrada' },
       { path: 'customers', component: Customers, title: 'Clientes' },
-      { path: 'services', component: Services, title: 'Serviços' },
       { path: 'statistics', component: Statistics, title: 'Estatísticas' },
-      { path: 'announcement', component: Announcement, title: 'Anúncios/Avisos' },
       { path: 'hero-settings', component: HeroSettings, title: 'Início' },
       { path: 'about-settings', component: AboutSettings, title: 'Sobre' },
       { path: 'portfolio-settings', component: PortfolioSettings, title: 'Portfólio' },

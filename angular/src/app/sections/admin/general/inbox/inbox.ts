@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { Message } from '../../../../core/types/types';
 import { MessageService } from '../../../../services/message/message';
+import { APP_ANIMATIONS } from '../../../../shared/animations/animation';
 
 @Component({
   selector: 'app-inbox',
@@ -11,6 +11,7 @@ import { MessageService } from '../../../../services/message/message';
   imports: [CommonModule, FormsModule],
   templateUrl: './inbox.html',
   styleUrl: './inbox.css',
+  animations: [APP_ANIMATIONS],
 })
 export class Inbox {
   constructor(private messageService: MessageService) {
@@ -143,5 +144,9 @@ export class Inbox {
     this.currentFilter.set('all');
     this.currentPage.set(1);
     this.loadMessages();
+  }
+
+  getOffset(i: number): number {
+    return Math.min(i, 10) * 120;
   }
 }

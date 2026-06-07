@@ -1,16 +1,24 @@
 <section id="login" class="login-container">
   <div class="login-box">
-    <h1>LOGIN</h1>
-    <p class="subtitle">Área exclusiva para Administradores</p>
+    <h1 [@floatUp]="{ value: '', params: { duration: '300ms', delay: '50ms' } }">LOGIN</h1>
+    <p class="subtitle" [@floatUp]="{ value: '', params: { duration: '300ms', delay: '100ms' } }">
+      Área exclusiva para Administradores
+    </p>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="login-form">
       <div class="form-error" *ngIf="loginError">E-mail ou senha incorretos.</div>
-      <div class="input-group">
+      <div
+        class="input-group"
+        [@floatUp]="{ value: '', params: { duration: '300ms', delay: '150ms' } }"
+      >
         <label for="email">EMAIL</label>
         <input type="email" id="email" formControlName="email" placeholder="larissa@gmail.com" />
       </div>
 
-      <div class="input-group">
+      <div
+        class="input-group"
+        [@floatUp]="{ value: '', params: { duration: '300ms', delay: '200ms' } }"
+      >
         <label for="password">SENHA</label>
         <input
           type="password"
@@ -20,7 +28,10 @@
         />
       </div>
 
-      <div class="form-options">
+      <div
+        class="form-options"
+        [@floatUp]="{ value: '', params: { duration: '300ms', delay: '250ms' } }"
+      >
         <label class="checkbox-container">
           <input type="checkbox" formControlName="rememberMe" />
           MANTENHA-ME CONECTADO
@@ -30,12 +41,21 @@
         > -->
       </div>
 
-      <button type="submit" class="btn-access">ACESSAR <span class="arrow">→</span></button>
+      <button
+        type="submit"
+        class="btn-access"
+        [@floatUp]="{ value: '', params: { duration: '300ms', delay: '300ms' } }"
+      >
+        ACESSAR <span class="arrow">→</span>
+      </button>
     </form>
 
-    <hr class="divider" />
+    <hr class="divider" [@floatUp]="{ value: '', params: { duration: '300ms', delay: '350ms' } }" />
 
-    <div class="footer-links">
+    <div
+      class="footer-links"
+      [@floatUp]="{ value: '', params: { duration: '300ms', delay: '400ms' } }"
+    >
       <p>Chegou aqui por engano?</p>
       <a routerLink="/home" fragment="hero" class="back-link">VOLTAR À PÁGINA INICIAL</a>
     </div>

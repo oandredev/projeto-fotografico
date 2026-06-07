@@ -120,6 +120,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95%;
 }
 
 .count-badge {

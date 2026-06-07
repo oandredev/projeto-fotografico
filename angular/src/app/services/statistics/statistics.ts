@@ -28,14 +28,15 @@ export class StatisticsService {
         return {
           clientes: {
             total: customers.total,
+            geral: customers.geral,
             favoritos: customers.favoritos,
             arquivados: customers.arquivados,
 
             cadastros: {
               day: { value: customers.day, label: 'hoje' },
-              week: { value: customers.week, label: 'esta semana' },
-              month: { value: customers.month, label: 'este mês' },
-              year: { value: customers.year, label: 'este ano' },
+              week: { value: customers.week, label: 'últimos 7 dias' },
+              month: { value: customers.month, label: 'últimos 30 dias' },
+              year: { value: customers.year, label: 'últimos 365 dias' },
             },
           },
 
@@ -52,15 +53,15 @@ export class StatisticsService {
               },
               week: {
                 value: messages.week,
-                label: 'esta semana',
+                label: 'últimos 7 dias',
               },
               month: {
                 value: messages.month,
-                label: 'este mês',
+                label: 'últimos 30 dias',
               },
               year: {
                 value: messages.year,
-                label: 'este ano',
+                label: 'últimos 365 dias',
               },
             },
           },

@@ -85,6 +85,7 @@ CREATE TABLE portfolio_category (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(120) NOT NULL UNIQUE,
     order_index INT NOT NULL,
+    views INT DEFAULT 0,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP
 );
@@ -164,3 +165,37 @@ SELECT
 
     SUM(CASE WHEN YEAR(date) = 2026 THEN 1 ELSE 0 END) AS year_total
 FROM message;
+
+INSERT INTO customer (
+    name, cpf, phone, email,
+    birthDate,
+    isStarred, isArchived,
+    register
+) VALUES
+
+('Ana Souza', '123.456.789-01', '(11) 98765-4321', 'ana@email.com', '1995-03-12', 1, 0, '2026-06-07 09:10:00'),
+('Carlos Lima', '234.567.890-12', '(11) 98123-4567', 'carlos@email.com', '1988-07-22', 0, 0, '2026-06-07 11:30:00'),
+
+('Mariana Alves', '345.678.901-23', '(11) 99987-7766', 'mariana@email.com', '1992-11-05', 1, 0, '2026-06-03 09:40:00'),
+('João Pedro', '456.789.012-34', '(11) 99555-3322', 'joao@email.com', '1985-01-30', 0, 0, '2026-06-04 13:10:00'),
+('Fernanda Rocha', '567.890.123-45', '(11) 99444-2211', 'fernanda@email.com', '1990-06-18', 1, 0, '2026-06-05 08:30:00'),
+('Lucas Martins', '678.901.234-56', '(11) 99333-1122', 'lucas@email.com', '2000-09-10', 0, 0, '2026-06-06 14:55:00'),
+
+('Beatriz Costa', '789.012.345-67', '(11) 99222-3344', 'bia@email.com', '1997-12-01', 0, 0, '2026-06-01 10:05:00'),
+('Rafael Dias', '890.123.456-78', '(11) 99111-2233', 'rafael@email.com', '1983-04-14', 0, 0, '2026-06-02 15:20:00'),
+('Juliana Mendes', '901.234.567-89', '(11) 99000-1122', 'juliana@email.com', '1993-08-09', 1, 0, '2026-06-02 09:00:00'),
+('Thiago Pereira', '012.345.678-90', '(11) 98887-7777', 'thiago@email.com', '1991-02-27', 0, 0, '2026-06-03 12:45:00'),
+('Camila Ferreira', '111.222.333-44', '(11) 98776-6655', 'camila@email.com', '1994-05-16', 1, 0, '2026-06-04 16:10:00'),
+('Bruno Almeida', '222.333.444-55', '(11) 98665-5444', 'bruno@email.com', '1987-10-02', 0, 0, '2026-06-05 09:25:00'),
+
+('Patrícia Gomes', '333.444.555-66', '(11) 98555-4433', 'patricia@email.com', '1996-03-21', 1, 0, '2026-05-20 11:00:00'),
+('Eduardo Ramos', '444.555.666-77', '(11) 98444-3322', 'eduardo@email.com', '1989-12-12', 0, 0, '2026-05-18 13:40:00'),
+('Larissa Nunes', '555.666.777-88', '(11) 98333-2211', 'larissa@email.com', '1998-07-07', 0, 0, '2026-05-10 10:15:00'),
+('Felipe Santos', '666.777.888-99', '(11) 98221-1000', 'felipe@email.com', '1990-01-01', 1, 0, '2026-04-25 12:30:00'),
+('Gustavo Lima', '888.999.000-11', '(11) 98000-9988', 'gustavo@email.com', '1986-06-06', 0, 0, '2026-04-10 09:10:00'),
+
+('Isabela Monteiro', '999.000.111-22', '(11) 97999-8877', 'isabela@email.com', '1995-10-10', 1, 0, '2026-03-25 11:35:00'),
+('Renato Silva', '000.111.222-33', '(11) 97888-7766', 'renato@email.com', '1982-11-11', 0, 0, '2026-03-10 15:50:00'),
+('Sofia Martins', '101.202.303-14', '(11) 97777-6655', 'sofia@email.com', '1997-04-04', 1, 0, '2026-02-28 10:00:00'),
+('Pedro Henrique', '202.303.404-25', '(11) 97666-5544', 'pedro@email.com', '1991-05-05', 0, 0, '2026-02-15 11:20:00'),
+('Gabriela Souza', '303.404.505-36', '(11) 97555-4433', 'gabriela@email.com', '1993-06-06', 0, 0, '2026-01-30 12:40:00');

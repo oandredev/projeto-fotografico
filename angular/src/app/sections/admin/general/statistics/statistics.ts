@@ -114,6 +114,14 @@ export class Statistics implements OnInit {
     return Math.round((stats.clientes.arquivados / stats.clientes.total) * 100);
   });
 
+  clientesGeralPercent = computed(() => {
+    const stats = this.stats();
+    if (!stats || stats.clientes.total === 0) {
+      return 0;
+    }
+    return Math.round((stats.clientes.geral / stats.clientes.total) * 100);
+  });
+
   maxViews = computed(() => {
     const stats = this.stats();
 

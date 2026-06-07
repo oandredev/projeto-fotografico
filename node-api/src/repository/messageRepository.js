@@ -151,17 +151,20 @@ export async function getMessageStats() {
   const query = `
     SELECT
       COUNT(*) AS total,
-
+    
       SUM(isStarred = 1) AS favoritas,
       SUM(isArchived = 1) AS arquivadas,
       SUM(isArchived = 0) AS ativas,
-
+    
       SUM(DATE(date) = CURDATE()) AS day,
+    
       SUM(date >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AS week,
-      SUM(date >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS month,
-      SUM(date >= DATE_SUB(NOW(), INTERVAL 1 YEAR)) AS year
+    
+      SUM(date >= DATE_SUB(NOW(), INTERVAL 30 DAY)) AS month,
+    
+      SUM(date >= DATE_SUB(NOW(), INTERVAL 365 DAY)) AS year
 
-    FROM message
+    FROM message;
   `;
 
   const [result] = await connection.query(query);

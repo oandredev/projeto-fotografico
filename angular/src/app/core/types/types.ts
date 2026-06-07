@@ -146,6 +146,7 @@ export interface CategoryItem {
 
 export interface DashboardStats {
   clientes: {
+    geral: number;
     total: number;
     favoritos: number;
     arquivados: number;

@@ -140,12 +140,12 @@
               <div class="dist-bar-track">
                 <div
                   class="dist-bar-fill fill-ativas"
-                  [style.height.%]="clientesTotalPercent()"
+                  [style.height.%]="clientesGeralPercent()"
                 ></div>
               </div>
 
-              <span class="dist-bar-pct">{{ clientesTotalPercent() }}%</span>
-              <span class="dist-bar-label">Geral</span>
+              <span class="dist-bar-pct">{{ clientesGeralPercent() }}%</span>
+              <span class="dist-bar-label">Geral (Não arquivados)</span>
             </div>
 
             <div class="dist-bar-col">
@@ -328,9 +328,9 @@
             class="metric-card"
             [@floatUp]="{ value: '', params: { duration: '300ms', delay: '25ms' } }"
           >
-            <span class="metric-label">Categorias</span>
+            <span class="metric-label">Categorias Ativas</span>
             <span class="metric-value">{{ data.portfolio.categoriasAtivas }}</span>
-            <span class="metric-sub">Existentes até o momento</span>
+            <span class="metric-sub">Ativas no momento (Possuem fotos)</span>
           </div>
           <div
             class="metric-card"

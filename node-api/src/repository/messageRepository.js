@@ -16,7 +16,6 @@ export async function addMessage(mensagem) {
 
   return resposta.insertId;
 }
-
 export async function getMessages(filter = {}) {
   const { page = 1, name = "", category = "inbox" } = filter;
   const currentPage = Number(page);
@@ -39,18 +38,27 @@ export async function getMessages(filter = {}) {
     conditions.push("isArchived = 1");
   }
 
-  // NAME
-
+  // SEARCH
   if (name.trim() !== "") {
-    conditions.push("name LIKE ?");
-    values.push(`%${name}%`);
+    const term = `%${name.trim()}%`;
+    const termExact = name.trim();
+
+    conditions.push(`(
+      name    LIKE ? OR
+      phone   LIKE ? OR
+      email   LIKE ? OR
+      subject LIKE ? OR
+      body    LIKE ? OR
+      id      = ?
+    )`);
+
+    values.push(term, term, term, term, term, termExact);
   }
 
   const where =
     conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
 
   // MESSAGES
-
   const query = `
     SELECT
       id,
@@ -75,10 +83,8 @@ export async function getMessages(filter = {}) {
   ]);
 
   // TOTAL
-
   const countQuery = `
-    SELECT
-      COUNT(*) AS total
+    SELECT COUNT(*) AS total
     FROM message
     ${where};
   `;

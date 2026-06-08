@@ -279,7 +279,7 @@ export class UpdateCustomer implements OnInit, OnDestroy {
         this.resetButton();
         this.cdr.detectChanges();
 
-        alert(backendError.error ?? 'Erro inesperado.');
+        alert(backendError.error);
       },
     });
   }

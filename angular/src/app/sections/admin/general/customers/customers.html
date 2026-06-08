@@ -78,18 +78,16 @@
       <div class="actions">
         <div class="btn-group">
           <button
-            (click)="toggleStar(customer)"
+            (click)="toggleStar(customer); $event.stopPropagation()"
             [title]="customer.isStarred ? 'Desmarcar cliente' : 'Marcar cliente'"
-            $event.stopPropagation()
           >
             <span class="material-icons yellow" [class.is-starred]="customer.isStarred">
               {{ customer.isStarred ? 'star' : 'star_border' }}
             </span>
           </button>
           <button
-            (click)="toggleArchive(customer)"
+            (click)="toggleArchive(customer); $event.stopPropagation()"
             [title]="customer.isArchived ? 'Desarquivar cliente' : 'Arquivar cliente'"
-            $event.stopPropagation()
           >
             <span
               class="material-icons"
@@ -100,9 +98,8 @@
             </span>
           </button>
           <button
-            (click)="customer.id && openEdit(customer.id)"
+            (click)="customer.id && openEdit(customer.id); $event.stopPropagation()"
             title="Editar cliente"
-            $event.stopPropagation()
           >
             <span class="material-icons light-purple"> edit </span>
           </button>

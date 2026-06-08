@@ -34,7 +34,6 @@
   </header>
 
   <section class="customers-list">
-    <!-- HEADER -->
     <article class="customer-header">
       <div>ID</div>
       <div>NOME</div>
@@ -44,12 +43,11 @@
       <div>AÇÕES</div>
     </article>
 
-    <!-- ITEMS -->
     <article
       class="customer-card"
       *ngFor="let customer of customers(); let i = index"
-      (click)="selectCustomer(customer)"
-      [class.selected]="selectedCustomer?.id === customer.id"
+      (click)="customer.id && openEdit(customer.id)"
+      [class.selected]="selectedCustomerId === customer.id"
       [@floatUp]="{
         value: '',
         params: {
@@ -82,6 +80,7 @@
           <button
             (click)="toggleStar(customer)"
             [title]="customer.isStarred ? 'Desmarcar cliente' : 'Marcar cliente'"
+            $event.stopPropagation()
           >
             <span class="material-icons yellow" [class.is-starred]="customer.isStarred">
               {{ customer.isStarred ? 'star' : 'star_border' }}
@@ -90,6 +89,7 @@
           <button
             (click)="toggleArchive(customer)"
             [title]="customer.isArchived ? 'Desarquivar cliente' : 'Arquivar cliente'"
+            $event.stopPropagation()
           >
             <span
               class="material-icons"
@@ -131,4 +131,11 @@
   *ngIf="showAddCustomer()"
   (close)="closeAddCustomer()"
   (customerCreated)="loadCustomers()"
+/>
+
+<app-update-customer
+  *ngIf="selectedCustomerId"
+  [customerId]="selectedCustomerId!"
+  (close)="onUpdateClose()"
+  (customerUpdated)="onUpdateClose(); loadCustomers()"
 />

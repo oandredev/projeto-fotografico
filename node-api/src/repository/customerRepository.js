@@ -66,18 +66,26 @@ export async function getCustomers(filter = {}) {
     conditions.push("isArchived = 1");
   }
 
-  // NAME
-
+  // SEARCH
   if (name.trim() !== "") {
-    conditions.push("name LIKE ?");
-    values.push(`%${name}%`);
+    const term = `%${name.trim()}%`;
+    const termExact = name.trim();
+
+    conditions.push(`(
+      name  LIKE ? OR
+      cpf   LIKE ? OR
+      phone LIKE ? OR
+      email LIKE ? OR
+      id    = ?
+    )`);
+
+    values.push(term, term, term, term, termExact);
   }
 
   const where =
     conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
 
   // CUSTOMERS
-
   const query = `
     SELECT
       id,
@@ -111,7 +119,6 @@ export async function getCustomers(filter = {}) {
   const [countResult] = await connection.query(countQuery, values);
 
   const total = Number(countResult[0].total);
-
   const totalPages = Math.max(1, Math.ceil(total / itemsPerPage));
 
   return {

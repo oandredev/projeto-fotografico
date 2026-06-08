@@ -36,14 +36,16 @@ endpoints.put("/customer/:id", auth, async (req, resp) => {
   let id = Number(req.params.id);
   let customer = req.body;
 
-  let lines = await service.updateCustomer(id, customer);
+  try {
+    let lines = await service.updateCustomer(id, customer);
 
-  if (lines == 0) {
-    resp.status(404).send({
-      error: "Customer not found",
-    });
-  } else {
+    if (lines == 0) {
+      return resp.status(404).send({ error: "Customer not found" });
+    }
+
     resp.send({ result: "Change saved successfully!" });
+  } catch (err) {
+    resp.status(400).send({ error: err.message });
   }
 });
 

@@ -132,3 +132,7 @@ img {
 .material-icons.yellow {
   color: var(--color-yellow);
 }
+
+.material-icons.light-purple {
+  color: var(--color-light-purple);
+}

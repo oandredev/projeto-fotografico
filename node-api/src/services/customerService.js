@@ -32,8 +32,18 @@ export async function getCustomerStats() {
 }
 
 export async function updateCustomer(id, customer) {
-  const lines = await repo.updateCustomer(id, customer);
-  return lines;
+  try {
+    const lines = await repo.updateCustomer(id, customer);
+    return lines;
+  } catch (error) {
+    if (error.code === "ER_DUP_ENTRY") {
+      if (error.sqlMessage.includes("cpf")) {
+        throw { message: "CPF já cadastrado para outro cliente" };
+      }
+      throw { message: "Registro duplicado" };
+    }
+    throw { message: "Erro interno" };
+  }
 }
 
 export async function deleteCustomer(id) {

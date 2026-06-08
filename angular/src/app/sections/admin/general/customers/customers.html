@@ -99,6 +99,13 @@
               {{ customer.isArchived ? 'unarchive' : 'archive' }}
             </span>
           </button>
+          <button
+            (click)="customer.id && openEdit(customer.id)"
+            title="Editar cliente"
+            $event.stopPropagation()
+          >
+            <span class="material-icons light-purple"> edit </span>
+          </button>
         </div>
       </div>
     </article>

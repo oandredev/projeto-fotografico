@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { Customer } from '../../../../core/types/types';
 import { CustomerService } from '../../../../services/customer/customer';
 import { AddCustomer } from '../../../../components/admin/add-customer/add-customer';
+import { UpdateCustomer } from '../../../../components/admin/update-customer/update-customer';
 import { APP_ANIMATIONS } from '../../../../shared/animations/animation';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule, FormsModule, AddCustomer],
+  imports: [CommonModule, FormsModule, AddCustomer, UpdateCustomer],
   templateUrl: './customers.html',
   styleUrl: './customers.css',
   animations: [APP_ANIMATIONS],
@@ -29,6 +30,20 @@ export class Customers {
   customers = signal<Customer[]>([]);
   loading = signal(false);
   hasNextPage = signal(false);
+
+  //---------------------------------------------------------------
+
+  selectedCustomerId: number | null = null;
+
+  openEdit(id: number) {
+    this.selectedCustomerId = id;
+  }
+
+  onUpdateClose() {
+    this.selectedCustomerId = null;
+  }
+
+  //---------------------------------------------------------------
 
   // LOAD
   loadCustomers() {
@@ -138,15 +153,6 @@ export class Customers {
     this.currentFilter.set('all');
     this.currentPage.set(1);
     this.loadCustomers();
-  }
-
-  //-----------------------------------------------------------
-
-  selectedCustomer: Customer | null = null;
-
-  selectCustomer(customer: Customer): void {
-    this.selectedCustomer = customer;
-    console.log('Ver detalhes do Cliente: ' + customer.name);
   }
 
   //-----------------------------------------------------------

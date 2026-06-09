@@ -2,7 +2,7 @@
 
 As etapas a seguir descrevem o processo para copiar o banco de dados para sua máquina com os dados iniciais já cadastrados. Isso permitirá que os registros existentes sejam relacionados às imagens já presentes na pasta `uploads`.
 
-📍 **IMPORTANTE:** Este procedimento é **recomendado**, mas **opcional**. O objetivo é disponibilizar uma base de dados inicial para facilitar os testes, caso deseje a apenas a estrutura base do banco de dados, rode os comandos diretamente no arquivo .ddl na pasta `node-api/db/ddl.sql` (exceto os mockups), além disso remova as imagens da pasta uploads (pode apagar a pasta diretamente, pois ela será criada automaticamente).
+📍 **IMPORTANTE:** Este procedimento é **recomendado**, mas **opcional**. O objetivo é disponibilizar uma base de dados inicial para facilitar os testes, caso deseje a apenas a estrutura base do banco de dados, rode os comandos diretamente no arquivo `.ddl` na [pasta](/node-api/db/ddl.sql) (exceto os mockups), além disso remova as imagens da pasta uploads (pode apagar a pasta diretamente, pois ela será criada automaticamente).
 
 ---
 
@@ -33,13 +33,17 @@ O arquivo foi gerado utilizando o comando abaixo:
 mysqldump -u root -p fotografico_db > db_mockup.sql
 ```
 
+ou
+
+Faça o export utilizando a interface do MySQL Workbeanch
+
 ---
 
 ## 3. Executar o script SQL exportado
 
 Abra o arquivo:
 
-- `db_mockup.sql`
+- [db_mockup.sql](/mockup-sql/db_mockup.sql)
 
 Em seguida:
 

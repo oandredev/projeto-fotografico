@@ -1,10 +1,12 @@
 package com.sp.senac.projeto_fotografico.services;
 
+import com.sp.senac.projeto_fotografico.dto.MessageStatsResponse;
 import com.sp.senac.projeto_fotografico.models.Message;
 import com.sp.senac.projeto_fotografico.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -50,6 +52,25 @@ public class MessageService {
         return Map.of(
                 "messages",   result.getContent(),
                 "pagination", pagination
+        );
+    }
+
+    public MessageStatsResponse getStats() {
+        LocalDateTime now = LocalDateTime.now();
+
+        long total     = repository.countBy();
+        long ativas    = repository.countByIsStarredFalseAndIsArchivedFalse();
+        long favoritas = repository.countByIsStarredTrue();
+        long arquivadas = repository.countByIsArchivedTrue();
+
+        long day   = repository.countByDateAfter(now.minusDays(1));
+        long week  = repository.countByDateAfter(now.minusDays(7));
+        long month = repository.countByDateAfter(now.minusDays(30));
+        long year  = repository.countByDateAfter(now.minusDays(365));
+
+        return new MessageStatsResponse(
+                total, favoritas, arquivadas, ativas,
+                day, week, month, year
         );
     }
 }

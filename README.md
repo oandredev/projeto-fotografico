@@ -129,6 +129,7 @@ npx ng serve --open
 
 - Certifique-se de que o serviço MySQL está rodando (Serviço `MySQL80`)
 - Configure credenciais corretamente no `.env`, `environment.ts` e `application.properties`, como (usuario, senha, nome do banco de dados, portas, etc)
+- Para alternar entre as APIs (NodeJs e SpringBoot), altere a porta no arquivo [environment.ts](angular\src\app\environment.ts). É recomendado deslogar antes e fazer login após trocar a API, devido as questões de autenticação
 - Considere que no primeiro acesso, fotos e textos base não serão exibidos, pois dependem de informações do banco de dados, o qual deve ser inicializado previamente, assim como as inserções das informações devem ser feitas utilizando a área administrativa (Exceto o cadastro da conta na tabela de login, a qual deve ser realizada diretamente pelo MySQL)
   - Desconsidere isso, se tiver feito a inicialização via `mockup` [(Informações adicionais)](/mockup-sql/README.md)
 

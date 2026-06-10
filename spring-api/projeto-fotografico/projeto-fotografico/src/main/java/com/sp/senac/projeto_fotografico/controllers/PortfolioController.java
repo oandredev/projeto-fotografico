@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import java.util.Map;
 
 @RestController
@@ -21,6 +20,11 @@ public class PortfolioController {
         return ResponseEntity.ok(service.getPortfolios());
     }
 
+    @GetMapping("/stats")
+    public ResponseEntity<?> getStats() {
+        return ResponseEntity.ok(service.getStats());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getPortfolioById(@PathVariable int id) {
         try {
@@ -29,11 +33,6 @@ public class PortfolioController {
             return ResponseEntity.status(404)
                     .body(Map.of("error", e.getMessage()));
         }
-    }
-
-    @GetMapping("/stats")
-    public ResponseEntity<?> getStats() {
-        return ResponseEntity.ok(service.getStats());
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

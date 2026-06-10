@@ -28,6 +28,11 @@ public class MessageController {
         return service.buscarComFiltro(category, name, page);
     }
 
+    @GetMapping("/stats")
+    public ResponseEntity<?> getStats() {
+        return ResponseEntity.ok(service.getStats());
+    }
+
     @GetMapping("/{id}")
     public Optional<Message> buscar(@PathVariable int id) {
         return service.buscar(id);

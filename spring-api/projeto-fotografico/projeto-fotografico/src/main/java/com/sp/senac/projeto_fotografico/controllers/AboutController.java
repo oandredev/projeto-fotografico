@@ -21,14 +21,10 @@ public class AboutController {
     @Autowired
     private FileStorageService fileStorage;
 
-    // ─── GET /about — público ────────────────────────────────────────────────
-
     @GetMapping
     public ResponseEntity<?> getAbout() {
         return ResponseEntity.ok(service.getAbout().orElse(null));
     }
-
-    // ─── GET /about/:id — privado ────────────────────────────────────────────
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAboutById(@PathVariable int id) {
@@ -36,13 +32,6 @@ public class AboutController {
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(404).body(Map.of("error", "About not found")));
     }
-
-    // ─── PUT /about/:id — privado + upload de imagem ─────────────────────────
-    //
-    // Equivalente ao:  aboutUpload.single("image") + lógica de deleteFile do Node
-    // O Angular manda multipart/form-data com os campos:
-    //   presentationText → texto
-    //   image            → arquivo (opcional)
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> update(
@@ -77,8 +66,6 @@ public class AboutController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
-
-    // ─── DELETE /about/:id — privado ─────────────────────────────────────────
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {

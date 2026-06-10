@@ -3,6 +3,7 @@ package com.sp.senac.projeto_fotografico.models;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "message")
@@ -37,6 +38,7 @@ public class Message {
     @Column(name = "isArchived", columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isArchived;
 
-    @Column(name = "date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @CreationTimestamp
+    @Column(name = "date", updatable = false)
     private LocalDateTime date;
 }

@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 public interface MessageRepository extends JpaRepository<Message, Integer> {
 
     @Query("SELECT m FROM Message m WHERE " +
-            // ✅ parênteses garantem que o filtro de nome aplica em TODOS os casos
             "( " +
             "    :category = 'all' OR " +
             "    (:category = 'inbox'    AND m.isArchived = false AND m.isStarred = false) OR " +

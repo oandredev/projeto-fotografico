@@ -5,8 +5,8 @@
 
 ## 👥 Integrantes
 
-- André Rodrigues
-- André Coutinho
+- [André Rodrigues](https://github.com/oandredev)
+- [André Coutinho](https://github.com/AndreCoutinhom)
 
 ---
 
@@ -111,9 +111,9 @@ npx ng serve --open
 
 ## 🧪 Acesso
 
-- Frontend: [http://localhost:4200](http://localhost:4200)
-- API NodeJs (PORT 3000): [http://localhost:3000](http://localhost:3000)
-- API SpringBoot (PORT 3010): [http://localhost:3010](http://localhost:3010)
+- Frontend Angular: [http://localhost:4200](http://localhost:4200)
+- API NodeJs (PORTA 3000): [http://localhost:3000](http://localhost:3000)
+- API SpringBoot (PORTA 3010): [http://localhost:3010](http://localhost:3010)
 
 **OBS:** As portas informadas e as variavéis de ambientes são as utilizadas como padrão, mas podem ser alteradas nos seguintes arquivos:
 
@@ -121,7 +121,7 @@ npx ng serve --open
 - Node.js → `.env`
 - SpringBoot → `application.properties`
 
-**LEMBRE-SE**: em um projeto real esses arquivos **NÃO** devem ser públicos por questões de `segurança`.
+📍**LEMBRE-SE**: em um projeto real esses arquivos **NÃO** devem ser públicos por questões de `segurança`.
 
 ---
 
@@ -130,6 +130,6 @@ npx ng serve --open
 - Certifique-se de que o serviço MySQL está rodando (Serviço `MySQL80`)
 - Configure credenciais corretamente no `.env`, `environment.ts` e `application.properties`, como (usuario, senha, nome do banco de dados, portas, etc)
 - Considere que no primeiro acesso, fotos e textos base não serão exibidos, pois dependem de informações do banco de dados, o qual deve ser inicializado previamente, assim como as inserções das informações devem ser feitas utilizando a área administrativa (Exceto o cadastro da conta na tabela de login, a qual deve ser realizada diretamente pelo MySQL)
-  - Desconsidere isso, se tiver feito a inicialização via `mockup` [Informações adicionais](/mockup-sql/README.md)
+  - Desconsidere isso, se tiver feito a inicialização via `mockup` [(Informações adicionais)](/mockup-sql/README.md)
 
 ---

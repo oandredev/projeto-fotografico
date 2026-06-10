@@ -21,4 +21,20 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     Page<Message> findWithFilter(@Param("category") String category,
                                  @Param("name") String name,
                                  Pageable pageable);
+
+    // Total geral
+    long countBy();
+
+    // Ativas (inbox: sem starred e sem archived)
+    long countByIsStarredFalseAndIsArchivedFalse();
+
+    // Favoritas
+    long countByIsStarredTrue();
+
+    // Arquivadas
+    long countByIsArchivedTrue();
+
+    // Mensagens por período
+    @Query("SELECT COUNT(m) FROM Message m WHERE m.date >= :from")
+    long countByDateAfter(@Param("from") java.time.LocalDateTime from);
 }

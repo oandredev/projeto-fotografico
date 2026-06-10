@@ -16,17 +16,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Equivalente ao getAuthentication() do jwt.js do Node.
- *
- * Lê o token do header (ou query param) cujo nome vem de FIELD_TOKEN,
- * verifica com a mesma chave e popula o SecurityContext —
- * o Spring Security bloqueia com 403 automaticamente rotas não autorizadas.
- */
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    /** Nome do header — equivalente a process.env.FIELD_TOKEN */
     @Value("${jwt.field-token}")
     private String tokenField;
 
@@ -39,18 +31,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain chain)
             throws ServletException, IOException {
 
-        // 1. Tenta header primeiro, depois query param (igual ao Node)
         String token = request.getHeader(tokenField);
         if (token == null) {
             token = request.getParameter(tokenField);
         }
 
-        // 2. Token presente → tenta verificar
         if (token != null) {
             try {
                 Claims claims = jwtUtil.extractClaims(token);
 
-                // Role em uppercase → "user" vira ROLE_USER
                 String role = claims.getOrDefault("role", "user")
                         .toString().toUpperCase();
 
@@ -62,11 +51,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
-            } catch (Exception ignored) {
-                // Token inválido/expirado → limpa contexto
-                // O SecurityConfig vai retornar 401 se a rota for protegida
+            } catch (Exception e) {
+                System.out.println("JWT ERRO: " + e.getMessage());
                 SecurityContextHolder.clearContext();
             }
+
         }
 
         chain.doFilter(request, response);

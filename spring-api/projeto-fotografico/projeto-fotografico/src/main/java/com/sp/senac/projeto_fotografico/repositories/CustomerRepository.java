@@ -21,4 +21,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Page<Customer> findWithFilter(@Param("category") String category,
                                   @Param("name") String name,
                                   Pageable pageable);
+
+    long countBy();
+    long countByIsStarredFalseAndIsArchivedFalse();
+    long countByIsStarredTrue();
+    long countByIsArchivedTrue();
+
+    @Query("SELECT COUNT(c) FROM Customer c WHERE c.register >= :from")
+    long countByRegisterAfter(@Param("from") java.time.LocalDateTime from);
 }

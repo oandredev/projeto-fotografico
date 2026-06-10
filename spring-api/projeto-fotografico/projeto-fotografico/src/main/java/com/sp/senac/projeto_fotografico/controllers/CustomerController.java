@@ -17,8 +17,12 @@ public class CustomerController {
     private CustomerService service;
 
     @PostMapping
-    public Customer salvar(@RequestBody Customer cliente) {
-        return service.salvar(cliente);
+    public ResponseEntity<?> salvar(@RequestBody Customer cliente) {
+        try {
+            return ResponseEntity.status(201).body(service.salvar(cliente));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
     }
 
     @GetMapping
@@ -29,14 +33,23 @@ public class CustomerController {
         return service.buscarComFiltro(category, name, page);
     }
 
+    @GetMapping("/stats")
+    public ResponseEntity<?> getStats() {
+        return ResponseEntity.ok(service.getStats());
+    }
+
     @GetMapping("/{id}")
     public Optional<Customer> buscar(@PathVariable int id) {
         return service.buscar(id);
     }
 
     @PutMapping("/{id}")
-    public Customer atualizar(@PathVariable int id, @RequestBody Customer cliente) {
-        return service.atualizar(id, cliente);
+    public ResponseEntity<?> atualizar(@PathVariable int id, @RequestBody Customer cliente) {
+        try {
+            return ResponseEntity.ok(service.atualizar(id, cliente));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
     }
 
     @DeleteMapping("/{id}")

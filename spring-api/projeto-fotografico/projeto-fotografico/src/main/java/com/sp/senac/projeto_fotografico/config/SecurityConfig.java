@@ -1,7 +1,7 @@
-
 package com.sp.senac.projeto_fotografico.config;
 
 import com.sp.senac.projeto_fotografico.security.JwtAuthFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -32,28 +31,29 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Value("${upload.root:../uploads}")
     private String uploadRoot;
 
-    // ─── Spring Security ─────────────────────────────────────────────────────
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((req, res, e) ->
+                                res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token ausente ou inválido"))
+                )
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/login", "/signup").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/message").permitAll() // ✅ ADICIONADO
                         .requestMatchers("/uploads/**").permitAll()
-                        .anyRequest().authenticated()   // Use JWT
+                        .anyRequest().authenticated()
                 )
 
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-    // ─── CORS ────────────────────────────────────────────────────────────────
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -67,8 +67,6 @@ public class SecurityConfig implements WebMvcConfigurer {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
-    // ─── (/uploads) ───────────────────────────────────────
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -9,16 +9,20 @@ import java.nio.file.Paths;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${upload.root:../uploads}")
+    @Value("${upload.root:uploads}")
     private String uploadRoot;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String location = Paths.get(uploadRoot).toAbsolutePath().normalize().toUri().toString();
+        String absolutePath = Paths.get(System.getProperty("user.dir"), uploadRoot)
+                .normalize()
+                .toString();
 
-        if (!location.endsWith("/")) location += "/";  // ← garante sempre
+        if (!absolutePath.endsWith("/") && !absolutePath.endsWith("\\")) {
+            absolutePath = absolutePath + "/";
+        }
 
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations(location);
+                .addResourceLocations("file:" + absolutePath);
     }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "customer")
@@ -38,6 +39,7 @@ public class Customer {
     @Column(name = "isArchived", columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isArchived;
 
-    @Column(name = "register", columnDefinition = "DATETIME")
-    private LocalDateTime register = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "register", updatable = false)
+    private LocalDateTime register;
 }

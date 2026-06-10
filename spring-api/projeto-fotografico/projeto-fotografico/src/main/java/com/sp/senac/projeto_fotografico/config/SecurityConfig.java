@@ -18,11 +18,10 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {   // ← sem implements WebMvcConfigurer
+public class SecurityConfig {
 
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -38,6 +37,10 @@ public class SecurityConfig {   // ← sem implements WebMvcConfigurer
                         .requestMatchers(HttpMethod.POST, "/login", "/signup").permitAll()
                         .requestMatchers(HttpMethod.POST, "/message").permitAll()
                         .requestMatchers(HttpMethod.GET,  "/about").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/hero/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/portfolio", "/portfolio/*", "/portfolio/stats").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/portfolio-category", "/portfolio-category/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/portfolio-category/*/view").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated()
                 )

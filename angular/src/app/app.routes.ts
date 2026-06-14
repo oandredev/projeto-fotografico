@@ -3,7 +3,6 @@ import { authGuard } from './guards/auth.guard';
 
 // Public
 import { Home } from './pages/home/home';
-import { NotFound } from './pages/not-found/not-found';
 import { Login } from './pages/login/login';
 
 // Admin (protected with AuthGuard and Json Web Token)
@@ -34,5 +33,5 @@ export const routes: Routes = [
       { path: 'portfolio-settings', component: PortfolioSettings, title: 'Portfólio' },
     ],
   },
-  { path: '**', component: NotFound },
+  { path: '**', component: Home },
 ];

@@ -1,7 +1,7 @@
 # 📸 Projeto Web — Site Fotográfico - Larissa Calegaro
 
 **Disciplina:** Desenvolvimento de Sistemas Web - Centro Universitário SENAC<br>
-**Orientador:** Prof. Bruno
+**Orientador:** Prof. Bruno de Oliveira
 
 ## 👥 Integrantes
 
@@ -13,6 +13,8 @@
 ## 🧠 Visão Geral
 
 Aplicação web completa para um site fotográfico da **Larissa Calegaro**, com separação entre frontend e backend.
+
+- [👉🏼 Demonstração →](#-exemplos-visuais)
 
 ---
 
@@ -134,3 +136,37 @@ npx ng serve --open
   - Desconsidere isso, se tiver feito a inicialização via `mockup` [(Informações adicionais)](/mockup-sql/README.md)
 
 ---
+
+## 📸 Exemplos Visuais
+
+### 🏠 Visão Geral
+
+<p><img src="./demonstration/overview.gif" style="border-radius:12px;" /></p>
+
+### 🖼️ Navegação por Categorias
+
+<p><img src="./demonstration/categories.gif" style="border-radius:12px;" /></p>
+
+### 📩 Formulário de Contato
+
+<p><img src="./demonstration/contact.gif" style="border-radius:12px;" /></p>
+
+### 🔐 Login Administrativo
+
+<p><img src="./demonstration/login.gif" style="border-radius:12px;" /></p>
+
+### 📬 Caixa de Entrada de Mensagens
+
+<p><img src="./demonstration/inbox.gif" style="border-radius:12px;" /></p>
+
+### 📝 Personalização da Seção "Sobre"
+
+<p><img src="./demonstration/about.gif" style="border-radius:12px;" /></p>
+
+### 🖼️ Gerenciamento de Portfólio
+
+<p><img src="./demonstration/portfolio.gif" style="border-radius:12px;" /></p>
+
+### 📊 Dashboard Administrativo
+
+<p><img src="./demonstration/dashboard.gif" style="border-radius:12px;" /></p>
